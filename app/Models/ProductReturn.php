@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ProductReturn extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'product_color_id',
+        'customer_id',
+    ];
 }
