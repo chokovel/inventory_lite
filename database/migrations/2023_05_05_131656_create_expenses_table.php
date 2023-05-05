@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
+            $table->string('expense_title');
+            $table->decimal('amount', 8, 2);
+            $table->text('details')->nullable();
+            $table->unsignedBigInteger('expense_category_id');
+            $table->foreign('expense_category_id')->references('id')->on('expense_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
