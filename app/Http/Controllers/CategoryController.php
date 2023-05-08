@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -11,9 +12,19 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public $categoryService;
+
+
+    public function __construct()
+    {
+        $this->categoryService = (new CategoryService);
+    }
+
     public function index()
     {
         //
+        return  $this->categoryService->getAll();
     }
 
     /**
@@ -21,9 +32,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $payload = [
+            'name' => $request->name,
+            'subject' => $request->subject
+        ];
+        $this->categoryService->create($payload);
     }
 
     /**
