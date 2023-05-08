@@ -20,6 +20,18 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
+Route::get('/adduser', function () {
+    return view('users.adduser');
+});
+Route::get('/staff', function () {
+    return view('users.staff');
+});
+Route::get('/manager', function () {
+    return view('users.manager');
+});
+Route::get('/staff', function () {
+    return view('users.customer');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-   
+
 });
 
 require __DIR__.'/auth.php';
