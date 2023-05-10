@@ -12,6 +12,23 @@
         <link rel="preconnect" href="https://fonts.googleapis.com/" />
         <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+
+        <!-- Font Awesome -->
+        <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        rel="stylesheet"
+        />
+        <!-- Google Fonts -->
+        <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        rel="stylesheet"
+        />
+        <!-- MDB -->
+        <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.css"
+        rel="stylesheet"
+        />
+
         <link rel="stylesheet" type="text/css" media="screen" href="{{ ('assets/css/perfect-scrollbar.') }}min.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="{{ ('assets/css/st') }}yle.css" />
         <link defer rel="stylesheet" type="text/css" media="screen" href="{{ ('assets/css/anim') }}ate.css" />
@@ -440,19 +457,19 @@
                                 </button>
                                 <ul x-cloak x-show="activeDropdown === 'dashboard'" x-collapse class="sub-menu text-gray-500">
                                     <li>
-                                        <a href="index-2.html" class="active">Analytics</a>
+                                        <a href="{{'/home'}}" class="active">Analytics</a>
                                     </li>
                                     <li>
-                                        <a href="analytics.html">Sales</a>
+                                        <a href="{{'/sales'}}">Sales</a>
                                     </li>
                                     <li>
-                                        <a href="finance.html">Returns</a>
+                                        <a href="{{'/returns'}}">Returns</a>
                                     </li>
                                     <li>
-                                        <a href="crypto.html">Purchase</a>
+                                        <a href="{{'/purchase'}}">Purchase</a>
                                     </li>
                                     <li>
-                                        <a href="crypto.html">Expense</a>
+                                        <a href="{{'/expense'}}">Expense</a>
                                     </li>
                                 </ul>
                             </li>
@@ -482,16 +499,16 @@
                                 </button>
                                 <ul x-cloak x-show="activeDropdown === 'elements'" x-collapse class="sub-menu text-gray-500">
                                     <li>
-                                        <a href="elements-alerts.html">All Products</a>
+                                        <a href="{{'/products'}}">All Products</a>
                                     </li>
                                     <li>
-                                        <a href="elements-avatar.html">Product Categories</a>
+                                        <a href="{{'/categories'}}">Product Categories</a>
                                     </li>
                                     <li>
-                                        <a href="elements-avatar.html">Product Colors</a>
+                                        <a href="{{'/colors'}}">Product Colors</a>
                                     </li>
                                     <li>
-                                        <a href="elements-avatar.html">Product Sizes</a>
+                                        <a href="{{'/sizes'}}">Product Sizes</a>
                                     </li>
 
                                 </ul>
@@ -1150,19 +1167,19 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li>
-                                        <a href="index-2.html" class="active">Analytics</a>
+                                        <a href="{{'/analytics'}}" class="active">Analytics</a>
                                     </li>
                                     <li>
-                                        <a href="analytics.html">Sales</a>
+                                        <a href="{{'/sales'}}">Sales</a>
                                     </li>
                                     <li>
-                                        <a href="crypto.html">Returns</a>
+                                        <a href="{{'/returns'}}">Returns</a>
                                     </li>
                                     <li>
-                                        <a href="crypto.html">Purchase</a>
+                                        <a href="{{'/purchase'}}">Purchase</a>
                                     </li>
                                     <li>
-                                        <a href="crypto.html">Expense</a>
+                                        <a href="{{'/expense'}}">Expense</a>
                                     </li>
                                 </ul>
                             </li>
@@ -1194,16 +1211,16 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li>
-                                        <a href="components-tabs.html">All Products</a>
+                                        <a href="{{'/products'}}">All Products</a>
                                     </li>
                                     <li>
-                                        <a href="components-accordions.html">Product Categories</a>
+                                        <a href="{{'/categories'}}">Product Categories</a>
                                     </li>
                                     <li>
-                                        <a href="components-modals.html">Product Colors</a>
+                                        <a href="{{'/colors'}}">Product Colors</a>
                                     </li>
                                     <li>
-                                        <a href="components-cards.html">Product Sizes</a>
+                                        <a href="{{'/sizes'}}">Product Sizes</a>
                                     </li>
 
                                 </ul>
@@ -1270,6 +1287,11 @@
             </div>
         </div>
 
+        <!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"
+></script>
         <script src="{{ ('assets/js/alpine-collaspe.min.js') }}"></script>
         <script src="{{ ('assets/js/alpine-persist.min.js') }}"></script>
         <script defer src="{{ ('assets/js/alpine-ui.min.js') }}"></script>
@@ -1277,6 +1299,48 @@
         <script defer src="{{ ('assets/js/alpine.min.js') }}"></script>
         <script src="{{ ('assets/js/custom.js') }}"></script>
         <script defer src="{{ ('assets/js/apexcharts.js') }}"></script>
+{{-- start --}}
+        <script>
+            const sectionList = document.querySelector('#section-list');
+const addSectionBtn = document.querySelector('#add-section');
+
+let sections = [];
+
+addSectionBtn.addEventListener('click', function() {
+  const color = document.querySelector('#color').value;
+  const size = document.querySelector('#size').value;
+  const quantity = document.querySelector('#quantity').value;
+
+  if (color && size && quantity) {
+    const section = { color, size, quantity };
+    sections.push(section);
+    renderSections();
+  }
+});
+
+sectionList.addEventListener('click', function(e) {
+  if (e.target.classList.contains('btn-remove')) {
+    const index = parseInt(e.target.dataset.index);
+    sections.splice(index, 1);
+    renderSections();
+  }
+});
+
+function renderSections() {
+  sectionList.innerHTML = '';
+  sections.forEach(function(section, index) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${section.color}</td>
+      <td>${section.size}</td>
+      <td>${section.quantity}</td>
+      <td><button type="button" class="btn btn-sm btn-danger btn-remove" data-index="${index}">Remove</button></td>
+    `;
+    sectionList.appendChild(tr);
+  });
+}
+// end
+        </script>
 
         <script>
             document.addEventListener('alpine:init', () => {

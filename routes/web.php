@@ -21,7 +21,7 @@ Route::get('/home', function () {
     return view('home');
 });
 Route::get('/adduser', function () {
-    return view('users.adduser');
+    return view('users.staff.adduser');
 });
 Route::get('/staff', function () {
     return view('users.staff');
@@ -32,6 +32,47 @@ Route::get('/manager', function () {
 Route::get('/staff', function () {
     return view('users.customer');
 });
+Route::get('/sales', function () {
+    return view('dashboard.sales');
+});
+Route::get('/returns', function () {
+    return view('dashboard.returns');
+});
+
+
+// products routes
+Route::get('/products', function() {
+    return view('product.product');
+});
+Route::get('/addproduct', function() {
+    return view('product.addproduct');
+});
+
+Route::get('/categories', function() {
+    return view('product.categories');
+});
+Route::get('/addcategory', function() {
+    return view('product.addcategory');
+});
+
+Route::get('/sizes', function() {
+    return view('product.sizes');
+});
+Route::get('/addsize', function() {
+    return view('product.addsize');
+});
+
+Route::get('/colors', function() {
+    return view('product.colors');
+});
+Route::get('/addcolor', function() {
+    return view('product.addcolor');
+});
+
+
+
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

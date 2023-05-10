@@ -1,14 +1,15 @@
 @extends('layouts.homehead')
 
 @section('content')
-                    <!-- start main content section -->
+
+ <!-- start main content section -->
                     <div x-data="sales">
                         <ul class="flex space-x-2 rtl:space-x-reverse">
                             <li>
                                 <a href="javascript:;" class="text-primary hover:underline">Dashboard</a>
                             </li>
                             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                                <span>Sales</span>
+                                <span>Analytics</span>
                             </li>
                         </ul>
 
@@ -69,5 +70,4 @@
                         </div>
                     </div>
                     <!-- end main content section -->
-
 @endsection
