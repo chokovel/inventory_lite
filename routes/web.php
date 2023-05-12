@@ -41,31 +41,31 @@ Route::get('/returns', function () {
 
 
 // products routes
-Route::get('/products', function() {
+Route::get('/products', function () {
     return view('product.product');
 });
-Route::get('/addproduct', function() {
+Route::get('/addproduct', function () {
     return view('product.addproduct');
 });
 
-Route::get('/categories', function() {
+Route::get('/categories', function () {
     return view('product.categories');
 });
-Route::get('/addcategory', function() {
+Route::get('/addcategory', function () {
     return view('product.addcategory');
 });
 
-Route::get('/sizes', function() {
+Route::get('/sizes', function () {
     return view('product.sizes');
 });
-Route::get('/addsize', function() {
+Route::get('/addsize', function () {
     return view('product.addsize');
 });
 
-Route::get('/colors', function() {
+Route::get('/colors', function () {
     return view('product.colors');
 });
-Route::get('/addcolor', function() {
+Route::get('/addcolor', function () {
     return view('product.addcolor');
 });
 
@@ -82,8 +82,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
