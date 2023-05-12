@@ -59,43 +59,46 @@ class ProductController extends Controller
      */
      public function store(Request $request)
     {
+
         // Validate the form data
         $validatedData = $request->validate([
-            'product-name' => 'required|string',
-            'category' => 'required|exists:categories,id',
-            'price' => 'required|numeric',
-            'image' => 'required|image',
-            'note' => 'nullable|string',
-            'color.*' => 'required|exists:colors,id',
-            'size.*' => 'required|exists:sizes,id',
-            'quantity.*' => 'required|integer',
+        'product-name' => 'required|string',
+        'category' => 'required|integer',
+        'price' => 'required|numeric',
+        'image' => 'required|image',
+        'note' => 'nullable|string',
+        'size' => 'required|array',
+        'size.*' => 'integer',
+        'color' => 'required|array',
+        'color.*' => 'integer',
+        'quantity' => 'required|array',
+        'quantity.*' => 'integer',
+    ]);
+return $request;
+    // Create a new product instance
+    $product = new Product();
+    $product->name = $validatedData['product-name'];
+    $product->category_id = $validatedData['category'];
+    $product->price = $validatedData['price'];
+    // Set other product attributes as needed
+
+    // Save the product to the database
+    $product->save();
+
+    // Store the related size, color, and quantity data
+    $sizes = $validatedData['size'];
+    $colors = $validatedData['color'];
+    $quantities = $validatedData['quantity'];
+
+    for ($i = 0; $i < count($sizes); $i++) {
+        $product->sizes()->attach($sizes[$i], [
+            'color_id' => $colors[$i],
+            'quantity' => $quantities[$i],
         ]);
+    }
 
-        // Create a new product
-        $product = new Product();
-        $product->name = $validatedData['product-name'];
-        $product->category_id = $validatedData['category'];
-        $product->price = $validatedData['price'];
-        $product->note = $validatedData['note'];
+    // Redirect or return a response as needed
 
-        // Save the product image
-        $imagePath = $request->file('image')->store('product_images');
-        $product->image = $imagePath;
-
-        $product->save();
-
-        // Save the color, size, and quantity data
-        foreach ($validatedData['color'] as $key => $colorId) {
-            $sizeId = $validatedData['size'][$key];
-            $quantity = $validatedData['quantity'][$key];
-
-            $productColor = new ProductColor();
-            $productColor->product_id = $product->id;
-            $productColor->color_id = $colorId;
-            $productColor->size_id = $sizeId;
-            $productColor->quantity = $quantity;
-            $productColor->save();
-        }
 
         // Redirect to a success page or perform any additional actions
         return redirect()->route('products.index')->with('success', 'Product created successfully.');

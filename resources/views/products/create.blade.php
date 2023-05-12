@@ -21,6 +21,15 @@
 
     {{-- ............ --}}
 <div class="container">
+@php
+    echo var_dump($errors)
+@endphp
+    @if($errors->any())
+        @foreach ($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    @endif
+
   <div class="card shadow-lg">
     <div class="card-header bg-primary text-white">
       <h3 class="m-0">Create Product</h3>
