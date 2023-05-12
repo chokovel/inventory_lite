@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\SizeController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductColorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,38 +47,34 @@ Route::get('/returns', function () {
 
 
 // products routes
-Route::get('/products', function () {
-    return view('product.product');
-});
-Route::get('/addproduct', function () {
-    return view('product.addproduct');
+Route::resource('categories', CategoryController::class);
+Route::get('/addcategory', function() {
+    return view('categories.create');
 });
 
-Route::get('/categories', function () {
-    return view('product.categories');
-});
-Route::get('/addcategory', function () {
-    return view('product.addcategory');
+Route::resource('colors', ColorController::class);
+Route::get('/addcolor', function() {
+    return view('colors.create');
 });
 
-Route::get('/sizes', function () {
-    return view('product.sizes');
-});
-Route::get('/addsize', function () {
-    return view('product.addsize');
+Route::resource('sizes', SizeController::class);
+Route::get('/addsize', function() {
+    return view('sizes.create');
 });
 
-Route::get('/colors', function () {
-    return view('product.colors');
-});
-Route::get('/addcolor', function () {
-    return view('product.addcolor');
+Route::resource('suppliers', SupplierController::class);
+Route::get('/addsupplier', function() {
+    return view('suppliers.create');
 });
 
+Route::resource('products', ProductController::class);
+// Route::get('/addproduct', function() {
+//     return view('products.create');
+// });
 
-
-
-
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

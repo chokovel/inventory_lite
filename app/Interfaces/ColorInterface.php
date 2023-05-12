@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Interfaces;
-use App\Models\Category;
 
-interface CategoryInterface
+use App\Models\Color;
+
+Interface ColorInterface
 {
-    public function create(array $data): Category;
+    public function create(array $data): Color;
 
     public function update($id, array $data): bool;
 
@@ -13,5 +14,5 @@ interface CategoryInterface
 
     public function getAll();
 
-    public function delete(Category $category): bool;
+    public function delete(Color $color): bool;
 }

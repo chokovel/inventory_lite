@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Supplier;
+use App\Services\SupplierService;
+use App\Interfaces\SupplierInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
 {
@@ -11,9 +15,18 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public $supplierService;
+
+    public function __construct()
+    {
+        $this->supplierService = (new SupplierService);
+    }
+
+
     public function index()
     {
-        //
+        $suppliers = $this->supplierService->getAll();
+        return view('suppliers.index', compact('suppliers'));
     }
 
     /**
@@ -21,9 +34,14 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $payload = [
+            'name' => $request->name,
+        ];
+        $this->supplierService->create($payload);
+
     }
 
     /**
@@ -34,7 +52,20 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'country' => 'required',
+            'address' => 'required',
+            'note' => 'nullable',
+        ]);
+
+        $suppliers = $this->supplierService->create($validatedData);
+
+        return view('suppliers.index', compact('suppliers'));
+        
+        // return response()->json($supplier, 201);
     }
 
     /**
@@ -43,9 +74,11 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Supplier $supplier)
     {
-        //
+        $suppliers = Supplier::get();
+        return view('suppliers.create', compact('suppliers'));
+        // return view('suppliers.create');
     }
 
     /**
@@ -56,7 +89,8 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        //
+        $supplier = $this->supplierService->getById($id);
+        return view('suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -66,9 +100,26 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+     public function update(Request $request, $id)
     {
-        //
+            $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'country' => 'required',
+            'address' => 'required',
+            'note' => 'nullable',
+        ]);
+
+        // $supplier = $this->supplierService->update($id, $validatedData);
+
+        $updated = $this->supplierService->update($id, $validatedData);
+
+        if ($updated){
+            return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to update supplier.');
+        }
     }
 
     /**
@@ -77,8 +128,12 @@ class SupplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Supplier $supplier)
     {
-        //
+        if ($this->supplierService->delete($supplier)) {
+            return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to delete supplier.');
+        }
     }
 }

@@ -18,7 +18,25 @@
       </div>
     </div>
 
-    {{-- ............ --}}>
+    {{-- ............ --}}
+<div class="card col-8" style="margin:0 auto;">
+  <div class="card-body">
+    <h5 class="card-title">Create Color</h5>
+    <form action="{{ route('colors.store') }}" method="post">
+
+      @csrf
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" class="form-control mb-4" placeholder="Enter color name">
+      </div>
+
+      <button class="btn btn-info btn-block my-4" type="submit">Create</button>
+
+    </form>
+  </div>
+</div>
+
 
 
 

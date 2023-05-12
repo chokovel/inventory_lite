@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Size;
+use App\Services\SizeService;
+use App\Interfaces\SizeInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SizeController extends Controller
 {
@@ -11,9 +15,19 @@ class SizeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public $sizeService;
+
+
+    public function __construct()
+    {
+        $this->sizeService = (new SizeService);
+    }
+
+
     public function index()
     {
-        //
+        $sizes = $this->sizeService->getAll();
+        return view('sizes.index', compact('sizes'));
     }
 
     /**
@@ -21,9 +35,14 @@ class SizeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $payload = [
+            'name' => $request->name,
+        ];
+        $this->sizeService->create($payload);
+
     }
 
     /**
@@ -34,7 +53,13 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $size = app(sizeService::class)->create($data);
+
+        return redirect()->route('sizes.index', $size);
     }
 
     /**
@@ -43,9 +68,11 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Size $size)
     {
-        //
+        $sizes = Size::get();
+        return view('sizes.create', compact('sizes'));
+        // return view('sizes.create');
     }
 
     /**
@@ -56,7 +83,8 @@ class SizeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $size = $this->sizeService->getById($id);
+        return view('sizes.edit', compact('size'));
     }
 
     /**
@@ -66,9 +94,20 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+     public function update(Request $request, $id)
     {
-        //
+            $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'nullable|max:1000',
+        ]);
+
+        $updated = $this->sizeService->update($id, $validatedData);
+
+        if ($updated){
+            return redirect()->route('sizes.index')->with('success', 'Size updated successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to update size.');
+        }
     }
 
     /**
@@ -77,8 +116,12 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Size $size)
     {
-        //
+        if ($this->sizeService->delete($size)) {
+            return redirect()->route('sizes.index')->with('success', 'Size deleted successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to delete size.');
+        }
     }
 }

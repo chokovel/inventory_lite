@@ -547,7 +547,7 @@
                                         <a href="{{'/staff'}}">Staff</a>
                                     </li>
                                     <li>
-                                        <a href="components-accordions.html">Suppliers</a>
+                                        <a href="{{'/suppliers'}}">Suppliers</a>
                                     </li>
                                 </ul>
                             </li>
@@ -1260,7 +1260,7 @@
                                         <a href="{{'/staff'}}">Staff</a>
                                     </li>
                                     <li>
-                                        <a href="elements-breadcrumbs.html">Suppliers</a>
+                                        <a href="{{'/suppliers'}}">Suppliers</a>
                                     </li>
                                 </ul>
                             </li>

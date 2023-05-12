@@ -7,27 +7,41 @@ use App\Models\Category;
 
 class CategoryService implements CategoryInterface
 {
-    public function create($data)
+    // public function create($data)
+    // {
+    //     // $data = [
+    //     //     'name' => "My Category"
+    //     // ];
+    //     return Category::created($data);
+    // }
+
+    public function create(array $data): Category
     {
-        // $data = [
-        //     'name' => "My Category"
-        // ];
-        return Category::created($data);
+        $category = new Category();
+        $category->name = $data['name'];
+        $category->save();
+        return $category;
     }
 
-    public function update($data, $id)
+    public function update($id, array $data): bool
     {
         $category = $this->getById($id);
-        $category->update($data);
+        return $category->update($data);
     }
 
-    public function getById($id)
+     public function getById($id)
     {
-        return Category::where('id', $id)->first();
+        return Category::find($id);
     }
 
     public function getAll()
     {
         return Category::get();
     }
+
+    public function delete(Category $category): bool
+    {
+        return $category->delete();
+    }
+
 }
