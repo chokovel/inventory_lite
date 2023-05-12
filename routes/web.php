@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductColorController;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +68,13 @@ Route::resource('suppliers', SupplierController::class);
 Route::get('/addsupplier', function() {
     return view('suppliers.create');
 });
+
+Route::resource('purchases', PurchaseController::class);
+Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
+// Route::get('/addpurchase', function() {
+//     return view('purchases.create');
+// });
+// Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create');
 
 Route::resource('products', ProductController::class);
 // Route::get('/addproduct', function() {

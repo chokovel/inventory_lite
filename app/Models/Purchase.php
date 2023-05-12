@@ -13,9 +13,11 @@ class Purchase extends Model
         'product_name',
         'price',
         'quantity',
-        'size',
+        'size_id',
+        'color_id',
+        'supplier_id',
         'date',
         'image',
-        'supplier_id',
+        'note',
     ];
 }
