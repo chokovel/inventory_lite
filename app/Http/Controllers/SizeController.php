@@ -15,7 +15,7 @@ class SizeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public $sizeService;
+    public $sizeService;
 
 
     public function __construct()
@@ -42,7 +42,6 @@ class SizeController extends Controller
             'name' => $request->name,
         ];
         $this->sizeService->create($payload);
-
     }
 
     /**
@@ -84,7 +83,7 @@ class SizeController extends Controller
     public function edit($id)
     {
         $size = $this->sizeService->getById($id);
-        return view('sizes.edit', compact('size'));
+        return view('sizes.index', compact('size'));
     }
 
     /**
@@ -94,16 +93,16 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-            $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'nullable|max:1000',
         ]);
 
         $updated = $this->sizeService->update($id, $validatedData);
 
-        if ($updated){
+        if ($updated) {
             return redirect()->route('sizes.index')->with('success', 'Size updated successfully.');
         } else {
             return back()->withInput()->with('error', 'Failed to update size.');

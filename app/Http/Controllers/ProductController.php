@@ -20,7 +20,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public $productService;
+    public $productService;
 
 
     public function __construct()
@@ -41,7 +41,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function create()
+    public function create()
     {
         $categories = Category::all();
         $sizes = Size::all();
@@ -57,47 +57,47 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     public function store(Request $request)
+    public function store(Request $request)
     {
 
         // Validate the form data
         $validatedData = $request->validate([
-        'product-name' => 'required|string',
-        'category' => 'required|integer',
-        'price' => 'required|numeric',
-        'image' => 'required|image',
-        'note' => 'nullable|string',
-        'size' => 'required|array',
-        'size.*' => 'integer',
-        'color' => 'required|array',
-        'color.*' => 'integer',
-        'quantity' => 'required|array',
-        'quantity.*' => 'integer',
-    ]);
-return $request;
-    // Create a new product instance
-    $product = new Product();
-    $product->name = $validatedData['product-name'];
-    $product->category_id = $validatedData['category'];
-    $product->price = $validatedData['price'];
-    // Set other product attributes as needed
-
-    // Save the product to the database
-    $product->save();
-
-    // Store the related size, color, and quantity data
-    $sizes = $validatedData['size'];
-    $colors = $validatedData['color'];
-    $quantities = $validatedData['quantity'];
-
-    for ($i = 0; $i < count($sizes); $i++) {
-        $product->sizes()->attach($sizes[$i], [
-            'color_id' => $colors[$i],
-            'quantity' => $quantities[$i],
+            'product-name' => 'required|string',
+            'category' => 'required|integer',
+            'price' => 'required|numeric',
+            'image' => 'required|image',
+            'note' => 'nullable|string',
+            'size' => 'required|array',
+            'size.*' => 'integer',
+            'color' => 'required|array',
+            'color.*' => 'integer',
+            'quantity' => 'required|array',
+            'quantity.*' => 'integer',
         ]);
-    }
+        //return $request;
+        // Create a new product instance
+        $product = new Product();
+        $product->name = $validatedData['product-name'];
+        $product->category_id = $validatedData['category'];
+        $product->price = $validatedData['price'];
+        // Set other product attributes as needed
 
-    // Redirect or return a response as needed
+        // Save the product to the database
+        $product->save();
+
+        // Store the related size, color, and quantity data
+        $sizes = $validatedData['size'];
+        $colors = $validatedData['color'];
+        $quantities = $validatedData['quantity'];
+
+        for ($i = 0; $i < count($sizes); $i++) {
+            $product->sizes()->attach($sizes[$i], [
+                'color_id' => $colors[$i],
+                'quantity' => $quantities[$i],
+            ]);
+        }
+
+        // Redirect or return a response as needed
 
 
         // Redirect to a success page or perform any additional actions
@@ -124,6 +124,7 @@ return $request;
     public function edit($id)
     {
         //
+        return $id;
     }
 
     /**
