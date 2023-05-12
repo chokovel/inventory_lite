@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\SizeController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductColorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,33 +47,35 @@ Route::get('/returns', function () {
 
 
 // products routes
-Route::get('/products', function() {
-    return view('product.product');
-});
-Route::get('/addproduct', function() {
-    return view('product.addproduct');
-});
 
-Route::get('/categories', function() {
-    return view('product.categories');
-});
+Route::resource('categories', CategoryController::class);
 Route::get('/addcategory', function() {
-    return view('product.addcategory');
+    return view('categories.create');
 });
 
-Route::get('/sizes', function() {
-    return view('product.sizes');
-});
-Route::get('/addsize', function() {
-    return view('product.addsize');
-});
-
-Route::get('/colors', function() {
-    return view('product.colors');
-});
+Route::resource('colors', ColorController::class);
 Route::get('/addcolor', function() {
-    return view('product.addcolor');
+    return view('colors.create');
 });
+
+Route::resource('sizes', SizeController::class);
+Route::get('/addsize', function() {
+    return view('sizes.create');
+});
+
+Route::resource('suppliers', SupplierController::class);
+Route::get('/addsupplier', function() {
+    return view('suppliers.create');
+});
+
+Route::resource('products', ProductController::class);
+// Route::get('/addproduct', function() {
+//     return view('products.create');
+// });
+
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
 
 

@@ -186,3 +186,33 @@
         white-space: nowrap;
     }
 }
+
+form {
+    max-width: 600px;
+    margin: auto;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.btn-info {
+    background-color: #00bcd4;
+    border-color: #00bcd4;
+}
+
+.btn-info:hover {
+    background-color: #00acc1;
+    border-color: #00acc1;
+}
+
+.btn-info:active,
+.btn-info:focus {
+    background-color: #008ba3;
+    border-color: #008ba3;
+}

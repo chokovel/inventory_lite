@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Services\CategoryService;
+use App\Interfaces\CategoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -21,10 +24,11 @@ class CategoryController extends Controller
         $this->categoryService = (new CategoryService);
     }
 
+
     public function index()
     {
-        //
-        return  $this->categoryService->getAll();
+        $categories = $this->categoryService->getAll();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -37,9 +41,9 @@ class CategoryController extends Controller
         //
         $payload = [
             'name' => $request->name,
-            'subject' => $request->subject
         ];
         $this->categoryService->create($payload);
+        return view('categories.index');
     }
 
     /**
@@ -48,9 +52,20 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
+
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = app(CategoryService::class)->create($data);
+
+        return redirect()->route('categories.index', $category);
     }
 
     /**
@@ -59,9 +74,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        $categories = Category::get();
+        return view('categories.index', compact('category'));
     }
 
     /**
@@ -72,7 +88,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = $this->categoryService->getById($id);
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -84,8 +101,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+            $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'nullable|max:1000',
+        ]);
+
+        $updated = $this->categoryService->update($id, $validatedData);
+
+        if ($updated){
+            return redirect()->route('categories.index')->with('success', 'Category updated successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to update category.');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -93,8 +122,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        if ($this->categoryService->delete($category)) {
+            return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to delete category.');
+        }
     }
 }
