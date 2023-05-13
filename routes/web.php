@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Route::get('/home', function () {
     return view('home');
@@ -48,22 +48,22 @@ Route::get('/returns', function () {
 
 // products routes
 Route::resource('categories', CategoryController::class);
-Route::get('/addcategory', function() {
+Route::get('/addcategory', function () {
     return view('categories.create');
 });
 
 Route::resource('colors', ColorController::class);
-Route::get('/addcolor', function() {
+Route::get('/addcolor', function () {
     return view('colors.create');
 });
 
 Route::resource('sizes', SizeController::class);
-Route::get('/addsize', function() {
+Route::get('/addsize', function () {
     return view('sizes.create');
 });
 
 Route::resource('suppliers', SupplierController::class);
-Route::get('/addsupplier', function() {
+Route::get('/addsupplier', function () {
     return view('suppliers.create');
 });
 

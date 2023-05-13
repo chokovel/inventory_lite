@@ -1037,15 +1037,7 @@
             </header>
             <!-- end header section -->
             <div class="animate__animated p-6" :class="[$store.app.animation]">
-
-
-
-
                 @yield('content')
-
-
-
-
                 <!-- start footer section -->
                 <p class="pt-6 text-center dark:text-white-dark ltr:sm:text-left rtl:sm:text-right">
                     © <span id="footer-year">2023</span>. Reeksoft All rights reserved.
