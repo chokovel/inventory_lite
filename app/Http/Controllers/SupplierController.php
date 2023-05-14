@@ -64,7 +64,7 @@ class SupplierController extends Controller
         $suppliers = $this->supplierService->create($validatedData);
 
         return view('suppliers.index', compact('suppliers'));
-        
+
         // return response()->json($supplier, 201);
     }
 
@@ -78,7 +78,6 @@ class SupplierController extends Controller
     {
         $suppliers = Supplier::get();
         return view('suppliers.create', compact('suppliers'));
-        // return view('suppliers.create');
     }
 
     /**

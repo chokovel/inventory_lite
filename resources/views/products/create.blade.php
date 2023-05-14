@@ -22,7 +22,7 @@
     {{-- ............ --}}
 <div class="container">
 @php
-    echo var_dump($errors)
+    // echo var_dump($errors)
 @endphp
     @if($errors->any())
         @foreach ($errors->all() as $error)
@@ -105,7 +105,7 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="form-label">Action</label>
-                    <button type="button" id="add-section" class="btn btn-primary">Add Section</button>
+                    <button type="button" id="add-section" class="btn btn-primary">Add</button>
                 </div>
             </div>
         </div>

@@ -23,9 +23,9 @@ class RoleSeeder extends Seeder
         Role::create(['name' => 'staff']);
 
         User::create([
-            "name" => "super admin",
+            "name" => "admin",
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('12345678'),
         ])->assignRole('admin');
     }
 }

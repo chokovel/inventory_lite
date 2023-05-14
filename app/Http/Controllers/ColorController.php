@@ -72,7 +72,6 @@ class ColorController extends Controller
     {
         $colors = Color::get();
         return view('colors.create', compact('colors'));
-        // return view('colors.create');
     }
 
     /**

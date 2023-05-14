@@ -27,17 +27,15 @@ Route::get('/home', function () {
     return view('home');
 });
 Route::get('/adduser', function () {
-    return view('users.staff.adduser');
+    return view('users.staff.create');
 });
 Route::get('/staff', function () {
-    return view('users.staff');
+    return view('users.staff.index');
 });
 Route::get('/manager', function () {
-    return view('users.manager');
+    return view('users.manager.index');
 });
-Route::get('/staff', function () {
-    return view('users.customer');
-});
+
 Route::get('/sales', function () {
     return view('dashboard.sales');
 });
