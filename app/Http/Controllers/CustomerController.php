@@ -46,7 +46,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
@@ -58,10 +58,6 @@ class CustomerController extends Controller
         $customers = app(CustomerService::class)->create($data);
 
         return redirect()->route('customers.index', $customers);
-
-        // $customers = $this->customerService->create($validatedData);
-
-        // return view('customers.index', compact('customers'));
 
         // return response()->json($customer, 201);
     }
