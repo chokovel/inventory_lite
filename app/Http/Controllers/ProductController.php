@@ -61,12 +61,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        // Validate the form data
-        $validatedData = $request->validate([
+        try{
+            $validatedData = $request->validate([
             'product-name' => 'required|string',
             'category' => 'required|integer',
             'price' => 'required|numeric',
-            'image' => 'required|image',
+            // 'image' => 'required|image',
             'note' => 'nullable|string',
             'size' => 'required|array',
             'size.*' => 'integer',
@@ -75,21 +75,21 @@ class ProductController extends Controller
             'quantity' => 'required|array',
             'quantity.*' => 'integer',
         ]);
-        if ($request->hasFile('image')) {
-            $imageWithExtension = $request->file('image')->getClientOriginalName(); //Filename with extension
-            $myFileName = pathinfo($imageWithExtension, PATHINFO_FILENAME); //extract only the filename without extension
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $fileName = $myFileName . '_' . time() . '.' . $extension; //filename
-            $uploadPath = 'public/products';
-            $path = $request->file('image')->storeAs($uploadPath, $fileName);
-        }
+        // if ($request->hasFile('image')) {
+        //     $imageWithExtension = $request->file('image')->getClientOriginalName(); //Filename with extension
+        //     $myFileName = pathinfo($imageWithExtension, PATHINFO_FILENAME); //extract only the filename without extension
+        //     $extension = $request->file('image')->getClientOriginalExtension();
+        //     $fileName = $myFileName . '_' . time() . '.' . $extension; //filename
+        //     $uploadPath = 'public/products';
+        //     $path = $request->file('image')->storePubliclyAs($uploadPath, $fileName);
+        // }
         //return $request;
         // Create a new product instance
         $product = new Product();
         $product->product_name = $validatedData['product-name'];
         $product->category_id = $validatedData['category'];
         $product->price = $validatedData['price'];
-        $product->image = $path;
+        // $product->image = $path;
 
         // Set other product attributes as needed
 
@@ -118,6 +118,10 @@ class ProductController extends Controller
 
         // Redirect to a success page or perform any additional actions
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
+    }catch(\Exception $e){
+            return $e;
+        }
+
     }
 
     /**
