@@ -29,34 +29,52 @@
                         <div class="form-group">
                             <label for="product_name">Product Name</label>
                             <input type="text" id="product_name" name="product_name" class="form-control mb-4"
-                                placeholder="Enter product name">
+                                placeholder="Enter product name" value="{{ old('product_name') }}">
+                            @error('product_name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="price">Price</label>
                             <input type="number" id="price" name="price" class="form-control mb-4"
-                                placeholder="Enter price">
+                                placeholder="Enter price" value="{{ old('price') }}">
+                            @error('price')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="quantity">Quantity</label>
                             <input type="number" id="quantity" name="quantity" class="form-control mb-4"
-                                placeholder="Enter quantity">
+                                placeholder="Enter quantity" value="{{ old('quantity') }}">
+                            @error('quantity')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="size">Size</label>
                             <input type="text" id="size" name="size" class="form-control mb-4"
-                                placeholder="Enter size">
+                                placeholder="Enter size" value="{{ old('size') }}">
+                            @error('size')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="color">Color</label>
-                            <input type="text" id="name" name="color" class="form-control mb-4"
-                                placeholder="Enter Color">
+                            <input type="text" id="color" name="color" class="form-control mb-4"
+                                placeholder="Enter Color" value="{{ old('color') }}">
+                            @error('color')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="date">Date</label>
                             <input type="date" id="date" name="date" class="form-control mb-4"
-                                placeholder="Enter date">
+                                placeholder="Enter date" value="{{ old('date') }}">
+                            @error('date')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="supplier_id">Supplier</label>
@@ -65,17 +83,26 @@
                                     <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                 @endforeach
                             </select>
+                            @error('supplier_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="image">Image</label>
                             <input type="file" id="image" name="image" class="form-control-file">
-                        </div>
+                            @error('image')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div> --}}
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="note">Note</label>
                             <textarea id="note" name="note" class="form-control mb-4"
-                                placeholder="Enter note"></textarea>
+                                placeholder="Enter note">{{ old('note') }}</textarea>
+                            @error('note')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -88,3 +115,5 @@
         <!-- end main content section -->
     </div>
 @endsection
+
+

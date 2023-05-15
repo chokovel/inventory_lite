@@ -35,6 +35,7 @@
             <th>Size</th>
             <th>Date</th>
             <th>Supplier</th>
+            <th>Note</th>
             <th class="text-right">Actions</th>
           </tr>
         </thead>
@@ -45,11 +46,12 @@
                 <td class="text-left">{{ $purchase->id }}</td>
                 <td>{{ $purchase->image }}</td>
                 <td>{{ $purchase->product_name }}</td>
-                <td>{{ $purchase->price }}</td>
+                <td>₦{{ $purchase->price }}</td>
                 <td>{{ $purchase->quantity }}</td>
                 <td>{{ $purchase->size }}</td>
                 <td>{{ $purchase->date }}</td>
-                <td>{{ $purchase->supplier_id }}</td>
+                <td>{{ $purchase->supplier->name }}</td>
+                <td>{{ $purchase->note }}</td>
                 <td class="td-actions text-right d-flex">
                 <a href="{{ route('purchases.edit', $purchase->id) }}" class="btn btn-primary btn-round btn-sm">
                     <i class="material-icons">edit</i>

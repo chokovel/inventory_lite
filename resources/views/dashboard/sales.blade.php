@@ -30,24 +30,16 @@
                     </div>
                   </div>
               <div class="col-lg-6 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
-                <div class="sales-details" style="margin-right: 10px">
-                  <p class="d-flex"><span>4</span> | <span> M </span> | <span> Yellow </span> |
-                    <button class="addbtn btn btn-sm" href="#"> + </button></p>
-                  <p class="d-flex"><span>1</span> | <span> S </span> | <span> Blue </span>
+                <div class="sales-details d-flex" style="margin-right: 10px">
+                  <p class="d-flex"><span>4</span> | <span> M </span> | <span> Yellow </span> </p>
+                  <button class="addbtn btn btn-sm" href="#"> + </button>
+                </div>
+                  {{-- <p class="d-flex"><span>1</span> | <span> S </span> | <span> Blue </span>
                 <button class="addbtn btn btn-sm" href="#"> + </button></p>
                   <p class="d-flex"><span>3</span> | <span> L </span> | <span> Pink </span>
-                <button class="addbtn btn btn-sm" href="#"> + </button></p>
-                  <p class="d-flex"><span>2</span> | <span> XL </span> | <span> Green </span>
-                <button class="addbtn btn btn-sm" href="#"> + </button></p>
-                  <p class="d-flex"><span>4</span> | <span> M </span> | <span> white </span>
-                <button class="addbtn btn btn-sm" href="#"> + </button></p>
-                  <p class="d-flex"><span>1</span> | <span> S </span> | <span> red </span>
-                <button class="addbtn btn btn-sm" href="#"> + </button></p>
-                  <p class="d-flex"><span>3</span> | <span> L </span> | <span> orange </span>
-                <button class="addbtn btn btn-sm" href="#"> + </button></p>
-                  <p class="d-flex"><span>2</span> | <span> XL </span> | <span> brown </span>
-                <button class="addbtn btn btn-sm" href="#"> + </button></p>
-                </div>
+                <button class="addbtn btn btn-sm" href="#"> + </button></p> --}}
+
+
                 {{-- <div class="">
                   here
                 </div> --}}

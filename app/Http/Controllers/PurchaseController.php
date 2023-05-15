@@ -8,6 +8,7 @@ use App\Services\PurchaseService;
 use App\Interfaces\PurchaseInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class PurchaseController extends Controller
 {
@@ -47,29 +48,32 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-         $data = $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'quantity' => 'required',
-            'size' => 'required',
-            'color' => 'required',
-            'date' => 'required',
-            'supplier_id' => 'required',
-            'name' => 'required',
-            'note' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+         $validatedData = $request->validate([
+        'product_name' => 'required',
+        'price' => 'required',
+        'quantity' => 'required',
+        'size' => 'required',
+        'color' => 'required',
+        'date' => 'required',
+        'supplier_id' => 'required',
+        'note' => 'nullable',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg',
+    ]);
 
-            // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/images');
-            $data['image'] = Storage::url($imagePath);
-        }
-
-        $purchases = app(PurchaseService::class)->create($data);
-
-        return redirect()->route('purchases.index', $purchases);
+    // Handle file upload
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imagePath = $image->store('public/images');
+        $validatedData['image'] = $imagePath;
     }
+
+    // Save the data to the database
+    $purchase = Purchase::create($validatedData);
+
+    // Optionally, you can redirect the user to a success page or perform other actions
+
+    return view('suppliers.index', compact('purchase'))->with('success', 'Purchase created successfully.');
+}
 
     /**
      * Display the specified resource.
@@ -90,8 +94,10 @@ class PurchaseController extends Controller
      */
     public function edit($id)
     {
+
         $purchase = $this->purchaseService->getById($id);
-        return view('purchases.edit', compact('purchase'));
+        $suppliers = Supplier::all();
+        return view('purchases.edit', compact('purchase', 'suppliers'));
     }
 
     /**
@@ -102,45 +108,52 @@ class PurchaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $data = $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'quantity' => 'required',
-            'size' => 'required',
-            'color' => 'required',
-            'date' => 'required',
-            'supplier_id' => 'required',
-            'name' => 'required',
-            'note' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    // Validate the form data
+    $validatedData = $request->validate([
+        'product_name' => 'required',
+        'price' => 'required|numeric',
+        'quantity' => 'required|numeric',
+        'size' => 'required',
+        'color' => 'required',
+        'date' => 'required|date',
+        'supplier_id' => 'required|exists:suppliers,id',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'note' => 'nullable',
+    ]);
 
-        $purchase = $this->purchaseService->getById($id);
+    // Find the purchase by ID
+    $purchase = Purchase::findOrFail($id);
 
-        // Handle image update
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($purchase->image) {
-                Storage::delete($purchase->image);
-            }
+    // Update the purchase data
+    $purchase->product_name = $validatedData['product_name'];
+    $purchase->price = $validatedData['price'];
+    $purchase->quantity = $validatedData['quantity'];
+    $purchase->size = $validatedData['size'];
+    $purchase->color = $validatedData['color'];
+    $purchase->date = $validatedData['date'];
+    $purchase->supplier_id = $validatedData['supplier_id'];
+    $purchase->note = $validatedData['note'];
 
-            // Upload new image
-            $imagePath = $request->file('image')->store('public/images');
-            $data['image'] = Storage::url($imagePath);
-        } else {
-            // No image update, keep the previous image
-            $data['image'] = $purchase->image;
+    // Check if a new image is provided
+    if ($request->hasFile('image')) {
+        // Delete the previous image if exists
+        if ($purchase->image && Storage::exists($purchase->image)) {
+            Storage::delete($purchase->image);
         }
 
-        $updated = $this->purchaseService->update($id, $data);
-
-        if ($updated){
-            return redirect()->route('purchases.index')->with('success', 'purchase updated successfully.');
-        } else {
-            return back()->withInput()->with('error', 'Failed to update purchase.');
-        }
+        // Store the new image
+        $imagePath = $request->file('image')->store('public/images');
+        $purchase->image = $imagePath;
     }
+
+    // Save the updated purchase
+    $purchase->save();
+
+    // Redirect to the desired page with a success message
+    return redirect()->route('purchases.index')->with('success', 'Purchase updated successfully.');
+}
+
 
     /**
      * Remove the specified resource from storage.

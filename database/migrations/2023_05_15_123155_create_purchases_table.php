@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('product_name');
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
-            $table->string('size');
-            $table->string('color');
+            $table->string('size')->nullable();
+            $table->string('color')->nullable();
             $table->date('date');
-            $table->string('image');
-            $table->unsignedBigInteger('supplier_id');
+            $table->string('image')->nullable();
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
