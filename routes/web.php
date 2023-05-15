@@ -7,6 +7,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,13 +28,7 @@ Route::get('/home', function () {
     return view('home');
 });
 Route::get('/adduser', function () {
-    return view('users.staff.create');
-});
-Route::get('/staff', function () {
-    return view('users.staff.index');
-});
-Route::get('/manager', function () {
-    return view('users.manager.index');
+    return view('staff.create');
 });
 
 Route::get('/sales', function () {
@@ -43,6 +38,18 @@ Route::get('/returns', function () {
     return view('dashboard.returns');
 });
 
+
+
+Route::get('/adduser', function () {
+    return view('staff.create');
+});
+
+Route::get('/staff', [UserController::class, 'index'])->name('staff');
+Route::get('/staff/create', [UserController::class, 'create'])->name('staff.create');
+Route::post('/staff', [UserController::class, 'store'])->name('staff.store');
+Route::get('/staff/edit', [ProfileController::class, 'edit'])->name('staff.edit');
+Route::patch('/staff/edit', [ProfileController::class, 'update'])->name('staff.update');
+Route::delete('/staff/edit', [ProfileController::class, 'destroy'])->name('staff.destroy');
 
 // products routes
 Route::resource('categories', CategoryController::class);
@@ -64,6 +71,9 @@ Route::resource('suppliers', SupplierController::class);
 Route::get('/addsupplier', function () {
     return view('suppliers.create');
 });
+
+Route::resource('customers', SupplierController::class);
+Route::get('/customers/create', [ProductController::class, 'create'])->name('customers.create');
 
 Route::resource('products', ProductController::class);
 // Route::get('/addproduct', function() {

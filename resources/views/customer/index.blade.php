@@ -1,0 +1,81 @@
+@extends('layouts.homehead')
+
+@section('content')
+
+ <div x-data="sales">
+    <ul class="flex space-x-2 rtl:space-x-reverse">
+        <li>
+            <a href="javascript:;" class="text-primary hover:underline">Dashboard</a>
+        </li>
+        <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
+            <span>Customers Page</span>
+        </li>
+    </ul>
+    <!-- start main content section -->
+    <div class="container my-3">
+      <div class="d-flex justify-content-between">
+          <h4 class="card-title mb-3 me-3">All Customers</h4>
+          <button class="btn btn-success btn-sm"><a href="{{route('customer.create')}}">Create Customer</a></button>
+      </div>
+    </div>
+
+    {{-- ............ --}}
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="text-primary">
+          <tr>
+            <th class="text-left">#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>DOB</th>
+            <th>Address</th>
+            <th>Note</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+    @if(isset($customers))
+        @foreach ($customers as $customer)
+            <tr>
+                <td class="text-left">{{ $staf->id }}</td>
+                <td>{{ $customer->name }}</td>
+                <td>{{ $customer->email }}</td>
+                <td>{{ $customer->phone }}</td>
+                <td>{{ $customer->dob }}</td>
+                <td>{{ $customer->address }}</td>
+                <td>{{ $customer->note }}</td>
+                <td class="td-actions text-right d-flex">
+                <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-primary btn-round btn-sm">
+                    <i class="material-icons">edit</i>
+                </a>
+                <form action="{{ route('customer.destroy', $customer->id) }}" method="post" style="display: inline-block;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-round btn-sm">
+                    <i class="material-icons">delete</i>
+                    </button>
+                </form>
+                </td>
+            </tr>
+          @endforeach
+          @else
+        <tr>
+            <td colspan="2">No customer found.</td>
+        </tr>
+    @endif
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- end main content section -->
+</div>
+@endsection
