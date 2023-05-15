@@ -83,6 +83,7 @@
                   here
                 </div> --}}
               </div>
+
             </div>
             </div>
         </div>
@@ -229,6 +230,10 @@
                         <h2 class="">₦42000</h2>
                     </div>
                 </div>
+              </div>
+              <div>
+                <p>Customer name</p>
+                <p>Customer phone number</p>
               </div>
             </div>
 <hr><br>

@@ -854,6 +854,82 @@
     <script defer src="{{ asset('assets/js/apexcharts.js') }}"></script>
     {{-- start --}}
     <script>
+    const sales = {
+        sizes: [],
+        colors: [],
+        quantities: [],
+
+        addSection() {
+            const sizeSelect = document.getElementById('size');
+            const colorSelect = document.getElementById('color');
+            const quantityInput = document.getElementById('quantity');
+
+            const selectedSize = sizeSelect.value;
+            const selectedColor = colorSelect.value;
+            const selectedQuantity = quantityInput.value;
+
+            if (selectedSize && selectedColor && selectedQuantity) {
+                this.sizes.push(selectedSize);
+                this.colors.push(selectedColor);
+                this.quantities.push(selectedQuantity);
+
+                this.updateSectionList();
+
+                // Reset form fields
+                sizeSelect.value = '';
+                colorSelect.value = '';
+                quantityInput.value = '';
+            }
+        },
+
+        removeSection(index) {
+            this.sizes.splice(index, 1);
+            this.colors.splice(index, 1);
+            this.quantities.splice(index, 1);
+
+            this.updateSectionList();
+        },
+
+        updateSectionList() {
+            const sectionList = document.getElementById('section-list');
+            sectionList.innerHTML = '';
+
+            for (let i = 0; i < this.sizes.length; i++) {
+                const size = this.sizes[i];
+                const color = this.colors[i];
+                const quantity = this.quantities[i];
+
+                const row = document.createElement('tr');
+
+                const sizeCell = document.createElement('td');
+                sizeCell.textContent = size;
+                row.appendChild(sizeCell);
+
+                const colorCell = document.createElement('td');
+                colorCell.textContent = color;
+                row.appendChild(colorCell);
+
+                const quantityCell = document.createElement('td');
+                quantityCell.textContent = quantity;
+                row.appendChild(quantityCell);
+
+                const actionCell = document.createElement('td');
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.classList.add('btn', 'btn-danger');
+                removeButton.addEventListener('click', () => this.removeSection(i));
+                actionCell.appendChild(removeButton);
+                row.appendChild(actionCell);
+
+                sectionList.appendChild(row);
+            }
+        }
+    };
+
+    document.getElementById('add-section').addEventListener('click', () => sales.addSection());
+</script>
+
+    <script>
         document.onreadystatechange = function() {
             if (document.readyState == 'complete') {
                 document.addEventListener('alpine:init', () => {
