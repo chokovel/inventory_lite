@@ -14,8 +14,15 @@ class Purchase extends Model
         'price',
         'quantity',
         'size',
+        'color',
         'date',
-        'image',
         'supplier_id',
+        'note',
+        'image',
     ];
+
+    public function supplier()
+{
+    return $this->belongsTo(Supplier::class);
+}
 }
