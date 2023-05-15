@@ -2,11 +2,11 @@
 
 namespace App\Interfaces;
 
-use App\Models\Supplier;
+use App\Models\Customer;
 
-Interface SupplierInterface
+Interface CustomerInterface
 {
-    public function create(array $data): Supplier;
+    public function create(array $data): Customer;
 
     public function update($id, array $data): bool;
 
@@ -14,5 +14,5 @@ Interface SupplierInterface
 
     public function getAll();
 
-    public function delete(Supplier $supplier): bool;
+    public function delete(Customer $customer): bool;
 }
