@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Size;
 use App\Models\Color;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -31,7 +32,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::all();
+        $products = Product::orderBy('created_at', 'DESC')->get();
 
         return view('products.index', compact('products'));
     }
@@ -74,12 +75,22 @@ class ProductController extends Controller
             'quantity' => 'required|array',
             'quantity.*' => 'integer',
         ]);
+        if ($request->hasFile('image')) {
+            $imageWithExtension = $request->file('image')->getClientOriginalName(); //Filename with extension
+            $myFileName = pathinfo($imageWithExtension, PATHINFO_FILENAME); //extract only the filename without extension
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileName = $myFileName . '_' . time() . '.' . $extension; //filename
+            $uploadPath = 'public/products';
+            $path = $request->file('image')->storeAs($uploadPath, $fileName);
+        }
         //return $request;
         // Create a new product instance
         $product = new Product();
-        $product->name = $validatedData['product-name'];
+        $product->product_name = $validatedData['product-name'];
         $product->category_id = $validatedData['category'];
         $product->price = $validatedData['price'];
+        $product->image = $path;
+
         // Set other product attributes as needed
 
         // Save the product to the database
@@ -90,11 +101,16 @@ class ProductController extends Controller
         $colors = $validatedData['color'];
         $quantities = $validatedData['quantity'];
 
+
+
         for ($i = 0; $i < count($sizes); $i++) {
-            $product->sizes()->attach($sizes[$i], [
-                'color_id' => $colors[$i],
-                'quantity' => $quantities[$i],
-            ]);
+            $productColors = new ProductColor();
+            $productColors->color_id = $colors[$i];
+            $productColors->quantity = $quantities[$i];
+            $productColors->size_id = $sizes[$i];
+            // $productColors->product_id = $product->id;
+            $productColors->product()->associate($product);
+            $productColors->save();
         }
 
         // Redirect or return a response as needed
