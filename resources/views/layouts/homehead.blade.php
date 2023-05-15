@@ -235,7 +235,7 @@
                                     <a href="{{'/customers'}}">Customers</a>
                                 </li>
                                 <li>
-                                    <a href="{{ '/staff' }}">Staff</a>
+                                    <a href="{{ route('staff') }}">Staff</a>
                                 </li>
                                 <li>
                                     <a href="{{ '/suppliers' }}">Suppliers</a>
@@ -821,7 +821,7 @@
                                     <a href="{{'/customers'}}">Customers</a>
                                 </li>
                                 <li>
-                                    <a href="{{ '/staff' }}">Staff</a>
+                                    <a href="{{ route('staff') }}">Staff</a>
                                 </li>
                                 <li>
                                     <a href="{{ '/suppliers' }}">Suppliers</a>

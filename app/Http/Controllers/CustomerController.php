@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Services\CustomerService;
+use App\Interfaces\CustomerInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -11,9 +15,17 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $customerService;
+
+    public function __construct()
+    {
+        $this->customerService = (new CustomerService);
+    }
+
     public function index()
     {
-        //
+        $customers = $this->customerService->getAll();
+        return view('customers.index', compact('customers'));
     }
 
     /**
@@ -23,7 +35,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create');
     }
 
     /**
@@ -34,7 +46,24 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'dob' => 'required',
+            'address' => 'required',
+            'note' => 'nullable',
+        ]);
+
+        $customers = app(CustomerService::class)->create($data);
+
+        return redirect()->route('customers.index', $customers);
+
+        // $customers = $this->customerService->create($validatedData);
+
+        // return view('customers.index', compact('customers'));
+
+        // return response()->json($customer, 201);
     }
 
     /**
@@ -56,7 +85,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = $this->customerService->getById($id);
+        return view('customers.edit', compact('customer'));
     }
 
     /**
@@ -68,7 +98,22 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+            $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'dob' => 'required',
+            'address' => 'required',
+            'note' => 'nullable',
+        ]);
+
+        $updated = $this->customerService->update($id, $validatedData);
+
+        if ($updated){
+            return redirect()->route('customers.index')->with('success', 'customer updated successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to update customer.');
+        }
     }
 
     /**
@@ -77,8 +122,12 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Customer $customer)
     {
-        //
+        if ($this->customerService->delete($customer)) {
+            return redirect()->route('customers.index')->with('success', 'Customer deleted successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to delete customer.');
+        }
     }
 }
