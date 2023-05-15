@@ -14,8 +14,10 @@ class Purchase extends Model
         'price',
         'quantity',
         'size',
+        'color',
         'date',
-        'image',
         'supplier_id',
+        'image',
+        'note',
     ];
 }

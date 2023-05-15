@@ -738,7 +738,7 @@
                                     <a href="{{ '/returns' }}">Returns</a>
                                 </li>
                                 <li>
-                                    <a href="{{ '/purchase' }}">Purchase</a>
+                                    <a href="{{ '/purchases' }}">Purchase</a>
                                 </li>
                                 <li>
                                     <a href="{{ '/expense' }}">Expense</a>

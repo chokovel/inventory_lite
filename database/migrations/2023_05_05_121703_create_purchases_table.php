@@ -19,10 +19,12 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
             $table->string('size');
+            $table->string('color');
             $table->date('date');
             $table->string('image');
             $table->unsignedBigInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->text('note');
             $table->timestamps();
         });
     }
