@@ -92,8 +92,8 @@
                         <a href="javascript:;"
                             class="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 rtl:rotate-180 dark:text-white-light dark:hover:bg-dark-light/10"
                             @click="$store.app.toggleSidebar()">
-                            <svg class="m-auto h-5 w-5" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="m-auto h-5 w-5" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
                                 <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor"
@@ -220,8 +220,7 @@
                                     <span
                                         class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Users</span>
                                 </div>
-                                <div class="rtl:rotate-180"
-                                    :class="{ '!rotate-90': activeDropdown === 'components' }">
+                                <div class="rtl:rotate-180" :class="{ '!rotate-90': activeDropdown === 'components' }">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
@@ -232,7 +231,7 @@
                             <ul x-cloak x-show="activeDropdown === 'components'" x-collapse
                                 class="sub-menu text-gray-500">
                                 <li>
-                                    <a href="{{'/customers'}}">Customers</a>
+                                    <a href="{{ '/customers' }}">Customers</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('staff') }}">Staff</a>
@@ -801,16 +800,16 @@
                                             fill="currentColor"></circle>
                                         <ellipse opacity="0.5" cx="16" cy="17" rx="5"
                                             ry="3" fill="currentColor"></ellipse>
-                                        <circle cx="9.00098" cy="6" r="4"
-                                            fill="currentColor"></circle>
+                                        <circle cx="9.00098" cy="6" r="4" fill="currentColor">
+                                        </circle>
                                         <ellipse cx="9.00098" cy="17.001" rx="7" ry="4"
                                             fill="currentColor"></ellipse>
                                     </svg>
                                     <span class="px-1">Users</span>
                                 </div>
                                 <div class="right_arrow">
-                                    <svg class="h-4 w-4 rotate-90" width="16" height="16"
-                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="h-4 w-4 rotate-90" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
@@ -818,7 +817,7 @@
                             </a>
                             <ul class="sub-menu">
                                 <li>
-                                    <a href="{{'/customers'}}">Customers</a>
+                                    <a href="{{ '/customers' }}">Customers</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('staff') }}">Staff</a>
@@ -854,80 +853,80 @@
     <script defer src="{{ asset('assets/js/apexcharts.js') }}"></script>
     {{-- start --}}
     <script>
-    const sales = {
-        sizes: [],
-        colors: [],
-        quantities: [],
+        const sales = {
+            sizes: [],
+            colors: [],
+            quantities: [],
 
-        addSection() {
-            const sizeSelect = document.getElementById('size');
-            const colorSelect = document.getElementById('color');
-            const quantityInput = document.getElementById('quantity');
+            addSection() {
+                const sizeSelect = document.getElementById('size');
+                const colorSelect = document.getElementById('color');
+                const quantityInput = document.getElementById('quantity');
 
-            const selectedSize = sizeSelect.value;
-            const selectedColor = colorSelect.value;
-            const selectedQuantity = quantityInput.value;
+                const selectedSize = sizeSelect.value;
+                const selectedColor = colorSelect.value;
+                const selectedQuantity = quantityInput.value;
 
-            if (selectedSize && selectedColor && selectedQuantity) {
-                this.sizes.push(selectedSize);
-                this.colors.push(selectedColor);
-                this.quantities.push(selectedQuantity);
+                if (selectedSize && selectedColor && selectedQuantity) {
+                    this.sizes.push(selectedSize);
+                    this.colors.push(selectedColor);
+                    this.quantities.push(selectedQuantity);
+
+                    this.updateSectionList();
+
+                    // Reset form fields
+                    sizeSelect.value = '';
+                    colorSelect.value = '';
+                    quantityInput.value = '';
+                }
+            },
+
+            removeSection(index) {
+                this.sizes.splice(index, 1);
+                this.colors.splice(index, 1);
+                this.quantities.splice(index, 1);
 
                 this.updateSectionList();
+            },
 
-                // Reset form fields
-                sizeSelect.value = '';
-                colorSelect.value = '';
-                quantityInput.value = '';
+            updateSectionList() {
+                const sectionList = document.getElementById('section-list');
+                sectionList.innerHTML = '';
+
+                for (let i = 0; i < this.sizes.length; i++) {
+                    const size = this.sizes[i];
+                    const color = this.colors[i];
+                    const quantity = this.quantities[i];
+
+                    const row = document.createElement('tr');
+
+                    const sizeCell = document.createElement('td');
+                    sizeCell.innerHTML = `<input type="text" readonly name="size[]" value="${size}">`;
+                    row.appendChild(sizeCell);
+
+                    const colorCell = document.createElement('td');
+                    colorCell.textContent = color;
+                    row.appendChild(colorCell);
+
+                    const quantityCell = document.createElement('td');
+                    quantityCell.textContent = quantity;
+                    row.appendChild(quantityCell);
+
+                    const actionCell = document.createElement('td');
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.classList.add('btn', 'btn-danger');
+                    removeButton.addEventListener('click', () => this.removeSection(i));
+                    actionCell.appendChild(removeButton);
+                    row.appendChild(actionCell);
+
+                    sectionList.appendChild(row);
+                }
             }
-        },
+        };
 
-        removeSection(index) {
-            this.sizes.splice(index, 1);
-            this.colors.splice(index, 1);
-            this.quantities.splice(index, 1);
-
-            this.updateSectionList();
-        },
-
-        updateSectionList() {
-            const sectionList = document.getElementById('section-list');
-            sectionList.innerHTML = '';
-
-            for (let i = 0; i < this.sizes.length; i++) {
-                const size = this.sizes[i];
-                const color = this.colors[i];
-                const quantity = this.quantities[i];
-
-                const row = document.createElement('tr');
-
-                const sizeCell = document.createElement('td');
-                sizeCell.textContent = size;
-                row.appendChild(sizeCell);
-
-                const colorCell = document.createElement('td');
-                colorCell.textContent = color;
-                row.appendChild(colorCell);
-
-                const quantityCell = document.createElement('td');
-                quantityCell.textContent = quantity;
-                row.appendChild(quantityCell);
-
-                const actionCell = document.createElement('td');
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
-                removeButton.classList.add('btn', 'btn-danger');
-                removeButton.addEventListener('click', () => this.removeSection(i));
-                actionCell.appendChild(removeButton);
-                row.appendChild(actionCell);
-
-                sectionList.appendChild(row);
-            }
-        }
-    };
-
-    document.getElementById('add-section').addEventListener('click', () => sales.addSection());
-</script>
+        document.getElementById('add-section').addEventListener('click', () => sales.addSection());
+    </script>
 
     <script>
         document.onreadystatechange = function() {

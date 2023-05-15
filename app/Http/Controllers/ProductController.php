@@ -61,8 +61,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        try{
-            $validatedData = $request->validate([
+        // try{
+        $validatedData = $request->validate([
             'product-name' => 'required|string',
             'category' => 'required|integer',
             'price' => 'required|numeric',
@@ -118,9 +118,9 @@ class ProductController extends Controller
 
         // Redirect to a success page or perform any additional actions
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
-    }catch(\Exception $e){
-            return $e;
-        }
+        // }catch(\Exception $e){
+        //         return $e;
+        //     }
 
     }
 
