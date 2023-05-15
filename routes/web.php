@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\UserController;
@@ -72,8 +73,8 @@ Route::get('/addsupplier', function () {
     return view('suppliers.create');
 });
 
-Route::resource('customers', SupplierController::class);
-Route::get('/customers/create', [ProductController::class, 'create'])->name('customers.create');
+Route::resource('customers', CustomerController::class);
+Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
 
 Route::resource('products', ProductController::class);
 // Route::get('/addproduct', function() {

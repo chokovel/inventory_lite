@@ -20,10 +20,6 @@
     </div>
 
     {{-- ............ --}}
-    @php
-    echo var_dump($errors)
-@endphp
-
 <div class="card">
     <div class="card-body">
         <form method="POST" action="{{ route('staff.store') }}">

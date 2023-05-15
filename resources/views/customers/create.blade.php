@@ -40,7 +40,7 @@
       </div>
       <div class="form-group">
         <label for="dob">DOB</label>
-        <input type="text" id="dob" name="dob" class="form-control mb-4" placeholder="Enter Customer's dob">
+        <input type="date" id="dob" name="dob" class="form-control mb-4" placeholder="Enter Customer's dob">
       </div>
       <div class="form-group">
         <label for="address">address</label>
