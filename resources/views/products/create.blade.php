@@ -60,7 +60,7 @@
                                 <div class="form-group">
                                     <label for="price" class="form-label">Price</label>
                                     <div class="input-group">
-                                        <span class="input-group-text">$</span>
+                                        <span class="input-group-text">₦</span>
                                         <input type="number" id="price" name="price" class="form-control">
                                     </div>
                                     @error('price')
@@ -91,7 +91,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="size" class="form-label">Size</label>
-                                        <select id="size" name="size[]" class="form-select">
+                                        <select id="size" class="form-select">
                                             @foreach ($sizes as $size)
                                                 <option value="{{ $size->id }}">{{ $size->name }}</option>
                                             @endforeach
@@ -105,7 +105,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="color" class="form-label">Color</label>
-                                        <select id="color" name="color[]" class="form-select">
+                                        <select id="color" class="form-select">
                                             @foreach ($colors as $color)
                                                 <option value="{{ $color->id }}">{{ $color->name }}</option>
                                             @endforeach
@@ -119,7 +119,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="quantity" class="form-label">Quantity</label>
-                                        <input type="number" id="quantity" name="quantity[]" class="form-control">
+                                        <input type="number" id="quantity" class="form-control">
                                         @error('quantity[]')
                                             {{ $message }}
                                         @enderror
