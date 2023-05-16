@@ -34,6 +34,8 @@ Route::get('/adduser', function () {
     return view('staff.create');
 });
 
+
+// Sales route
 Route::get('/sales', function () {
     return view('dashboard.sales');
 });
@@ -47,16 +49,25 @@ Route::get('/addsales', function () {
         ->with('totalProductsSum', $totalProductsSum);
 });
 
+//returns route
 Route::get('/returns', function () {
     return view('dashboard.returns');
 });
 
+Route::get('/addreturns', function () {
+    $products = Product::with('productColors.color', 'productColors.size')
+        ->orderBy('created_at', 'desc')->get();
+    $totalProductsSum = $products->sum('price');
+    return view('dashboard.createreturn')
+        ->with('products', $products)
+        ->with('totalProductsSum', $totalProductsSum);
+});
 
 
+//staff route
 Route::get('/adduser', function () {
     return view('staff.create');
 });
-
 Route::get('/staff', [UserController::class, 'index'])->name('staff');
 Route::get('/staff/create', [UserController::class, 'create'])->name('staff.create');
 Route::post('/staff', [UserController::class, 'store'])->name('staff.store');
@@ -70,35 +81,43 @@ Route::get('/addcategory', function () {
     return view('categories.create');
 });
 
+//color route
 Route::resource('colors', ColorController::class);
 Route::get('/addcolor', function () {
     return view('colors.create');
 });
 
+
+//sizes route
 Route::resource('sizes', SizeController::class);
 Route::get('/addsize', function () {
     return view('sizes.create');
 });
 
+
+//suppliers route
 Route::resource('suppliers', SupplierController::class);
 Route::get('/addsupplier', function () {
     return view('suppliers.create');
 });
 
+//customers route
 Route::resource('customers', CustomerController::class);
 Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
 
+
+//purchases route
 Route::resource('purchases', PurchaseController::class);
 Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create');
 
-Route::resource('products', ProductController::class);
-// Route::get('/addproduct', function() {
-//     return view('products.create');
-// });
 
+//products route
+Route::resource('products', ProductController::class);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
