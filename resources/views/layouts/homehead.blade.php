@@ -854,7 +854,7 @@
 
     @yield('scripts')
     {{-- start --}}
-    <<script>
+    <script>
         const sales = {
             sizes: [],
             colors: [],
