@@ -4,7 +4,7 @@ namespace App\Interfaces;
 
 use App\Models\Customer;
 
-Interface CustomerInterface
+interface CustomerInterface
 {
     public function create(array $data): Customer;
 
@@ -15,4 +15,6 @@ Interface CustomerInterface
     public function getAll();
 
     public function delete(Customer $customer): bool;
+
+    public function getByPhoneOrEmail($input);
 }

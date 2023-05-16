@@ -30,6 +30,7 @@
     <script defer src="{{ asset('assets/js/popper.min.js') }}"></script>
     <script defer src="{{ asset('assets/js/tippy-bundle.umd.min.js') }}"></script>
     <script defer src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
+    @livewireStyles
 </head>
 
 <body x-data="main" class="relative overflow-x-hidden font-nunito text-sm font-normal antialiased"
@@ -841,7 +842,6 @@
             </div>
         </div>
     </div>
-
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js"></script>
     <script src="{{ asset('assets/js/alpine-collaspe.min.js') }}"></script>
@@ -851,82 +851,84 @@
     <script defer src="{{ asset('assets/js/alpine.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script defer src="{{ asset('assets/js/apexcharts.js') }}"></script>
+
+    @yield('scripts')
     {{-- start --}}
     <<script>
-    const sales = {
-        sizes: [],
-        colors: [],
-        quantities: [],
+        const sales = {
+            sizes: [],
+            colors: [],
+            quantities: [],
 
-        addSection() {
-            const sizeSelect = document.getElementById('size');
-            const colorSelect = document.getElementById('color');
-            const quantityInput = document.getElementById('quantity');
+            addSection() {
+                const sizeSelect = document.getElementById('size');
+                const colorSelect = document.getElementById('color');
+                const quantityInput = document.getElementById('quantity');
 
-            const selectedSize = parseInt(sizeSelect.value);
-            const selectedColor = parseInt(colorSelect.value);
-            const selectedQuantity = quantityInput.value;
+                const selectedSize = parseInt(sizeSelect.value);
+                const selectedColor = parseInt(colorSelect.value);
+                const selectedQuantity = quantityInput.value;
 
-            if (selectedSize && selectedColor && selectedQuantity) {
-                this.sizes.push(selectedSize);
-                this.colors.push(selectedColor);
-                this.quantities.push(selectedQuantity);
+                if (selectedSize && selectedColor && selectedQuantity) {
+                    this.sizes.push(selectedSize);
+                    this.colors.push(selectedColor);
+                    this.quantities.push(selectedQuantity);
+
+                    this.updateSectionList();
+
+                    // Reset form fields
+                    sizeSelect.value = '';
+                    colorSelect.value = '';
+                    quantityInput.value = '';
+                }
+            },
+
+            removeSection(index) {
+                this.sizes.splice(index, 1);
+                this.colors.splice(index, 1);
+                this.quantities.splice(index, 1);
 
                 this.updateSectionList();
+            },
 
-                // Reset form fields
-                sizeSelect.value = '';
-                colorSelect.value = '';
-                quantityInput.value = '';
+            updateSectionList() {
+                const sectionList = document.getElementById('section-list');
+                sectionList.innerHTML = '';
+
+                for (let i = 0; i < this.sizes.length; i++) {
+                    const size = this.sizes[i];
+                    const color = this.colors[i];
+                    const quantity = this.quantities[i];
+
+                    const row = document.createElement('tr');
+
+                    const sizeCell = document.createElement('td');
+                    sizeCell.innerHTML = `<input type="text" readonly name="size[]" value="${size}">`;
+                    row.appendChild(sizeCell);
+
+                    const colorCell = document.createElement('td');
+                    colorCell.innerHTML = `<input type="text" readonly name="color[]" value="${color}">`;
+                    row.appendChild(colorCell);
+
+                    const quantityCell = document.createElement('td');
+                    quantityCell.innerHTML = `<input type="number" readonly name="quantity[]" value="${quantity}">`;
+                    row.appendChild(quantityCell);
+
+                    const actionCell = document.createElement('td');
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.classList.add('btn', 'btn-danger');
+                    removeButton.addEventListener('click', () => this.removeSection(i));
+                    actionCell.appendChild(removeButton);
+                    row.appendChild(actionCell);
+
+                    sectionList.appendChild(row);
+                }
             }
-        },
+        };
 
-        removeSection(index) {
-            this.sizes.splice(index, 1);
-            this.colors.splice(index, 1);
-            this.quantities.splice(index, 1);
-
-            this.updateSectionList();
-        },
-
-        updateSectionList() {
-            const sectionList = document.getElementById('section-list');
-            sectionList.innerHTML = '';
-
-            for (let i = 0; i < this.sizes.length; i++) {
-                const size = this.sizes[i];
-                const color = this.colors[i];
-                const quantity = this.quantities[i];
-
-                const row = document.createElement('tr');
-
-                const sizeCell = document.createElement('td');
-                sizeCell.innerHTML = `<input type="text" readonly name="size[]" value="${size}">`;
-                row.appendChild(sizeCell);
-
-                const colorCell = document.createElement('td');
-                colorCell.innerHTML = `<input type="text" readonly name="color[]" value="${color}">`;
-                row.appendChild(colorCell);
-
-                const quantityCell = document.createElement('td');
-                quantityCell.innerHTML = `<input type="number" readonly name="quantity[]" value="${quantity}">`;
-                row.appendChild(quantityCell);
-
-                const actionCell = document.createElement('td');
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
-                removeButton.classList.add('btn', 'btn-danger');
-                removeButton.addEventListener('click', () => this.removeSection(i));
-                actionCell.appendChild(removeButton);
-                row.appendChild(actionCell);
-
-                sectionList.appendChild(row);
-            }
-        }
-    };
-
-    document.getElementById('add-section').addEventListener('click', () => sales.addSection());
-</script>
+        document.getElementById('add-section').addEventListener('click', () => sales.addSection());
+    </script>
 
 
     <script>
@@ -1625,6 +1627,7 @@
         }
         // end
     </script>
+
 
 </body>
 

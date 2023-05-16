@@ -8,6 +8,8 @@ use App\Interfaces\CustomerInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use function PHPUnit\Framework\returnSelf;
+
 class CustomerController extends Controller
 {
     /**
@@ -94,7 +96,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-            $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
@@ -105,7 +107,7 @@ class CustomerController extends Controller
 
         $updated = $this->customerService->update($id, $validatedData);
 
-        if ($updated){
+        if ($updated) {
             return redirect()->route('customers.index')->with('success', 'customer updated successfully.');
         } else {
             return back()->withInput()->with('error', 'Failed to update customer.');
@@ -125,5 +127,12 @@ class CustomerController extends Controller
         } else {
             return back()->withInput()->with('error', 'Failed to delete customer.');
         }
+    }
+
+    public function getByEmailOrPhone($input)
+    {
+        $customer = $this->customerService->getByPhoneOrEmail($input);
+        if ($customer) return response()->json(['statusCode' => 200, 'body' => $customer], 200);
+        else return response()->json(['statusCode' => 400, 'body' => 'No Customer found'], 400);
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\UserController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +35,12 @@ Route::get('/adduser', function () {
 });
 
 Route::get('/sales', function () {
-    return view('dashboard.sales');
+    $products = Product::with('productColors.color', 'productColors.size')
+        ->orderBy('created_at', 'desc')->get();
+    $totalProductsSum = $products->sum('price');
+    return view('dashboard.sales')
+        ->with('products', $products)
+        ->with('totalProductsSum', $totalProductsSum);
 });
 Route::get('/returns', function () {
     return view('dashboard.returns');

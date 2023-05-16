@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductColor;
+use App\Models\SaleCart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SaleCartController extends Controller
 {
@@ -35,6 +38,18 @@ class SaleCartController extends Controller
     public function store(Request $request)
     {
         //
+        foreach ($request->items as $item) {
+            $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
+                ->where('customer_id', $item['customer_id'])->first();
+            if ($saleCart) {
+                $saleCart->increment('quantity', $item['quantity']);
+            } else {
+                $saleCart = SaleCart::create($item);
+            }
+            ProductColor::where('id', $item['product_color_id'])
+                ->decrement('quantity', $item['quantity']);
+        }
+        return response()->json(['statusCode' => 200, 'body' => 'Added successfully'], 200);
     }
 
     /**
