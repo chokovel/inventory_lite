@@ -30,7 +30,7 @@
     <script defer src="{{ asset('assets/js/popper.min.js') }}"></script>
     <script defer src="{{ asset('assets/js/tippy-bundle.umd.min.js') }}"></script>
     <script defer src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
-    @livewireStyles
+    {{-- @livewireStyles --}}
 </head>
 
 <body x-data="main" class="relative overflow-x-hidden font-nunito text-sm font-normal antialiased"

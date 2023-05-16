@@ -35,13 +35,18 @@ Route::get('/adduser', function () {
 });
 
 Route::get('/sales', function () {
+    return view('dashboard.sales');
+});
+
+Route::get('/addsales', function () {
     $products = Product::with('productColors.color', 'productColors.size')
         ->orderBy('created_at', 'desc')->get();
     $totalProductsSum = $products->sum('price');
-    return view('dashboard.sales')
+    return view('dashboard.createsales')
         ->with('products', $products)
         ->with('totalProductsSum', $totalProductsSum);
 });
+
 Route::get('/returns', function () {
     return view('dashboard.returns');
 });
