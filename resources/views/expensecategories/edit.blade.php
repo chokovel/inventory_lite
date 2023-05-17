@@ -14,7 +14,7 @@
     <!-- start main content section -->
     <div class="container my-3">
       <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-3 me-3">Edit Expense Category</h4>
+          <h4 class="card-title mb-3 me-3"></h4>
           <button class="btn btn-success btn-sm"><a href="{{'/categories'}}">Go to Expense Category</a></button>
       </div>
     </div>

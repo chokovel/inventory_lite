@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
+use App\Models\ExpenseCategory;
+use App\Services\ExpenseService;
 use Illuminate\Http\Request;
+
+
+use function PHPUnit\Framework\returnSelf;
 
 class ExpenseController extends Controller
 {
@@ -11,9 +17,17 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $expenseService;
+
+    public function __construct()
+    {
+        $this->expenseService = (new ExpenseService);
+    }
+
     public function index()
     {
-        //
+        $expenses = $this->expenseService->getAll();
+        return view('expenses.index', compact('expenses'));
     }
 
     /**
@@ -23,7 +37,8 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //
+        $expensecategories = ExpenseCategory::all();
+        return view('expenses.create', compact('expensecategories'));
     }
 
     /**
@@ -34,7 +49,18 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'date' => 'required',
+            'expense_title' => 'required',
+            'amount' => 'required',
+            'details' => 'required',
+        ]);
+
+        $expenses = app(ExpenseService::class)->create($data);
+
+        return redirect()->route('expenses.index', $expenses);
+
+        // return response()->json($expense, 201);
     }
 
     /**
@@ -56,7 +82,8 @@ class ExpenseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $expense = $this->expenseService->getById($id);
+        return view('expenses.edit', compact('expense'));
     }
 
     /**
@@ -68,7 +95,20 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'date' => 'required',
+            'expense_title' => 'required',
+            'amount' => 'required',
+            'details' => 'required',
+        ]);
+
+        $updated = $this->expenseService->update($id, $validatedData);
+
+        if ($updated) {
+            return redirect()->route('expenses.index')->with('success', 'expense updated successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to update expense.');
+        }
     }
 
     /**
@@ -77,8 +117,19 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Expense $expense)
     {
-        //
+        if ($this->expenseService->delete($expense)) {
+            return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
+        } else {
+            return back()->withInput()->with('error', 'Failed to delete expense.');
+        }
+    }
+
+    public function getByEmailOrPhone($input)
+    {
+        $expense = $this->expenseService->getByPhoneOrEmail($input);
+        if ($expense) return response()->json(['statusCode' => 200, 'body' => $expense], 200);
+        else return response()->json(['statusCode' => 400, 'body' => 'No Expense found'], 400);
     }
 }
