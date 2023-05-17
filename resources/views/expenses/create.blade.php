@@ -14,8 +14,11 @@
     <!-- start main content section -->
     <div class="container my-3">
       <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-3 me-3">Create Expense</h4>
-          <button class="btn btn-success btn-sm"><a href="{{'/expenses'}}">Go to Expenses</a></button>
+          <h4 class="card-title mb-3 me-3"></h4>
+          <div class="d-flex">
+              <button class="btn btn-success btn-sm m-1"><a href="{{'/addexpensecategory'}}">Create Expense Category</a></button>
+              <button class="btn btn-success btn-sm m-1"><a href="{{'/expenses'}}">Go to Expenses</a></button>
+          </div>
       </div>
     </div>
 
@@ -35,7 +38,7 @@
                     <h3 class="m-0">Create Expense</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('expensecategories.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('expenses.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-3">
                             <div class="col-sm-6">

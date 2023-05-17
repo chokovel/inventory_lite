@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Interfaces\ExpenseExpenseCategoryInterface;
+use App\Interfaces\ExpenseCategoryInterface;
 use App\Models\ExpenseCategory;
 
-class ExpenseCategoryService implements ExpenseExpenseCategoryInterface
+class ExpenseCategoryService implements ExpenseCategoryInterface
 {
     // public function create($data)
     // {

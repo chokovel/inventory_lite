@@ -92,7 +92,6 @@
                             </div>
                             <div class="mt-3 d-flex">
                                 <a href="{{'/sales'}}" class="btn btn-success w-100 shadow-0 mb-2">Purchase</a>
-                                {{-- <a href="{{ '/products' }}" class="btn btn-light w-100 border mt-2">shop</a> --}}
                             </div>
                         </div>
     </section>
