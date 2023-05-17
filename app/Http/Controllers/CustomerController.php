@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Services\CustomerService;
-use App\Interfaces\CustomerInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+
 
 use function PHPUnit\Framework\returnSelf;
 

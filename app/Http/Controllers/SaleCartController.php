@@ -14,9 +14,14 @@ class SaleCartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        if ($request->search) {
+            echo "Search Value exitt";
+        } else {
+            echo "No Search Value";
+        }
     }
 
     /**
@@ -48,6 +53,19 @@ class SaleCartController extends Controller
             }
             ProductColor::where('id', $item['product_color_id'])
                 ->decrement('quantity', $item['quantity']);
+        }
+        return response()->json(['statusCode' => 200, 'body' => 'Added successfully'], 200);
+    }
+
+    public function setSession(Request $request)
+    {
+        if ($request->session()->has('items')) {
+            $items = session()->get('items');
+            Log::alert($items);
+            $newArray = array_merge($items, $request->items);
+            session()->put('items', $newArray);
+        } else {
+            session()->put('items', $request->items);
         }
         return response()->json(['statusCode' => 200, 'body' => 'Added successfully'], 200);
     }

@@ -18,14 +18,17 @@
                     <div class="col-lg-9">
                         <!-- cart -->
                         <div class="card border shadow-0">
-                            <div class="center m-3">
-                                <input type="text" name="search" placeholder="Search product" class="form-control">
-                            </div>
-                            <div class="d-flex text-center mb-3">
-                                <h2 class="text-large flex-1 mt-2"><strong id="grand_total">Grand Total: ₦
-                                        {{ number_format($totalProductsSum, 2) }}</strong></h2>
-                                <button type="reset" class="btn btn-sm btn-danger shadow-0 flex-1 mr-2">Clear Cart</button>
-                            </div>
+                            <form action="" method="GET">
+                                <div class="center m-3">
+                                    <input type="text" name="search" placeholder="Search product" class="form-control">
+                                </div>
+                                <div class="d-flex text-center mb-3">
+                                    <h2 class="text-large flex-1 mt-2"><strong id="grand_total">Grand Total: ₦
+                                            {{ number_format($totalProductsSum, 2) }}</strong></h2>
+                                    <button class="btn btn-sm btn-danger shadow-0 flex-1 mr-2">Clear
+                                        Cart</button>
+                                </div>
+                            </form>
                             <div class="row">
                                 @foreach ($products as $k => $product)
                                     <div class="col-lg-4">
@@ -54,8 +57,7 @@
                                                             <div class="button-container mb-2">
                                                                 <button class="remove"
                                                                     onclick="decrease({{ $productColor->id }}, {{ $productColor->quantity }})">-</button>
-                                                                <span class="count"
-                                                                    id="{{ $productColor->id }}">0</span>
+                                                                <span class="count" id="{{ $productColor->id }}">0</span>
                                                                 <button class="add"
                                                                     onclick="increase({{ $productColor->id }}, {{ $productColor->quantity }})">+
                                                                 </button>
@@ -152,20 +154,20 @@
                 let countEl = document.getElementById(productColor.id)
                 let qty = Number(countEl.innerHTML)
                 if (qty > 0) {
-
                     items.push({
                         product_color_id: productColor.id,
                         quantity: qty,
-                        customer_id: customer_id
+                        customer_id: customer_id,
+                        amount: qty * price
                     });
-
                     total.innerHTML = Number(total.innerHTML) + (qty * price)
+                    countEl.innerHTML = 0;
                 }
             })
             grand_total.innerHTML = total.innerHTML
             let baseUrl = window.location.origin
             let _csrf = document.querySelector('input[name="_token"]').value;
-            let result = await fetch(`${baseUrl}/api/sales/cart`, {
+            let result = await fetch(`${baseUrl}/sales/cart`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
