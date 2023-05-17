@@ -59,14 +59,16 @@ class SaleCartController extends Controller
 
     public function setSession(Request $request)
     {
-        if ($request->session()->has('items')) {
-            $items = session()->get('items');
-            Log::alert($items);
-            $newArray = array_merge($items, $request->items);
-            session()->put('items', $newArray);
-        } else {
-            session()->put('items', $request->items);
-        }
+        // if ($request->session()->has('items')) {
+        //     $items = session()->get('items');
+        //     Log::alert($items);
+        //     $newArray = array_merge($items, $request->items);
+        //     session()->put('items', $newArray);
+        // } else {
+        //     session()->put('items', $request->items);
+        // }
+        Log::alert($request->items);
+        session()->put('items', $request->items);
         return response()->json(['statusCode' => 200, 'body' => 'Added successfully'], 200);
     }
 
