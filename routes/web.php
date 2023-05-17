@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProductController;
@@ -75,10 +76,16 @@ Route::get('/staff/edit', [ProfileController::class, 'edit'])->name('staff.edit'
 Route::patch('/staff/edit', [ProfileController::class, 'update'])->name('staff.update');
 Route::delete('/staff/edit', [ProfileController::class, 'destroy'])->name('staff.destroy');
 
-// products routes
+// Category routes
 Route::resource('categories', CategoryController::class);
 Route::get('/addcategory', function () {
     return view('categories.create');
+});
+
+// ExpenseCategory routes
+Route::resource('expensecategories', ExpenseCategoryController::class);
+Route::get('/addexpensecategory', function () {
+    return view('expensecategories.create');
 });
 
 //color route

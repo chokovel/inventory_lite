@@ -8,14 +8,14 @@
             <a href="javascript:;" class="text-primary hover:underline">Dashboard</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-            <span>Expense Page</span>
+            <span>Expense Categories Page</span>
         </li>
     </ul>
     <!-- start main content section -->
     <div class="container my-3">
       <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-3 me-3">All Expense</h4>
-          <button class="btn btn-success btn-sm"><a href="{{'/addexpense'}}">Create Expense</a></button>
+          <h4 class="card-title mb-3 me-3">All Expense Categories</h4>
+          <button class="btn btn-success btn-sm"><a href="{{('/addexpensecategory')}}">Create Expense Category</a></button>
       </div>
     </div>
 
@@ -28,29 +28,21 @@
         <thead class="text-primary">
           <tr>
             <th class="text-left">#</th>
-            <th>Date</th>
-            <th>Category</th>
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Details</th>
+            <th>Name</th>
             <th class="text-right">Actions</th>
           </tr>
         </thead>
         <tbody>
-    @if(isset($expenses))
-        @foreach ($expenses as $expense)
+    @if(isset($expensecategories))
+        @foreach ($expensecategories as $expensecategory)
             <tr>
-                <td class="text-left">{{ $expense->id }}</td>
-                <td>{{ $expense->date }}</td>
-                <td>{{ $expense->category }}</td>
-                <td>{{ $expense->title }}</td>
-                <td>{{ $expense->amount }}</td>
-                <td>{{ $expense->details }}</td>
+                <td class="text-left">{{ $expensecategory->id }}</td>
+                <td>{{ $expensecategory->name }}</td>
                 <td class="td-actions text-right d-flex">
-                <a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-primary btn-round btn-sm">
+                <a href="{{ route('expensecategories.edit', $expensecategory->id) }}" class="btn btn-primary btn-round btn-sm">
                     <i class="material-icons">edit</i>
                 </a>
-                <form action="{{ route('expenses.destroy', $expense->id) }}" method="post" style="display: inline-block;">
+                <form action="{{ route('expensecategories.destroy', $expensecategory->id) }}" method="post" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-round btn-sm">
@@ -62,15 +54,14 @@
           @endforeach
           @else
         <tr>
-            <td colspan="2">No expense found.</td>
+            <td colspan="2">No expense category found.</td>
         </tr>
-        @endif
+    @endif
         </tbody>
       </table>
     </div>
   </div>
 </div>
-
 <!-- end main content section -->
 </div>
 @endsection
