@@ -72,7 +72,7 @@ Route::get('/addsales', function (Request $request) {
         $sessionProducts = session('items');
         foreach ($sessionProducts as $sessionProduct) {
             $sessionProduct != null ?
-                $totalProductsSum = $totalProductsSum + $sessionProduct['amount'] : 0;
+                $totalProductsSum = $totalProductsSum + $sessionProduct['amount'] : $totalProductsSum;
         }
     }
     return view('dashboard.createsales')
