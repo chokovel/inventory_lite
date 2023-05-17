@@ -72,13 +72,9 @@ Route::get('/addsales', function (Request $request) {
     if (session()->has('items')) {
         $sessionProducts = session('items');
         foreach ($sessionProducts as $sessionProduct) {
-            $totalProductsSum = $totalProductsSum + $sessionProduct['amount'];
+            $sessionProduct != null ?
+                $totalProductsSum = $totalProductsSum + $sessionProduct['amount'] : $totalProductsSum;
         }
-        // $productColorIds = array_map(function ($array) {
-        //     return $array['product_color_id'];
-        // }, $sessionProducts);
-        // $totalProductsSum = ProductColor::wherein('id',  $productColorIds)
-        //     ->sum('');
     }
     return view('dashboard.createsales')
         ->with('products', $products)
