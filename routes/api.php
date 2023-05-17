@@ -22,4 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("/customer/{input}", [CustomerController::class, 'getByEmailOrPhone']);
 
-Route::post("/sales/cart", [SaleCartController::class, 'store']);
+Route::post("/sales/cart", [SaleCartController::class, 'setSession']);

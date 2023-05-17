@@ -10,8 +10,11 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\SaleCartController;
 use App\Http\Controllers\UserController;
 use App\Models\Product;
+use App\Models\ProductColor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,13 +41,44 @@ Route::get('/adduser', function () {
 
 // Sales route
 Route::get('/sales', function () {
+
     return view('dashboard.sales');
 });
 
-Route::get('/addsales', function () {
-    $products = Product::with('productColors.color', 'productColors.size')
-        ->orderBy('created_at', 'desc')->get();
-    $totalProductsSum = $products->sum('price');
+
+Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
+
+Route::get('/addsales', function (Request $request) {
+    $products = [];
+    if ($request->search) {
+        $search = strtolower($request->search);
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->where('product_name', 'like', '%' . $search . '.%')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    } else {
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    if (!count($products)) {
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+    $totalProductsSum = 0;
+    if (session()->has('items')) {
+        $sessionProducts = session('items');
+        foreach ($sessionProducts as $sessionProduct) {
+            $totalProductsSum = $totalProductsSum + $sessionProduct['amount'];
+        }
+        // $productColorIds = array_map(function ($array) {
+        //     return $array['product_color_id'];
+        // }, $sessionProducts);
+        // $totalProductsSum = ProductColor::wherein('id',  $productColorIds)
+        //     ->sum('');
+    }
     return view('dashboard.createsales')
         ->with('products', $products)
         ->with('totalProductsSum', $totalProductsSum);

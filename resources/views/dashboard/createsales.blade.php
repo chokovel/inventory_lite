@@ -95,11 +95,6 @@
                                 {{-- <a href="{{ '/products' }}" class="btn btn-light w-100 border mt-2">shop</a> --}}
                             </div>
                         </div>
-                    </div>
-                    <!-- summary -->
-                </div>
-            </div>
-        </div>
     </section>
     <!-- cart + summary -->
     <div class="container">
@@ -143,43 +138,43 @@
         }
     }
 
-    async function addToCart(productColors, price) {
-        let items = []
-        let total = document.getElementById('total')
-        let grand_total = document.getElementById('grand_total')
-        let customer_id = document.getElementById('customer_id').value
-        productColors.forEach(productColor => {
-            let countEl = document.getElementById(productColor.id)
-            let qty = Number(countEl.innerHTML)
-            if (qty > 0) {
-
-                items.push({
-                    product_color_id: productColor.id,
-                    quantity: qty,
-                    customer_id: customer_id
-                });
-
-                total.innerHTML = Number(total.innerHTML) + (qty * price)
-            }
-        })
-        grand_total.innerHTML = total.innerHTML
-        let baseUrl = window.location.origin
-        let _csrf = document.querySelector('input[name="_token"]').value;
-        let result = await fetch(`${baseUrl}/api/sales/cart`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRF-Token": _csrf
-            },
-            method: "post",
-            credentials: "same-origin",
-            body: JSON.stringify({
-                items: items
+        async function addToCart(productColors, price) {
+            let items = []
+            let total = document.getElementById('total')
+            let grand_total = document.getElementById('grand_total')
+            let customer_id = document.getElementById('customer_id').value
+            productColors.forEach(productColor => {
+                let countEl = document.getElementById(productColor.id)
+                let qty = Number(countEl.innerHTML)
+                if (qty > 0) {
+                    items.push({
+                        product_color_id: productColor.id,
+                        quantity: qty,
+                        customer_id: customer_id,
+                        amount: qty * price
+                    });
+                    total.innerHTML = Number(total.innerHTML) + (qty * price)
+                    countEl.innerHTML = 0;
+                }
             })
-        })
-        result = await result.json();
-    }
+            grand_total.innerHTML = total.innerHTML
+            let baseUrl = window.location.origin
+            let _csrf = document.querySelector('input[name="_token"]').value;
+            let result = await fetch(`${baseUrl}/sales/cart`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-Token": _csrf
+                },
+                method: "post",
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    items: items
+                })
+            })
+            result = await result.json();
+        }
 
     async function searchCustomer() {
         let baseUrl = window.location.origin
