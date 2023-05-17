@@ -27,8 +27,8 @@ class ExpenseCategoryController extends Controller
 
     public function index()
     {
-        $categories = $this->expensecategoryService->getAll();
-        return view('categories.index', compact('categories'));
+        $expensecategories = $this->expensecategoryService->getAll();
+        return view('expensecategories.index', compact('expensecategories'));
     }
 
     /**
@@ -38,12 +38,7 @@ class ExpenseCategoryController extends Controller
      */
     public function create(Request $request)
     {
-        //
-        $payload = [
-            'name' => $request->name,
-        ];
-        $this->expensecategoryService->create($payload);
-        return view('categories.index');
+        return view('expensecategories.create');
     }
 
     /**
@@ -65,7 +60,7 @@ class ExpenseCategoryController extends Controller
 
         $expensecategory = app(ExpenseCategoryService::class)->create($data);
 
-        return redirect()->route('categories.index', $expensecategory);
+        return redirect()->route('expensecategories.index', $expensecategory);
     }
 
     /**
@@ -77,7 +72,7 @@ class ExpenseCategoryController extends Controller
     public function show(ExpenseCategory $expensecategory)
     {
         $categories = ExpenseCategory::get();
-        return view('categories.index', compact('expensecategory'));
+        return view('expensecategories.index', compact('expensecategory'));
     }
 
     /**
@@ -89,7 +84,7 @@ class ExpenseCategoryController extends Controller
     public function edit($id)
     {
         $expensecategory = $this->expensecategoryService->getById($id);
-        return view('categories.edit', compact('expensecategory'));
+        return view('expensecategories.edit', compact('expensecategory'));
     }
 
     /**
@@ -109,7 +104,7 @@ class ExpenseCategoryController extends Controller
         $updated = $this->expensecategoryService->update($id, $validatedData);
 
         if ($updated){
-            return redirect()->route('categories.index')->with('success', 'ExpenseCategory updated successfully.');
+            return redirect()->route('expensecategories.index')->with('success', 'ExpenseCategory updated successfully.');
         } else {
             return back()->withInput()->with('error', 'Failed to update expensecategory.');
         }
@@ -125,7 +120,7 @@ class ExpenseCategoryController extends Controller
     public function destroy(ExpenseCategory $expensecategory)
     {
         if ($this->expensecategoryService->delete($expensecategory)) {
-            return redirect()->route('categories.index')->with('success', 'ExpenseCategory deleted successfully.');
+            return redirect()->route('expensecategories.index')->with('success', 'ExpenseCategory deleted successfully.');
         } else {
             return back()->withInput()->with('error', 'Failed to delete expensecategory.');
         }

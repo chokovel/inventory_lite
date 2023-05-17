@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('expense_title');
             $table->decimal('amount', 8, 2);
             $table->text('details')->nullable();
-            $table->unsignedBigInteger('expense_category_id');
+            $table->unsignedBigInteger('expense_category_id')->nullable();
             $table->foreign('expense_category_id')->references('id')->on('expense_categories')->onDelete('cascade');
             $table->timestamps();
         });

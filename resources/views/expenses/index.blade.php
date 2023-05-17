@@ -14,8 +14,11 @@
     <!-- start main content section -->
     <div class="container my-3">
       <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-3 me-3">All Expense</h4>
-          <button class="btn btn-success btn-sm"><a href="{{'/addexpense'}}">Create Expense</a></button>
+          <h4 class="card-title mb-3 me-3"></h4>
+          <div class="d-flex">
+              <button class="btn btn-success btn-sm"><a href="{{route('expenses.create')}}">Create Expense</a></button>
+              <button class="btn btn-success btn-sm m-1"><a href="{{'/expensecategories'}}">View Expense Category List</a></button>
+          </div>
       </div>
     </div>
 

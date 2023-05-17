@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExpenseCategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\SupplierController;
@@ -121,6 +122,14 @@ Route::resource('expensecategories', ExpenseCategoryController::class);
 Route::get('/addexpensecategory', function () {
     return view('expensecategories.create');
 });
+
+// Expense routes
+Route::resource('expenses', ExpenseController::class);
+Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
+
+// Route::get('/addexpense', function () {
+//     return view('expenses.create');
+// });
 
 //color route
 Route::resource('colors', ColorController::class);
