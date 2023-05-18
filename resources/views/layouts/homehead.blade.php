@@ -602,29 +602,28 @@
                                 </ul>
                             </div>
                             <div class="dropdown flex-shrink-0" x-data="dropdown"
+                             @auth
                                 @click.outside="open = false">
                                 <a href="javascript:;" class="group relative" @click="toggle()">
                                     <span><img
                                             class="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
-                                            src="assets/images/user-profile.jpeg" alt="image" /></span>
+                                            src="{{ Avatar::create(Auth()->user()->email)->toGravatar()}}" alt="image" /></span>
                                 </a>
                                 <ul x-cloak x-show="open" x-transition x-transition.duration.300ms
                                     class="top-11 w-[230px] !py-0 font-semibold text-dark ltr:right-0 rtl:left-0 dark:text-white-dark dark:text-white-light/90">
+
                                     <li>
-                                        <div class="flex items-center px-4 py-4">
-                                            <div class="flex-none">
-                                                <img class="h-10 w-10 rounded-md object-cover"
-                                                    src="assets/images/user-profile.jpeg" alt="image" />
-                                            </div>
-                                            <div class="ltr:pl-4 rtl:pr-4">
-                                                <h4 class="text-base">
-                                                    John Doe<span
-                                                        class="rounded bg-success-light px-1 text-xs text-success ltr:ml-2 rtl:ml-2">Pro</span>
-                                                </h4>
-                                                <a class="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white"
-                                                    href="javascript:;">johndoe@gmail.com</a>
-                                            </div>
-                                        </div>
+                                        <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
+                                            <svg class="h-4.5 w-4.5 ltr:mr-2 rtl:ml-2" width="18" height="18"
+                                                viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="12" cy="6" r="4"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                                <path opacity="0.5"
+                                                    d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </svg>
+                                            {{Auth()->user()->name}}</a>
                                     </li>
                                     <li>
                                         <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
@@ -637,49 +636,33 @@
                                                     d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
                                                     stroke="currentColor" stroke-width="1.5" />
                                             </svg>
-                                            Profile</a>
+                                            {{Auth()->user()->phone}}</a>
                                     </li>
                                     <li>
-                                        <a href="apps-mailbox.html" class="dark:hover:text-white" @click="toggle">
+                                        <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
                                             <svg class="h-4.5 w-4.5 ltr:mr-2 rtl:ml-2" width="18" height="18"
                                                 viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path opacity="0.5"
-                                                    d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"
+                                                <circle cx="12" cy="6" r="4"
                                                     stroke="currentColor" stroke-width="1.5" />
-                                                <path
-                                                    d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8"
-                                                    stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" />
+                                                <path opacity="0.5"
+                                                    d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
                                             </svg>
-                                            Inbox</a>
+                                            {{Auth()->user()->email}}</a>
                                     </li>
                                     <li>
-                                        <a href="auth-boxed-lockscreen.html" class="dark:hover:text-white"
-                                            @click="toggle">
+                                        <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
                                             <svg class="h-4.5 w-4.5 ltr:mr-2 rtl:ml-2" width="18" height="18"
                                                 viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z"
+                                                <circle cx="12" cy="6" r="4"
                                                     stroke="currentColor" stroke-width="1.5" />
                                                 <path opacity="0.5"
-                                                    d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10"
-                                                    stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" />
-                                                <g opacity="0.5">
-                                                    <path
-                                                        d="M9 16C9 16.5523 8.55228 17 8 17C7.44772 17 7 16.5523 7 16C7 15.4477 7.44772 15 8 15C8.55228 15 9 15.4477 9 16Z"
-                                                        fill="currentColor" />
-                                                    <path
-                                                        d="M13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15C12.5523 15 13 15.4477 13 16Z"
-                                                        fill="currentColor" />
-                                                    <path
-                                                        d="M17 16C17 16.5523 16.5523 17 16 17C15.4477 17 15 16.5523 15 16C15 15.4477 15.4477 15 16 15C16.5523 15 17 15.4477 17 16Z"
-                                                        fill="currentColor" />
-                                                </g>
+                                                    d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
                                             </svg>
-                                            Lock Screen</a>
+                                            Update Profile</a>
                                     </li>
                                     <li class="border-t border-white-light dark:border-white-light/10">
                                         <a href="auth-boxed-signin.html" class="!py-3 text-danger" @click="toggle">
@@ -698,137 +681,13 @@
                                         </a>
                                     </li>
                                 </ul>
+                                @endauth
                             </div>
                         </div>
                     </div>
 
                     <!-- horizontal menu -->
-                    <ul
-                        class="horizontal-menu hidden border-t border-[#ebedf2] bg-white py-1.5 px-6 font-semibold text-black rtl:space-x-reverse dark:border-[#191e3a] dark:bg-[#0e1726] dark:text-white-dark lg:space-x-1.5 xl:space-x-8">
-                        <li class="menu nav-item relative">
-                            <a href="javascript:;" class="nav-link active">
-                                <div class="flex items-center">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
-                                            d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"
-                                            fill="currentColor" />
-                                        <path
-                                            d="M9 17.25C8.58579 17.25 8.25 17.5858 8.25 18C8.25 18.4142 8.58579 18.75 9 18.75H15C15.4142 18.75 15.75 18.4142 15.75 18C15.75 17.5858 15.4142 17.25 15 17.25H9Z"
-                                            fill="currentColor" />
-                                    </svg>
-                                    <span class="px-1">Dashboard</span>
-                                </div>
-                                <div class="right_arrow">
-                                    <svg class="h-4 w-4 rotate-90" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="{{ '/analytics' }}" class="active">Analytics</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/sales' }}">Sales</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/returns' }}">Returns</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/purchases' }}">Purchase</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/expenses' }}">Expense</a>
-                                </li>
-                            </ul>
-                        </li>
 
-                        <li class="menu nav-item relative">
-                            <a href="javascript:;" class="nav-link">
-                                <div class="flex items-center">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M2 3L2.26491 3.0883C3.58495 3.52832 4.24497 3.74832 4.62248 4.2721C5 4.79587 5 5.49159 5 6.88304V9.5C5 12.3284 5 13.7426 5.87868 14.6213C6.75736 15.5 8.17157 15.5 11 15.5H19"
-                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-                                        <path
-                                            d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z"
-                                            stroke="currentColor" stroke-width="1.5"></path>
-                                        <path
-                                            d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z"
-                                            stroke="currentColor" stroke-width="1.5"></path>
-                                        <path d="M11 9H8" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round"></path>
-                                        <path
-                                            d="M5 6H16.4504C18.5054 6 19.5328 6 19.9775 6.67426C20.4221 7.34853 20.0173 8.29294 19.2078 10.1818L18.7792 11.1818C18.4013 12.0636 18.2123 12.5045 17.8366 12.7523C17.4609 13 16.9812 13 16.0218 13H5"
-                                            stroke="currentColor" stroke-width="1.5"></path>
-                                    </svg>
-                                    <span class="px-1">Products</span>
-                                </div>
-                                <div class="right_arrow">
-                                    <svg class="h-4 w-4 rotate-90" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="{{ '/products' }}">All Products</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/categories' }}">Product Categories</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/colors' }}">Product Colors</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/sizes' }}">Product Sizes</a>
-                                </li>
-
-                            </ul>
-                        </li>
-                        <li class="menu nav-item relative">
-                            <a href="javascript:;" class="nav-link">
-                                <div class="flex items-center">
-                                    <svg class="group-hover:!text-primary" width="20" height="20"
-                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle opacity="0.5" cx="15" cy="6" r="3"
-                                            fill="currentColor"></circle>
-                                        <ellipse opacity="0.5" cx="16" cy="17" rx="5"
-                                            ry="3" fill="currentColor"></ellipse>
-                                        <circle cx="9.00098" cy="6" r="4" fill="currentColor">
-                                        </circle>
-                                        <ellipse cx="9.00098" cy="17.001" rx="7" ry="4"
-                                            fill="currentColor"></ellipse>
-                                    </svg>
-                                    <span class="px-1">Users</span>
-                                </div>
-                                <div class="right_arrow">
-                                    <svg class="h-4 w-4 rotate-90" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </div>
-                            </a>
-                            <ul class="sub-menu">
-                                <li>
-                                    <a href="{{ '/customers' }}">Customers</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('staff.index') }}">Staff</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/suppliers' }}">Suppliers</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
             </header>
             <!-- end header section -->
@@ -1057,82 +916,6 @@
                             },
                         ],
 
-                        languages: [{
-                                id: 1,
-                                key: 'Chinese',
-                                value: 'zh',
-                            },
-                            {
-                                id: 2,
-                                key: 'Danish',
-                                value: 'da',
-                            },
-                            {
-                                id: 3,
-                                key: 'English',
-                                value: 'en',
-                            },
-                            {
-                                id: 4,
-                                key: 'French',
-                                value: 'fr',
-                            },
-                            {
-                                id: 5,
-                                key: 'German',
-                                value: 'de',
-                            },
-                            {
-                                id: 6,
-                                key: 'Greek',
-                                value: 'el',
-                            },
-                            {
-                                id: 7,
-                                key: 'Hungarian',
-                                value: 'hu',
-                            },
-                            {
-                                id: 8,
-                                key: 'Italian',
-                                value: 'it',
-                            },
-                            {
-                                id: 9,
-                                key: 'Japanese',
-                                value: 'ja',
-                            },
-                            {
-                                id: 10,
-                                key: 'Polish',
-                                value: 'pl',
-                            },
-                            {
-                                id: 11,
-                                key: 'Portuguese',
-                                value: 'pt',
-                            },
-                            {
-                                id: 12,
-                                key: 'Russian',
-                                value: 'ru',
-                            },
-                            {
-                                id: 13,
-                                key: 'Spanish',
-                                value: 'es',
-                            },
-                            {
-                                id: 14,
-                                key: 'Swedish',
-                                value: 'sv',
-                            },
-                            {
-                                id: 15,
-                                key: 'Turkish',
-                                value: 'tr',
-                            },
-                        ],
 
                         removeNotification(value) {
                             this.notifications = this.notifications.filter((d) => d.id !== value);

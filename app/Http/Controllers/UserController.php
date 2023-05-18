@@ -16,6 +16,15 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
+    public function showProfile(Request $request)
+    {
+        // Retrieve the authenticated user
+        $user = $request->user();
+
+        // Pass the user to the view
+        return view('layouts.homehead', compact('user'));
+    }
+
    public function index()
     {
         $staff = User::all();
