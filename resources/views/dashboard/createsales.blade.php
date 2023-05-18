@@ -33,8 +33,14 @@
                             <div class="d-flex text-center mb-3">
                                 <h2 class="text-large flex-1 mt-2"><strong id="grand_total">Grand Total: ₦
                                         {{ number_format($totalProductsSum, 2) }}</strong></h2>
-                                <button type="reset" class="btn btn-sm btn-danger shadow-0 flex-1 mr-2">Clear
-                                    Cart</button>
+                                <form action="{{ route('sales.clear') }}" method="post" style="width:50%;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" style="width:100%"
+                                        class="btn btn-sm btn-danger shadow-0 flex-1 mr-2">Clear
+                                        Cart</button>
+                                </form>
+
                             </div>
                             <div class="row">
                                 @foreach ($products as $k => $product)

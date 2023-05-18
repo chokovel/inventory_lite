@@ -46,7 +46,7 @@
                                             {{ $sale->productColor->color->name }}<br>
                                             {{ $sale->productColor->size->name }}
                                         </td>
-                                        <td>{{ $sale->quantity }}<br>{{ $sale->quentity * $sale->productColor->product->price }}
+                                        <td>{{ $sale->quantity }}<br>{{ $sale->quantity * $sale->productColor->product->price }}
                                         </td>
                                         <td class="td-actions text-right d-flex">
                                             <a href="" class="btn btn-primary btn-round btn-sm">

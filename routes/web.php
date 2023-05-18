@@ -43,7 +43,10 @@ Route::get('/sales', [SaleCartController::class, 'index'])->name('sales');
 Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
 
 Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
-
+Route::delete('/sales/clear', function () {
+    session()->remove('items');
+    return back()->with('message', 'Cat is now empty');
+})->name('sales.clear');
 Route::get('/addsales', function (Request $request) {
     $products = [];
     if ($request->search) {
