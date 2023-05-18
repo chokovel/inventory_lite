@@ -95,6 +95,13 @@ class SaleCartController extends Controller
         //
     }
 
+    public function returnSessionSet(Request $request)
+    {
+        Log::alert($request->items);
+        session()->put('return_items', $request->items);
+        return response()->json(['statusCode' => 200, 'body' => 'Added successfully'], 200);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -42,6 +42,8 @@ Route::get('/sales', [SaleCartController::class, 'index'])->name('sales');
 
 Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
 
+Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
+
 Route::get('/addsales', function (Request $request) {
     $products = [];
     if ($request->search) {
@@ -81,10 +83,36 @@ Route::get('/returns', function () {
     return view('dashboard.returns');
 });
 
-Route::get('/addreturns', function () {
-    $products = Product::with('productColors.color', 'productColors.size')
-        ->orderBy('created_at', 'desc')->get();
-    $totalProductsSum = $products->sum('price');
+Route::get('/addreturns', function (Request $request) {
+    $products = [];
+    if ($request->search) {
+        $search = strtolower($request->search);
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->where('product_name', 'like', '%' . $search . '%')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    } else {
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    if (!count($products)) {
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+    $totalProductsSum = 0;
+    if (session()->has('return_items')) {
+        $sessionProducts = session('return_items');
+        foreach ($sessionProducts as $sessionProduct) {
+            $sessionProduct != null ?
+                $totalProductsSum = $totalProductsSum + $sessionProduct['amount'] : $totalProductsSum;
+        }
+    }
+    // $products = Product::with('productColors.color', 'productColors.size')
+    //     ->orderBy('created_at', 'desc')->get();
+    // $totalProductsSum = $products->sum('price');
     return view('dashboard.createreturn')
         ->with('products', $products)
         ->with('totalProductsSum', $totalProductsSum);
