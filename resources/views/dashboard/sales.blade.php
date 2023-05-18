@@ -38,7 +38,7 @@
                                 @foreach ($sales as $sale)
                                     <tr>
                                         <td class="text-left">
-                                            {{ $sale->id }}<br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->id : '' }}
+                                            {{ $sale->id }}<br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
                                         </td>
                                         <td>{{ $sale->customer->name }}</td>
                                         <td>

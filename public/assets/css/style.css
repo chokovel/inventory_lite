@@ -203,3 +203,6 @@ form {
     background-color: #008ba3;
     border-color: #008ba3;
 }
+.card-body{
+    padding: 15px 5px;
+}
