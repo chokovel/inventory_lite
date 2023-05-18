@@ -17,7 +17,7 @@ class ExpenseService implements ExpenseInterface
         $expense->expense_title = $data['expense_title'];
         $expense->amount = $data['amount'];
         $expense->details = $data['details'];
-        $expense->expense_category_id = $data['expensecategory'];
+        $expense->expense_category_id = $data['expense_category_id'];
 
         $expense->save();
 

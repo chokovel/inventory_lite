@@ -36,8 +36,12 @@
             </div>
 
             <div class="form-group">
+                <label for="dob">DOB</label>
+                <input id="dob" type="date" class="form-control" name="dob" required autocomplete="dob">
+            </div>
+            <div class="form-group">
                 <label for="email">Email</label>
-                <input id="email" type="email" class="form-control" name="email" required autocomplete="username">
+                <input id="email" type="email" class="form-control" name="email" required autocomplete="email">
             </div>
 
             <div class="form-group">
@@ -46,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" type="password" class="form-control" name="password" name="password_confirmation" required autocomplete="new-password">
+                <input id="password" type="password" class="form-control" name="password" name="password" required autocomplete="new-password">
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
             <div class="form-group">

@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>VRISTO - Multipurpose Tailwind Dashboard Template</title>
+    <title>Style In Lagos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com/" />
@@ -86,7 +86,7 @@
                 <div class="h-full bg-white dark:bg-[#0e1726]">
                     <div class="flex items-center justify-between px-4 py-3">
                         <a href="index-2.html" class="main-logo flex shrink-0 items-center">
-                            <img class="ml-[5px] w-8 flex-none" src="assets/images/logo.svg" alt="image" />
+                            {{-- <img class="ml-[5px] w-8 flex-none" src="assets/images/logo.svg" alt="image" /> --}}
                             <span
                                 class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">StyleInLagos</span>
                         </a>
@@ -235,7 +235,7 @@
                                     <a href="{{ '/customers' }}">Customers</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('staff') }}">Staff</a>
+                                    <a href="{{ route('staff.index') }}">Staff</a>
                                 </li>
                                 <li>
                                     <a href="{{ '/suppliers' }}">Suppliers</a>
@@ -821,7 +821,7 @@
                                     <a href="{{ '/customers' }}">Customers</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('staff') }}">Staff</a>
+                                    <a href="{{ route('staff.index') }}">Staff</a>
                                 </li>
                                 <li>
                                     <a href="{{ '/suppliers' }}">Suppliers</a>

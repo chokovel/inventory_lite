@@ -45,8 +45,8 @@
             <tr>
                 <td class="text-left">{{ $expense->id }}</td>
                 <td>{{ $expense->date }}</td>
-                <td>{{ $expense->category }}</td>
-                <td>{{ $expense->title }}</td>
+                <td>{{ $expense->expenseCategory->name }}</td>
+                <td>{{ $expense->expense_title }}</td>
                 <td>{{ $expense->amount }}</td>
                 <td>{{ $expense->details }}</td>
                 <td class="td-actions text-right d-flex">
