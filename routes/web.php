@@ -138,6 +138,8 @@ Route::get('/addreturns', function (Request $request) {
 // Route::get('/staff/edit', [ProfileController::class, 'edit'])->name('staff.edit');
 // Route::patch('/staff/edit', [ProfileController::class, 'update'])->name('staff.update');
 // Route::delete('/staff/edit', [ProfileController::class, 'destroy'])->name('staff.destroy');
+Route::get('/layouts/homehead', [UserController::class, 'showProfile'])->name('user');
+
 Route::get('/staff', [UserController::class, 'index'])->name('staff.index');
 Route::get('/staff/create', [UserController::class, 'create'])->name('staff.create');
 Route::post('/staff', [UserController::class, 'store'])->name('staff.store');
