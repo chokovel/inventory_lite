@@ -137,24 +137,18 @@ class SaleCartController extends Controller
 
         if (!$items) return back()->with('message', 'No item on hhe cart');
         foreach ($items as $item) {
-            // $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
-            //     ->where('customer_id', $customer_id)->first();
-            // if ($saleCart) {
-            //     $saleCart->increment('quantity', $item['quantity']);
-            // } else {
             if ($item != null) {
                 $item['customer_id'] = $customer_id;
                 $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
                     ->where('customer_id', $item['customer_id'])->first();
                 if ($saleCart) {
                     if ($saleCart->quantity > $item['quantity']) {
-                        $saleCart->decrement('quantity', $item['auantity']);
+                        $saleCart->decrement('quantity', $item['quantity']);
                     } else if ($saleCart->quantity == $item['quantity']) {
                         $saleCart->delete();
                     } else {
+                        Log::alert("Item returns is higher");
                         continue;
-                        return back()
-                            ->with('message', 'Quantity returned is more than the quantity sold out ');
                     }
                     ProductReturn::create($item);
                     ProductColor::where('id', $item['product_color_id'])

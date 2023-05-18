@@ -15,6 +15,8 @@ use App\Http\Controllers\SaleCartController;
 use App\Http\Controllers\UserController;
 use App\Models\Product;
 use App\Models\ProductColor;
+use App\Models\ProductReturn;
+use App\Models\SaleCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -83,10 +85,11 @@ Route::post('/addsales', [SaleCartController::class, 'store'])->name('addToCart'
 
 //returns route
 Route::get('/returns', function () {
-    return view('dashboard.returns');
+    $returns = ProductReturn::with('productColor', 'customer')->get();
+    return view('dashboard.returns')->with('returns', $returns);
 });
 
-Route::post("/addreturns", [SaleCartController::class, 'sroteReturns'])
+Route::post("/addreturns", [SaleCartController::class, 'returnStore'])
     ->name('return.store');
 
 Route::get('/addreturns', function (Request $request) {
