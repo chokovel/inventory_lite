@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="expensecategory" class="form-label">ExpenseCategory</label>
-                                    <select id="expensecategory" name="expensecategory" class="form-select">
+                                    <select id="expensecategory" name="expense_category_id" class="form-select">
                                         @foreach ($expensecategories as $expensecategory)
                                             <option value="{{ $expensecategory->id }}">{{ $expensecategory->name }}</option>
                                         @endforeach
