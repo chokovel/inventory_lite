@@ -1584,30 +1584,33 @@
                 const addSectionBtn = document.querySelector('#add-section');
 
                 let sections = [];
+                if (addSectionBtn != null) {
+                    addSectionBtn.addEventListener('click', function() {
+                        const color = document.querySelector('#color').value;
+                        const size = document.querySelector('#size').value;
+                        const quantity = document.querySelector('#quantity').value;
 
-                addSectionBtn.addEventListener('click', function() {
-                    const color = document.querySelector('#color').value;
-                    const size = document.querySelector('#size').value;
-                    const quantity = document.querySelector('#quantity').value;
+                        if (color && size && quantity) {
+                            const section = {
+                                color,
+                                size,
+                                quantity
+                            };
+                            sections.push(section);
+                            renderSections();
+                        }
+                    });
+                }
+                if (sectionList != null) {
+                    sectionList.addEventListener('click', function(e) {
+                        if (e.target.classList.contains('btn-remove')) {
+                            const index = parseInt(e.target.dataset.index);
+                            sections.splice(index, 1);
+                            renderSections();
+                        }
+                    });
+                }
 
-                    if (color && size && quantity) {
-                        const section = {
-                            color,
-                            size,
-                            quantity
-                        };
-                        sections.push(section);
-                        renderSections();
-                    }
-                });
-
-                sectionList.addEventListener('click', function(e) {
-                    if (e.target.classList.contains('btn-remove')) {
-                        const index = parseInt(e.target.dataset.index);
-                        sections.splice(index, 1);
-                        renderSections();
-                    }
-                });
             }
         }
 
@@ -1625,6 +1628,8 @@
                 sectionList.appendChild(tr);
             });
         }
+
+
         // end
     </script>
 

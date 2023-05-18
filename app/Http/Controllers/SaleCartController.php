@@ -17,11 +17,9 @@ class SaleCartController extends Controller
     public function index(Request $request)
     {
         //
-        if ($request->search) {
-            echo "Search Value exitt";
-        } else {
-            echo "No Search Value";
-        }
+        $saleCart = SaleCart::with('productColor', 'customer')->get();
+        // return $saleCart;
+        return view('dashboard.sales')->with('sales', $saleCart);
     }
 
     /**
@@ -43,18 +41,32 @@ class SaleCartController extends Controller
     public function store(Request $request)
     {
         //
-        foreach ($request->items as $item) {
-            $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
-                ->where('customer_id', $item['customer_id'])->first();
-            if ($saleCart) {
-                $saleCart->increment('quantity', $item['quantity']);
-            } else {
-                $saleCart = SaleCart::create($item);
+        $validatedData = $request->validate([
+            'customer_id' => 'required',
+        ]);
+        $customer_id = $request->customer_id;
+        $items = session()->get('items');
+
+
+        if (!$items) return back()->with('message', 'No item on hhe cart');
+        foreach ($items as $item) {
+            // $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
+            //     ->where('customer_id', $customer_id)->first();
+            // if ($saleCart) {
+            //     $saleCart->increment('quantity', $item['quantity']);
+            // } else {
+            if ($item != null) {
+                $item['customer_id'] = $customer_id;
+                SaleCart::create($item);
+                ProductColor::where('id', $item['product_color_id'])
+                    ->decrement('quantity', $item['quantity']);
             }
-            ProductColor::where('id', $item['product_color_id'])
-                ->decrement('quantity', $item['quantity']);
+
+            // }
+
         }
-        return response()->json(['statusCode' => 200, 'body' => 'Added successfully'], 200);
+        session()->remove('items');
+        return back()->with('message', 'Order completed successfully');
     }
 
     public function setSession(Request $request)

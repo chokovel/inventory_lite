@@ -41,10 +41,7 @@ Route::get('/adduser', function () {
 
 
 // Sales route
-Route::get('/sales', function () {
-
-    return view('dashboard.sales');
-});
+Route::get('/sales', [SaleCartController::class, 'index'])->name('sales');
 
 
 Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
@@ -54,7 +51,7 @@ Route::get('/addsales', function (Request $request) {
     if ($request->search) {
         $search = strtolower($request->search);
         $products = Product::with('productColors.color', 'productColors.size')
-            ->where('product_name', 'like', '%' . $search . '.%')
+            ->where('product_name', 'like', '%' . $search . '%')
             ->orderBy('created_at', 'desc')
             ->get();
     } else {
@@ -80,6 +77,8 @@ Route::get('/addsales', function (Request $request) {
         ->with('products', $products)
         ->with('totalProductsSum', $totalProductsSum);
 });
+
+Route::post('/addsales', [SaleCartController::class, 'store'])->name('addToCart');
 
 //returns route
 Route::get('/returns', function () {

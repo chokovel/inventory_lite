@@ -18,14 +18,18 @@
                     <div class="col-lg-9">
                         <!-- cart -->
                         <div class="card border shadow-0">
-                            <div class="center m-3">
-                                <div class="input-group">
-                                    <input type="text" name="search" placeholder="Search product" class="form-control">
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
+                            <form action="" style="width: 100%">
+                                <div class="center m-3">
+                                    <div class="input-group">
+                                        <input type="text" name="search" placeholder="Search product"
+                                            class="form-control">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
+
                             <div class="d-flex text-center mb-3">
                                 <h2 class="text-large flex-1 mt-2"><strong id="grand_total">Grand Total: ₦
                                         {{ number_format($totalProductsSum, 2) }}</strong></h2>
@@ -95,8 +99,16 @@
                                     <p class="mb-2">Grand Total:</p>
                                     <p class="mb-2 fw-bold">₦<span id="grand_total">0</span></p>
                                 </div>
+
                                 <div class="mt-3 d-flex">
-                                    <a href="{{ '/sales' }}" class="btn btn-success w-100 shadow-0 mb-2">Purchase</a>
+                                    <form action="{{ route('addToCart') }}" id="form-purchase" method="POST">
+                                        @csrf
+                                        <input type="hidden" readonly placeholder="Customer name" name="customer_id"
+                                            id="customer_id" class="form-control mb-3 me-3" required>
+                                        <button type="submit""
+                                            class="btn btn-success w-100 shadow-0 mb-2"id="purchase">Purchase</button>
+                                    </form>
+
                                     {{-- <a href="{{ '/products' }}" class="btn btn-light w-100 border mt-2">shop</a> --}}
                                 </div>
                             </div>
@@ -115,8 +127,7 @@
                                         class="form-control mb-3 me-3">
                                     <input type="text" readonly placeholder="Customer name" id="customer_name"
                                         class="form-control mb-3 me-3">
-                                    <input type="hidden" readonly placeholder="Customer name" id="customer_id"
-                                        class="form-control mb-3 me-3">
+
                                     <button type="button" onclick="searchCustomer()"
                                         class="btn btn-sm btn-primary">Search</button>
                                 </form>
@@ -128,7 +139,25 @@
         </div>
     </div>
     <!-- end main content section -->
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
     <script>
+        $(document).ready(function() {
+            $("#purchase").on('click', function() {
+
+                let customer = $('#customer_id').val();
+                if (!customer) {
+                    event.preventDefault();
+                    alert("No Customer provided yet")
+                }
+            })
+        })
+        document.onreadystatechange = function() {
+            alert()
+        }
         var items = []
 
         function increase(pId, productqty) {
