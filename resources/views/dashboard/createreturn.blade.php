@@ -19,7 +19,12 @@
                         <!-- cart -->
                         <div class="card border shadow-0">
                             <div class="center m-3">
-                                <input type="text" name="search" placeholder="Search product" class="form-control">
+                              <div class="input-group">
+                                    <input type="text" name="search" placeholder="Search product" class="form-control">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="col-sm-2 text-center mb-3" style="">
                                 {{-- <h2 class="text-large flex-1 mt-2"><strong id="grand_total">Grand Total: ₦

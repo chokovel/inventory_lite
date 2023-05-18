@@ -203,3 +203,25 @@ form {
     background-color: #008ba3;
     border-color: #008ba3;
 }
+
+.input-group-clear {
+    position: relative;
+}
+
+.btn-clear-search {
+    position: absolute;
+    top: 50%;
+    right: 35px;
+    transform: translateY(-50%);
+    background: transparent;
+    color:black;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.input-search:hover+.btn-clear-search {
+    opacity: 1;
+}
