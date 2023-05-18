@@ -54,6 +54,7 @@ class ExpenseController extends Controller
             'expense_title' => 'required',
             'amount' => 'required',
             'details' => 'required',
+            'expense_category_id' => 'required',
         ]);
 
         $expenses = app(ExpenseService::class)->create($data);
@@ -80,11 +81,13 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $expense = $this->expenseService->getById($id);
-        return view('expenses.edit', compact('expense'));
-    }
+   public function edit($id)
+{
+    $expense = Expense::findOrFail($id);
+    $expensecategories = ExpenseCategory::all();
+    return view('expenses.edit', compact('expense', 'expensecategories'));
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -100,6 +103,7 @@ class ExpenseController extends Controller
             'expense_title' => 'required',
             'amount' => 'required',
             'details' => 'required',
+            'expense_category_id' => 'required',
         ]);
 
         $updated = $this->expenseService->update($id, $validatedData);

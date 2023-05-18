@@ -1,38 +1,6 @@
 @extends('layouts.homehead')
 
 @section('content')
-                    <!-- start main content section -->
-                    <div x-data="basic">
-                <div class="panel">
-                    <h5 class="text-lg font-semibold dark:text-white-light">Staff</h5>
-                    <h5 class="text-lg font-semibold dark:text-white-light">
-                        <a href="{{'/adduser'}}">Add Staff</a>
-                    </h5>
-                    <div class="mb-5">
-                                    <form>
-                                        <div class="grid grid-cols-1 justify-between gap-5 sm:flex">
-                                            <input type="text" name="first_name" placeholder="Enter First Name" class="form-input" />
-                                            <input type="text" name="last_name" placeholder="Enter Last Name" class="form-input" />
-                                        </div>
-                                        <div class="grid grid-cols-1 justify-between gap-5 sm:flex">
-                                            <input type="text" name="email" placeholder="Enter Email" class="form-input" />
-                                            <input type="text" name="phone" placeholder="Enter Phone Number" class="form-input" />
-                                        </div>
-                                        <div class="grid grid-cols-1 justify-between gap-5 sm:flex">
-                                            <input type="text" name="password" placeholder="Enter Password" class="form-input" />
-                                            <input type="text" name="password" placeholder="Re-enter Password" class="form-input" />
-                                        </div>
-                                        <button type="button" class="btn btn-primary mt-6">Submit</button>
-                                    </form>
-                                </div>
-                                </div>
-                                </div>
-                    <!-- end main content section -->
-
-@endsection
-@extends('layouts.homehead')
-
-@section('content')
 
  <div x-data="sales">
     <ul class="flex space-x-2 rtl:space-x-reverse">
@@ -55,38 +23,52 @@
 
 <div class="card">
     <div class="card-body">
-        <form method="POST" action="{{ route('users.store') }}">
+        <form method="POST" action="{{ route('staff.update', $staff->id) }}">
             @csrf
+            @method('PUT')
 
             <div class="form-group">
                 <label for="name">Name</label>
-                <input id="name" type="text" class="form-control" name="name" required autofocus>
-            </div>
-
-            <div class="form-group">
-                <label for="role">Role</label>
-                <input id="role" type="text" class="form-control" name="role" required>
+                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', optional($staff)->name)" required autofocus autocomplete="name" />
             </div>
 
             <div class="form-group">
                 <label for="phone">Phone</label>
-                <input id="phone" type="text" class="form-control" name="phone" required>
+                <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', optional($staff)->phone)" required autofocus autocomplete="phone" />
+            </div>
+
+            <div class="form-group">
+                <label for="dob">DOB</label>
+                <x-text-input id="dob" name="dob" type="date" class="mt-1 block w-full" :value="old('dob', optional($staff)->dob)" required autocomplete="dob" />
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input id="email" type="email" class="form-control" name="email" required>
+                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', optional($staff)->email)" required autocomplete="email" />
             </div>
 
             <div class="form-group">
                 <label for="address">Address</label>
-                <input id="address" type="text" class="form-control" name="address" required>
+                <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', optional($staff)->address)" required autocomplete="address" />
             </div>
 
-            <button type="submit" class="btn btn-primary">Add User</button>
+            {{-- <div class="form-group">
+                <label for="password">Password</label>
+                <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" :value="old('password')" required autocomplete="new-password" />
+                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation">Confirm Password</label>
+                <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" :value="old('password_confirmation')" required autocomplete="new-password" />
+                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            </div> --}}
+
+            <button type="submit" class="btn btn-primary mt-3">Update User</button>
         </form>
     </div>
 </div>
+
 
 
 <!-- end main content section -->

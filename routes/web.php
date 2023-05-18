@@ -35,10 +35,6 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
-Route::get('/adduser', function () {
-    return view('staff.create');
-});
-
 
 // Sales route
 Route::get('/sales', function () {
@@ -97,15 +93,21 @@ Route::get('/addreturns', function () {
 
 
 //staff route
-Route::get('/adduser', function () {
-    return view('staff.create');
-});
-Route::get('/staff', [UserController::class, 'index'])->name('staff');
+// Route::get('/adduser', function () {
+//     return view('staff.create');
+// });
+// Route::get('/staff', [UserController::class, 'index'])->name('staff');
+// Route::get('/staff/create', [UserController::class, 'create'])->name('staff.create');
+// Route::post('/staff', [UserController::class, 'store'])->name('staff.store');
+// Route::get('/staff/edit', [ProfileController::class, 'edit'])->name('staff.edit');
+// Route::patch('/staff/edit', [ProfileController::class, 'update'])->name('staff.update');
+// Route::delete('/staff/edit', [ProfileController::class, 'destroy'])->name('staff.destroy');
+Route::get('/staff', [UserController::class, 'index'])->name('staff.index');
 Route::get('/staff/create', [UserController::class, 'create'])->name('staff.create');
 Route::post('/staff', [UserController::class, 'store'])->name('staff.store');
-Route::get('/staff/edit', [ProfileController::class, 'edit'])->name('staff.edit');
-Route::patch('/staff/edit', [ProfileController::class, 'update'])->name('staff.update');
-Route::delete('/staff/edit', [ProfileController::class, 'destroy'])->name('staff.destroy');
+Route::get('/staff/{id}/edit', [UserController::class, 'edit'])->name('staff.edit');
+Route::put('/staff/{user}', [UserController::class, 'update'])->name('staff.update');
+Route::delete('/staff/{user}', [UserController::class, 'destroy'])->name('staff.destroy');
 
 // Category routes
 Route::resource('categories', CategoryController::class);
