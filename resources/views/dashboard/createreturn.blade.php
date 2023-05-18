@@ -344,13 +344,15 @@
                                 </div>
 
                                 <div class="mt-3 d-flex">
-                                    <form action="{{ route('addToCart') }}" id="form-purchase" method="POST">
+                                    <form action="{{ route('return.store') }}" id="form-purchase" method="POST">
                                         @csrf
                                         <input type="hidden" readonly placeholder="Customer name" name="customer_id"
                                             id="customer_id" class="form-control mb-3 me-3" required>
                                         <div class="mt-3  d-flex">
-                                            <a href="#" class="btn btn-danger w-100 border shadow-0 m-1">Clear</a>
-                                            <a href="#" class="btn btn-success w-100 shadow-0 m-1">Return</a>
+                                            <button href="#"
+                                                class="btn btn-danger w-100 border shadow-0 m-1">Clear</button>
+                                            <button type="submit" id="return"
+                                                class="btn btn-success w-100 shadow-0 m-1">Return</button>
                                         </div>
                                     </form>
 
@@ -393,7 +395,7 @@
         crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
-            $("#purchase").on('click', function() {
+            $("#return").on('click', function() {
 
                 let customer = $('#customer_id').val();
                 if (!customer) {

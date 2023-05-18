@@ -86,6 +86,9 @@ Route::get('/returns', function () {
     return view('dashboard.returns');
 });
 
+Route::post("/addreturns", [SaleCartController::class, 'sroteReturns'])
+    ->name('return.store');
+
 Route::get('/addreturns', function (Request $request) {
     $products = [];
     if ($request->search) {

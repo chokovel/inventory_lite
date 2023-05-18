@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductColor;
+use App\Models\ProductReturn;
 use App\Models\SaleCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -123,6 +124,46 @@ class SaleCartController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function returnStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'customer_id' => 'required',
+        ]);
+        $customer_id = $request->customer_id;
+        $items = session()->get('return_items');
+
+
+        if (!$items) return back()->with('message', 'No item on hhe cart');
+        foreach ($items as $item) {
+            // $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
+            //     ->where('customer_id', $customer_id)->first();
+            // if ($saleCart) {
+            //     $saleCart->increment('quantity', $item['quantity']);
+            // } else {
+            if ($item != null) {
+                $item['customer_id'] = $customer_id;
+                $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
+                    ->where('customer_id', $item['customer_id'])->first();
+                if ($saleCart) {
+                    if ($saleCart->quantity > $item['quantity']) {
+                        $saleCart->decrement('quantity', $item['auantity']);
+                    } else if ($saleCart->quantity == $item['quantity']) {
+                        $saleCart->delete();
+                    } else {
+                        continue;
+                        return back()
+                            ->with('message', 'Quantity returned is more than the quantity sold out ');
+                    }
+                    ProductReturn::create($item);
+                    ProductColor::where('id', $item['product_color_id'])
+                        ->increment('quantity', $item['quantity']);
+                }
+            }
+        }
+        session()->remove('items');
+        return back()->with('message', 'Order completed successfully');
     }
 
     /**
