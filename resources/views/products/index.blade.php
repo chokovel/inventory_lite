@@ -13,7 +13,7 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                <h4 class="card-title mb-3 me-3">All Products</h4>
+                {{-- <h4 class="card-title mb-3 me-3">All Products</h4> --}}
                 <button class="btn btn-success btn-sm"><a href="{{ route('products.create') }}">Create Products</a></button>
             </div>
         </div>
@@ -22,6 +22,18 @@
 
         <div class="container">
             <div class="row">
+          <form action="" style="width: 100%">
+                <div class="center m-3">
+                    <div class="input-group">
+                        <input type="text" name="search" placeholder="Search product"
+                            class="form-control">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
                 @foreach ($products as $product)
                     <div class="col-md-6 col-lg-3">
                         <div class="card">
@@ -45,7 +57,7 @@
                                         {{ $productColor->quantity }},
                                     @endforeach
                                 </p>
-                                <a href="#" class="btn btn-primary">Add to Cart</a>
+                                <a href="#" class="btn btn-primary">Update Stock</a>
                             </div>
                         </div>
                     </div>
