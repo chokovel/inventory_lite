@@ -38,6 +38,11 @@ Route::get('/home', function () {
     return view('home');
 });
 
+//sales report
+Route::get('/salesreport', function () {
+    return view('dashboard.salesreport');
+});
+
 // Sales route
 Route::get('/sales', [SaleCartController::class, 'index'])->name('sales');
 
@@ -119,25 +124,13 @@ Route::get('/addreturns', function (Request $request) {
                 $totalProductsSum = $totalProductsSum + $sessionProduct['amount'] : $totalProductsSum;
         }
     }
-    // $products = Product::with('productColors.color', 'productColors.size')
-    //     ->orderBy('created_at', 'desc')->get();
-    // $totalProductsSum = $products->sum('price');
+
     return view('dashboard.createreturn')
         ->with('products', $products)
         ->with('totalProductsSum', $totalProductsSum);
 });
 
 
-//staff route
-// Route::get('/adduser', function () {
-//     return view('staff.create');
-// });
-// Route::get('/staff', [UserController::class, 'index'])->name('staff');
-// Route::get('/staff/create', [UserController::class, 'create'])->name('staff.create');
-// Route::post('/staff', [UserController::class, 'store'])->name('staff.store');
-// Route::get('/staff/edit', [ProfileController::class, 'edit'])->name('staff.edit');
-// Route::patch('/staff/edit', [ProfileController::class, 'update'])->name('staff.update');
-// Route::delete('/staff/edit', [ProfileController::class, 'destroy'])->name('staff.destroy');
 Route::get('/layouts/homehead', [UserController::class, 'showProfile'])->name('user');
 
 Route::get('/staff', [UserController::class, 'index'])->name('staff.index');
@@ -162,10 +155,6 @@ Route::get('/addexpensecategory', function () {
 // Expense routes
 Route::resource('expenses', ExpenseController::class);
 Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
-
-// Route::get('/addexpense', function () {
-//     return view('expenses.create');
-// });
 
 //color route
 Route::resource('colors', ColorController::class);

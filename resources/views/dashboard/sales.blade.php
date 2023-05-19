@@ -13,12 +13,27 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                <h4 class="card-title mb-3 me-3">All Sales</h4>
+                {{-- <h4 class="card-title mb-3 me-3">All Sales</h4> --}}
                 <button class="btn btn-success btn-sm"><a href="{{ '/addsales' }}">Create Sale</a></button>
             </div>
         </div>
 
         {{-- ............ --}}
+
+        <form class="search-form">
+            <div class="form-group m-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchNamePhone" placeholder="Name or Phone Number">
+                    <label for="dateRange" class="sr-only">Date Range:</label>
+                    <input type="date" class="form-control" id="startDate">
+                    <span class="input-group-text">to</span>
+                    <input type="date" class="form-control" id="endDate">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="material-icons fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
 
         <div class="card">
             <div class="card-body">
@@ -48,17 +63,17 @@
                                         </td>
                                         <td>{{ $sale->quantity }}<br>{{ $sale->quantity * $sale->productColor->product->price }}
                                         </td>
-                                        <td class="td-actions text-right d-flex">
-                                            <a href="" class="btn btn-primary btn-round btn-sm">
-                                                <i class="material-icons">edit</i>
+                                        <td class="td-actions text-right">
+                                            <a href="{{ '/addreturns' }}" class="btn btn-primary btn-round btn-sm">
+                                                <i class="material-icons">Return</i>
                                             </a>
-                                            <form action="" method="post" style="display: inline-block;">
+                                            {{-- <form action="" method="post" style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-round btn-sm">
                                                     <i class="material-icons">delete</i>
                                                 </button>
-                                            </form>
+                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach
