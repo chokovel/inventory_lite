@@ -629,7 +629,7 @@
 
                 const selectedSize = parseInt(sizeSelect.value);
                 const selectedColor = parseInt(colorSelect.value);
-                const selectedQuantity = quantityInput.value;
+                const selectedQuantity = parseInt(quantityInput.value);
 
                 if (selectedSize && selectedColor && selectedQuantity) {
                     this.sizes.push(selectedSize);
