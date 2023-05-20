@@ -41,6 +41,9 @@
                                 alt="Product 1">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->product_name }}</h5>
+                                <p class="card-text">Price:
+                                        {{ $product->price }}
+                                </p>
                                 <p class="card-text">Colors:
                                     @foreach ($product->productColors as $productColor)
                                         {{ $productColor->color->name }},

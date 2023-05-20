@@ -14,7 +14,7 @@
         <div class="container my-3">
             <div class="d-flex justify-content-between">
                 {{-- <h4 class="card-title mb-3 me-3">All Salereport</h4> --}}
-                <button class="btn btn-success btn-sm"><a href="{{ '/addsalereport' }}">Create Sale</a></button>
+                <button class="btn btn-success btn-sm"><a href="{{ '/addsales' }}">Create Sale</a></button>
             </div>
         </div>
 
