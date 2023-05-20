@@ -149,6 +149,9 @@
                                     <a href="{{ route('report.sales') }}">Sales Report</a>
                                 </li>
                                 <li>
+                                    <a href="{{'/stockreport'}}">Stock Report</a>
+                                </li>
+                                <li>
                                     <a href="{{ '/expenses' }}">Expense</a>
                                 </li>
                             </ul>

@@ -39,6 +39,11 @@ Route::get('/home', function () {
     return view('home');
 });
 
+//stock report
+Route::get('/stockreport', function () {
+    return view('dashboard.stockreport');
+});
+
 //sales report
 Route::get('/salesreport', function () {
     return view('dashboard.salesreport');

@@ -43,9 +43,9 @@
                             <tr>
                                 <th class="text-left">Id</th>
                                 <th>Product Name</th>
+                                <th>Old Stock</th>
+                                <th>New/Added Stock</th>
                                 <th>Total Stock</th>
-                                <th>Total Sales</th>
-                                <th>Total Returns</th>
                                 <th>Total Amount</th>
                             </tr>
                         </thead>
@@ -55,16 +55,16 @@
                                     <tr>
                                         <td class="text-left"> {{ $product->id }} </td>
                                         <td>{{ $product->product_name }}</td>
-                                        <td>{{ $product->productColors->sum('quantity') * $product->price }} </td>
-                                        <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td>
-                                        <td>{{ $product->productReturns->sum('quantity') * $product->price }}</td>
-                                        <td>{{ ($product->saleCarts->sum('quantity') + $product->productReturns->sum('quantity')) * $product->price }}
+                                        <td>{{ $product->name }} </td>
+                                        <td>{{ $product->name }} </td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ ($product->name) }}
                                         </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="2">No sales report found.</td>
+                                    <td colspan="2">No stock report found.</td>
                                 </tr>
                             @endif
                         </tbody>
