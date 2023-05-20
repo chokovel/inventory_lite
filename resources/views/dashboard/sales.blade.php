@@ -64,7 +64,8 @@
                                         <td>{{ $sale->quantity }}<br>{{ $sale->quantity * $sale->productColor->product->price }}
                                         </td>
                                         <td class="td-actions text-right">
-                                            <a href="{{ '/addreturns' }}" class="btn btn-primary btn-round btn-sm">
+                                            <a href="{{ route('returns.sales', ['salesId' => $sale->id]) }}"
+                                                class="btn btn-primary btn-round btn-sm">
                                                 <i class="material-icons">Return</i>
                                             </a>
                                             {{-- <form action="" method="post" style="display: inline-block;">

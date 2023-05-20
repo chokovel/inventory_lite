@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductReturn;
+use App\Models\SaleCart;
 use Illuminate\Http\Request;
 
 class ProductReturnController extends Controller
@@ -13,7 +15,8 @@ class ProductReturnController extends Controller
      */
     public function index()
     {
-        //
+        $returns = ProductReturn::with('saleCart')->get();
+        return view('dashboard.returns')->with('returns', $returns);
     }
 
     /**
@@ -26,15 +29,60 @@ class ProductReturnController extends Controller
         //
     }
 
+
+    public function salesReturn($salesId)
+    {
+        $saleCart = SaleCart::with(
+            'productColor.size',
+            'productColor.color',
+            'productColor.product',
+            'productReturn'
+        )
+            ->where('id', $salesId)
+            ->first();
+        return view('dashboard.createreturn')->with('saleCart', $saleCart);
+        return $saleCart;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $salesId)
     {
         //
+        $validatedData = $request->validate([
+            'quantity' => 'required',
+        ]);
+
+        $saleCart = SaleCart::with('productReturn')
+            ->where('id', $salesId)->first();
+
+        if (!$saleCart) {
+            return back()
+                ->with('message', 'Sales Order was not found');
+        }
+        if ($saleCart->quantity < $request->quantity) {
+            return back()
+                ->with('message', 'quantity to be returned can not be greater than quantity bought');
+        }
+
+        $saleCart->decrement('quantity', $request->quantity);
+        if ($saleCart->productReturn) {
+            $productReturn = $saleCart->productReturn;
+            $productReturn->increment('quantity', $request->quantity);
+        } else {
+            ProductReturn::create([
+                'quantity' => $request->quantity,
+                'sale_cart_id' => $saleCart->id,
+                'product_color_id' => $saleCart->product_color_id
+            ]);
+        }
+
+        return redirect()->route('returns.list')
+            ->with('message', 'Product returned successfully');
     }
 
     /**

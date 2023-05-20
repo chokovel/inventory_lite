@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('sale_carts', function (Blueprint $table) {
+        Schema::table('product_returns', function (Blueprint $table) {
             //
-            $table->string('quantity');
+            $table->foreignId('sale_cart_id')->nullable()->constrained('sale_carts');
+            $table->dropConstrainedForeignId('customer_id');
         });
     }
 
@@ -26,9 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('sales_carts', function (Blueprint $table) {
+        Schema::table('product_returns', function (Blueprint $table) {
             //
-
+            $table->foreignId('product_color_id')->constrained('product_colors');
         });
     }
 };

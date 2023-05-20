@@ -146,7 +146,7 @@
                                     <a href="{{ '/purchases' }}">Purchase</a>
                                 </li>
                                 <li>
-                                    <a href="{{ '/salesreport' }}">Sales Report</a>
+                                    <a href="{{ route('report.sales') }}">Sales Report</a>
                                 </li>
                                 <li>
                                     <a href="{{ '/expenses' }}">Expense</a>
@@ -502,12 +502,12 @@
                                 </ul>
                             </div>
                             <div class="dropdown flex-shrink-0" x-data="dropdown"
-                             @auth
-                                @click.outside="open = false">
+                                @auth
+@click.outside="open = false">
                                 <a href="javascript:;" class="group relative" @click="toggle()">
                                     <span><img
                                             class="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
-                                            src="{{ Avatar::create(Auth()->user()->email)->toGravatar()}}" alt="image" /></span>
+                                            src="{{ Avatar::create(Auth()->user()->email)->toGravatar() }}" alt="image" /></span>
                                 </a>
                                 <ul x-cloak x-show="open" x-transition x-transition.duration.300ms
                                     class="top-11 w-[230px] !py-0 font-semibold text-dark ltr:right-0 rtl:left-0 dark:text-white-dark dark:text-white-light/90">
@@ -523,7 +523,7 @@
                                                     d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
                                                     stroke="currentColor" stroke-width="1.5" />
                                             </svg>
-                                            {{Auth()->user()->name}}</a>
+                                            {{ Auth()->user()->name }}</a>
                                     </li>
                                     <li>
                                         <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
@@ -536,7 +536,7 @@
                                                     d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
                                                     stroke="currentColor" stroke-width="1.5" />
                                             </svg>
-                                            {{Auth()->user()->phone}}</a>
+                                            {{ Auth()->user()->phone }}</a>
                                     </li>
                                     <li>
                                         <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
@@ -549,7 +549,7 @@
                                                     d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
                                                     stroke="currentColor" stroke-width="1.5" />
                                             </svg>
-                                            {{Auth()->user()->email}}</a>
+                                            {{ Auth()->user()->email }}</a>
                                     </li>
                                     <li>
                                         <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
@@ -584,15 +584,14 @@
                                         </a>
                                             </form>
                                     </li>
-                                </ul>
-                                @endauth
+                                </ul> @endauth
+                                </div>
                             </div>
                         </div>
+
+                        <!-- horizontal menu -->
+
                     </div>
-
-                    <!-- horizontal menu -->
-
-                </div>
             </header>
             <!-- end header section -->
             <div class="animate__animated p-6" :class="[$store.app.animation]">

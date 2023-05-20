@@ -11,8 +11,8 @@ class ProductReturn extends Model
     use HasFactory;
 
     protected $fillable = [
+        'sale_cart_id',
         'product_color_id',
-        'customer_id',
         'quantity'
     ];
 
@@ -30,9 +30,9 @@ class ProductReturn extends Model
         return $this->belongsTo(ProductColor::class, 'product_color_id', 'id');
     }
 
-    public function customer(): BelongsTo
+    public function saleCart(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(SaleCart::class, 'sale_cart_id', 'id');
     }
 
     public function user(): BelongsTo

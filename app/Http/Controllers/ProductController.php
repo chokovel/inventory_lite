@@ -169,4 +169,11 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function report()
+    {
+        $products = Product::with('saleCarts', 'productReturns')->get();
+        // return $products;
+        return view('dashboard.salesreport')->with('products', $products);
+    }
 }

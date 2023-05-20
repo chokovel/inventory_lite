@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductColorController;
+use App\Http\Controllers\ProductReturnController;
 use App\Http\Controllers\SaleCartController;
 use App\Http\Controllers\UserController;
 use App\Models\Product;
@@ -41,6 +42,17 @@ Route::get('/home', function () {
 //sales report
 Route::get('/salesreport', function () {
     return view('dashboard.salesreport');
+});
+
+Route::prefix('returns')->group(function () {
+    Route::get('/', [ProductReturnController::class, 'index'])->name('returns.list');
+    Route::get("/{id}", [])->name('returns.view');
+    Route::post('/{salesId}', [ProductReturnController::class, 'store'])->name('returns.save');
+    Route::get("/sales/{salesId}", [ProductReturnController::class, 'salesReturn'])->name('returns.sales');
+});
+
+Route::prefix('report')->group(function () {
+    Route::get('/sales', [ProductController::class, 'report'])->name('report.sales');
 });
 
 // Sales route
@@ -89,10 +101,6 @@ Route::get('/addsales', function (Request $request) {
 Route::post('/addsales', [SaleCartController::class, 'store'])->name('addToCart');
 
 //returns route
-Route::get('/returns', function () {
-    $returns = ProductReturn::with('productColor', 'customer')->get();
-    return view('dashboard.returns')->with('returns', $returns);
-});
 
 Route::post("/addreturns", [SaleCartController::class, 'returnStore'])
     ->name('return.store');

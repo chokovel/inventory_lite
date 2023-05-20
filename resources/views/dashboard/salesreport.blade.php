@@ -50,15 +50,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($salereports))
-                                @foreach ($salereports as $salereport)
+                            @if (isset($products))
+                                @foreach ($products as $product)
                                     <tr>
-                                        <td class="text-left"> {{ $salereport->id }}  </td>
-                                        <td>{{ $salereport->product->name }}</td>
-                                        <td>{{ $salereport->currentBal }} </td>
-                                        <td>{{ $salereport->totalsales }} </td>
-                                        <td>{{ $salereport->totalreturns }}</td>
-                                        <td>{{ $salereport->totalamount }}</td>
+                                        <td class="text-left"> {{ $product->id }} </td>
+                                        <td>{{ $product->product_name }}</td>
+                                        <td>{{ $product->productColors->sum('quantity') * $product->price }} </td>
+                                        <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td>
+                                        <td>{{ $product->productReturns->sum('quantity') * $product->price }}</td>
+                                        <td>{{ ($product->saleCarts->sum('quantity') + $product->productReturns->sum('quantity')) * $product->price }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else
