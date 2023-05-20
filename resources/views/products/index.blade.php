@@ -57,7 +57,7 @@
                                         {{ $productColor->quantity }},
                                     @endforeach
                                 </p>
-                                <a href="#" class="btn btn-primary">Update Stock</a>
+                                <a href="{{route('products.edit', $product->id)}}" class="btn btn-primary">Update Stock</a>
                             </div>
                         </div>
                     </div>

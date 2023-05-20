@@ -191,6 +191,12 @@ Route::resource('products', ProductController::class);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+// Edit Product
+Route::get('/products/{id}/edit', 'ProductController@edit')->name('products.edit');
+
+// Update Product
+Route::put('/products/{id}', 'ProductController@update')->name('products.update');
+
 
 
 
