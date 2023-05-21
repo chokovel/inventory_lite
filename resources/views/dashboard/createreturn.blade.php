@@ -130,9 +130,11 @@
                                 {{-- <form action=""> --}}
                                 {{-- @csrf --}}
                                 <input type="text" placeholder="Customer phone or email" id="customer_input"
-                                    class="form-control mb-3 me-3" value="{{ $saleCart->customer->phone }}">
+                                    class="form-control mb-3 me-3"
+                                    value="{{ $saleCart->customer ? $saleCart->customer->phone : '' }}">
                                 <input type="text" readonly placeholder="Customer name" id="customer_name"
-                                    class="form-control mb-3 me-3" value="{{ $saleCart->customer->name }}">
+                                    class="form-control mb-3 me-3"
+                                    value="{{ $saleCart->customer ? $saleCart->customer->name : '' }}">
                                 {{-- <button type="button" onclick="searchCustomer()"
                                         class="btn btn-sm btn-primary">Search</button> --}}
                                 {{-- </form> --}}
