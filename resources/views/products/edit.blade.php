@@ -29,7 +29,8 @@
                     <h3 class="m-0">Update Product</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('products.update', $product->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row mb-3">
@@ -74,7 +75,8 @@
                                     <input type="file" id="image" name="image" class="form-control">
                                     @if ($product->image)
                                         <div class="mt-2">
-                                            <img src="{{ asset('storage/' . str_replace('public/', '', $product->image)) }}" alt="Product Image" class="img-thumbnail" style="max-width: 75px;">
+                                            <img src="{{ asset('storage/' . str_replace('public/', '', $product->image)) }}"
+                                                alt="Product Image" class="img-thumbnail" style="max-width: 75px;">
                                         </div>
                                     @endif
                                     @error('image')
@@ -96,7 +98,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="color" class="form-label">Color</label>
-                                        <select id="color" name="color[]" class="form-select">
+                                        <select id="color" name="" class="form-select">
                                             @foreach ($colors as $color)
                                                 <option value="{{ $color->id }}">{{ $color->name }}</option>
                                             @endforeach
@@ -110,7 +112,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="size" class="form-label">Size</label>
-                                        <select id="size" name="size[]" class="form-select">
+                                        <select id="size" name="" class="form-select">
                                             @foreach ($sizes as $size)
                                                 <option value="{{ $size->id }}">{{ $size->name }}</option>
                                             @endforeach
@@ -124,7 +126,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="quantity" class="form-label">Quantity</label>
-                                        <input type="number" id="quantity" name="quantity[]" class="form-control">
+                                        <input type="number" id="quantity" name="" class="form-control">
                                         @error('quantity[]')
                                             {{ $message }}
                                         @enderror

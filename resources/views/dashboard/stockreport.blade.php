@@ -47,19 +47,21 @@
                                 <th>New/Added Stock</th>
                                 <th>Total Stock</th>
                                 <th>Total Amount</th>
+                                <th>Date stocked</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($products))
-                                @foreach ($products as $product)
+                            @if (isset($stockLogs))
+                                @foreach ($stockLogs as $stockLog)
                                     <tr>
-                                        <td class="text-left"> {{ $product->id }} </td>
-                                        <td>{{ $product->product_name }}</td>
-                                        <td>{{ $product->name }} </td>
-                                        <td>{{ $product->name }} </td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>{{ ($product->name) }}
+                                        <td class="text-left"> {{ $stockLog->id }} </td>
+                                        <td>{{ $stockLog->product->product_name }}</td>
+                                        <td>{{ $stockLog->old_stock }} </td>
+                                        <td>{{ $stockLog->new_stock }} </td>
+                                        <td>{{ $stockLog->old_stock + $stockLog->new_stock }}</td>
+                                        <td>{{ ($stockLog->old_stock + $stockLog->new_stock) * $stockLog->price }}
                                         </td>
+                                        <td>{{ $stockLog->created_at }}</td>
                                     </tr>
                                 @endforeach
                             @else

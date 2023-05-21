@@ -18,6 +18,7 @@ use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductReturn;
 use App\Models\SaleCart;
+use App\Models\StockLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +42,8 @@ Route::get('/home', function () {
 
 //stock report
 Route::get('/stockreport', function () {
-    return view('dashboard.stockreport');
+    $stockLogs = StockLog::get();
+    return view('dashboard.stockreport')->with('stockLogs', $stockLogs);
 });
 
 //sales report

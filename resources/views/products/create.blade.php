@@ -21,9 +21,7 @@
 
         {{-- ............ --}}
         <div class="container">
-            @php
-                // echo var_dump($errors)
-            @endphp
+
             @if ($errors->any())
                 @foreach ($errors->all() as $error)
                     <div>{{ $error }}</div>
