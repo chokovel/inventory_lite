@@ -24,7 +24,7 @@
 <div class="card">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table">
+      <table class="table table-bordered table-striped">
         <thead class="text-primary">
           <tr>
             <th class="text-left">#</th>

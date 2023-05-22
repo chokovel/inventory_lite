@@ -24,7 +24,7 @@
 <div class="card">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table">
+      <table class="table table-bordered table-striped">
         <thead class="text-primary">
           <tr>
             <th class="text-left">#</th>
@@ -38,9 +38,9 @@
         </thead>
         <tbody>
     @if(isset($staff))
-        @foreach ($staff as $staf)
+        @foreach ($staff as $key => $staf)
             <tr>
-                <td class="text-left">{{ $staf->id }}</td>
+                <td class="text-left">{{ $key + 1 }}</td>
                 <td>{{ $staf->name }}</td>
                 <td>{{ $staf->role }}</td>
                 <td>{{ $staf->phone }}</td>

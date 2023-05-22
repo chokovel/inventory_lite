@@ -38,7 +38,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-bordered table-striped">
                         <thead class="text-primary">
                             <tr>
                                 <th class="text-left">Id</th>
@@ -51,9 +51,9 @@
                         </thead>
                         <tbody>
                             @if (isset($products))
-                                @foreach ($products as $product)
+                                @foreach ($products as $key => $product)
                                     <tr>
-                                        <td class="text-left"> {{ $product->id }} </td>
+                                        <td class="text-left"> {{ $key + 1 }} </td>
                                         <td>{{ $product->product_name }}</td>
                                         <td>{{ $product->productColors->sum('quantity') * $product->price }} </td>
                                         <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td>

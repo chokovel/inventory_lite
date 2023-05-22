@@ -19,6 +19,11 @@
 
     <div class="card mx-auto" style="max-width: 600px;">
         <div class="card-header">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <h4 class="card-title">Edit Purchase</h4>
         </div>
         <div class="card-body">

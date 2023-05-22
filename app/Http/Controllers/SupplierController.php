@@ -25,7 +25,7 @@ class SupplierController extends Controller
 
     public function index()
     {
-        $suppliers = $this->supplierService->getAll();
+        $suppliers = Supplier::orderBy('created_at', 'DESC')->get();
         return view('suppliers.index', compact('suppliers'));
     }
 
@@ -51,22 +51,29 @@ class SupplierController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'country' => 'required',
-            'address' => 'required',
-            'note' => 'nullable',
-        ]);
+{
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'phone' => 'required',
+        'country' => 'required',
+        'address' => 'required',
+        'note' => 'nullable',
+    ]);
 
-        $suppliers = $this->supplierService->create($validatedData);
+    // Create a new supplier using the validated data
+    $supplier = $this->supplierService->create($validatedData);
 
-        return view('suppliers.index', compact('suppliers'));
-
-        // return response()->json($supplier, 201);
+    // Check if the supplier was created successfully
+    if ($supplier) {
+        // Redirect to the suppliers index page with a success message
+        return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully.');
+    } else {
+        // Redirect back with an error message
+        return back()->with('error', 'Failed to create supplier. Please try again.');
     }
+}
+
 
     /**
      * Display the specified resource.

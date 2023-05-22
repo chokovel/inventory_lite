@@ -27,7 +27,7 @@ class ExpenseCategoryController extends Controller
 
     public function index()
     {
-        $expensecategories = $this->expensecategoryService->getAll();
+        $expensecategories = ExpenseCategory::orderBy('created_at', 'DESC')->get();
         return view('expensecategories.index', compact('expensecategories'));
     }
 

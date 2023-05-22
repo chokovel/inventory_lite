@@ -38,7 +38,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-bordered table-striped">
                         <thead class="text-primary">
                             <tr>
                                 <th class="text-left">Id</th>
@@ -52,9 +52,9 @@
                         </thead>
                         <tbody>
                             @if (isset($stockLogs))
-                                @foreach ($stockLogs as $stockLog)
+                                @foreach ($stockLogs as $key => $stockLog)
                                     <tr>
-                                        <td class="text-left"> {{ $stockLog->id }} </td>
+                                        <td class="text-left"> {{ $key + 1 }} </td>
                                         <td>{{ $stockLog->product->product_name }}</td>
                                         <td>{{ $stockLog->old_stock }} </td>
                                         <td>{{ $stockLog->new_stock }} </td>

@@ -24,7 +24,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-bordered table-striped">
                         <thead class="text-primary">
                             <tr>
                                 <th class="text-left">#</th>
@@ -34,9 +34,9 @@
                         </thead>
                         <tbody>
                             @if (isset($sizes))
-                                @foreach ($sizes as $size)
+                                @foreach ($sizes as $key => $size)
                                     <tr>
-                                        <td class="text-left">{{ $size->id }}</td>
+                                        <td class="text-left">{{ $key + 1 }}</td>
                                         <td>{{ $size->name }}</td>
                                         <td class="td-actions text-right d-flex">
                                             <a href="{{ route('sizes.edit', $size->id) }}"

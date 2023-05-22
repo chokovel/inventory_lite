@@ -24,7 +24,7 @@
 <div class="card">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table">
+      <table class="table table-bordered table-striped">
         <thead class="text-primary">
           <tr>
             <th>#</th>
@@ -39,9 +39,9 @@
         </thead>
         <tbody>
     @if(isset($suppliers))
-        @foreach ($suppliers as $supplier)
+        @foreach ($suppliers as $key => $supplier)
             <tr>
-                <td class="text-left">{{ $supplier->id }}</td>
+                <td class="text-left">{{ $key + 1 }}</td>
                 <td>{{ $supplier->name }}</td>
                 <td>{{ $supplier->email }}</td>
                 <td>{{ $supplier->phone }}</td>
@@ -50,13 +50,13 @@
                 <td>{{ $supplier->note }}</td>
                 <td class="td-actions text-right d-flex">
                 <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-primary btn-round btn-sm">
-                    <i class="material-icons">edit</i>
+                    <i class="fa fa-pencil"></i>
                 </a>
                 <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="post" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-round btn-sm">
-                    <i class="material-icons">delete</i>
+                    <i class="fa fa-trash"></i>
                     </button>
                 </form>
                 </td>

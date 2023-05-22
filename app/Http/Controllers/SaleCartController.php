@@ -18,7 +18,7 @@ class SaleCartController extends Controller
     public function index(Request $request)
     {
         //
-        $saleCart = SaleCart::with('productColor', 'customer')->get();
+        $saleCart = SaleCart::with('productColor', 'customer')->orderBy('created_at', 'DESC')->get();
         // return $saleCart;
         return view('dashboard.sales')->with('sales', $saleCart);
     }

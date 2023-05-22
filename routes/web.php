@@ -36,14 +36,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
-
 Route::get('/home', function () {
     return view('home');
 });
 
 //stock report
 Route::get('/stockreport', function () {
-    $stockLogs = StockLog::get();
+    $stockLogs = StockLog::orderBy('created_at', 'DESC')->get();
     return view('dashboard.stockreport')->with('stockLogs', $stockLogs);
 });
 
@@ -212,16 +211,5 @@ Route::get('/products/{id}/edit', 'ProductController@edit')->name('products.edit
 
 // Update Product
 Route::put('/products/{id}', 'ProductController@update')->name('products.update');
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__ . '/auth.php';

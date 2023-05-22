@@ -40,10 +40,10 @@ Route::get('/', function () {
 // Route::middleware('role:admin,manager,staff')->group(function () {
     // returns route
     Route::prefix('returns')->group(function () {
-    Route::get('/', [ProductReturnController::class, 'index'])->name('returns.list');
-    Route::get("/{id}", [])->name('returns.view');
-    Route::post('/{salesId}', [ProductReturnController::class, 'store'])->name('returns.save');
-    Route::get("/sales/{salesId}", [ProductReturnController::class, 'salesReturn'])->name('returns.sales');
+        Route::get('/', [ProductReturnController::class, 'index'])->name('returns.list');
+        Route::get("/{id}", [])->name('returns.view');
+        Route::post('/{salesId}', [ProductReturnController::class, 'store'])->name('returns.save');
+        Route::get("/sales/{salesId}", [ProductReturnController::class, 'salesReturn'])->name('returns.sales');
     });
     Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
 

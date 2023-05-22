@@ -36,7 +36,6 @@ class ProductController extends Controller
         $products = Product::orderBy('created_at', 'DESC')->get();
         $sizes = Size::all();
         $colors = Color::all();
-        // $quantities = Quantity::all();
         return view('products.index', compact('products', 'colors', 'sizes'));
     }
 
@@ -276,9 +275,6 @@ class ProductController extends Controller
     }
 
 
-
-
-
     /**
      * Remove the specified resource from storage.
      *
@@ -292,7 +288,7 @@ class ProductController extends Controller
 
     public function report()
     {
-        $products = Product::with('saleCarts', 'productReturns')->get();
+        $products = Product::with('saleCarts', 'productReturns')->orderBy('created_at', 'DESC')->get();
         // return $products;
         return view('dashboard.salesreport')->with('products', $products);
     }

@@ -18,10 +18,10 @@
         </div>
 
         <div class="container">
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
             @endif
 
             <div class="card shadow-lg">

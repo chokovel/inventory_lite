@@ -24,7 +24,7 @@
 <div class="card">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table">
+      <table class="table table-bordered table-striped">
         <thead class="text-primary">
           <tr>
             <th class="text-left">#</th>
@@ -34,9 +34,9 @@
         </thead>
         <tbody>
     @if(isset($categories))
-        @foreach ($categories as $category)
+        @foreach ($categories as $key => $category)
             <tr>
-                <td class="text-left">{{ $category->id }}</td>
+                <td class="text-left">{{ $key + 1 }}</td>
                 <td>{{ $category->name }}</td>
                 <td class="td-actions text-right d-flex">
                 <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary btn-round btn-sm">

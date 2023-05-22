@@ -87,13 +87,13 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                             <label for="image">Image</label>
                             <input type="file" id="image" name="image" class="form-control-file">
                             @error('image')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
-                        </div> --}}
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">

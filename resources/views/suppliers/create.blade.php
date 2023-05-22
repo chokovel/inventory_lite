@@ -35,7 +35,7 @@
         <input type="email" id="email" name="email" class="form-control mb-4" placeholder="Enter supplier email">
       </div>
       <div class="form-group">
-        <label for="phone">Name</label>
+        <label for="phone">Phone</label>
         <input type="text" id="phone" name="phone" class="form-control mb-4" placeholder="Enter supplier phone">
       </div>
       <div class="form-group">

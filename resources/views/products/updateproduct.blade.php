@@ -21,17 +21,13 @@
 
         {{-- ............ --}}
         <div class="container">
-            @php
-                // echo var_dump($errors)
-            @endphp
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
-            @endif
-
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white">
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <h3 class="m-0">Update Product</h3>
                 </div>
                 <div class="card-body">

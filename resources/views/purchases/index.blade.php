@@ -23,8 +23,15 @@
 
 <div class="card">
   <div class="card-body">
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="table-responsive">
-      <table class="table">
+      <table class="table table-bordered table-striped">
         <thead class="text-primary">
           <tr>
             <th class="text-left">#</th>
@@ -44,7 +51,11 @@
         @foreach ($purchases as $purchase)
             <tr>
                 <td class="text-left">{{ $purchase->id }}</td>
-                <td>{{ $purchase->image }}</td>
+                @if($purchase->image)
+                <td>
+                    <img class="rounded" src="{{ asset(str_replace('public', 'storage', $purchase->image)) }}" style="width:50px" alt="Product Image">
+                </td>
+                @endif
                 <td>{{ $purchase->product_name }}</td>
                 <td>₦{{ $purchase->price }}</td>
                 <td>{{ $purchase->quantity }}</td>

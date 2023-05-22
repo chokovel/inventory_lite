@@ -32,7 +32,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-bordered table-striped">
                         <thead class="text-primary">
                             <tr>
                                 <th class="text-left">Transaction Id/Date/Staff</th>
@@ -49,9 +49,10 @@
                                         <td class="text-left">
                                             {{ $return->id }}<br>{{ $return->created_at }}<br>{{ $return->user ? $return->user->id : '' }}
                                         </td>
-                                        <td>{{ $return->saleCart->customer->name }}</td>
+                                        <td>{{ $return->saleCart->customer->name ?? 'N/A' }}</td>
+                                        {{-- <td>{{ $return->saleCart->customer->name }}</td> --}}
                                         <td>
-                                            {{ $return->saleCArt->productColor->product->product_name }}<br>
+                                            {{ $return->saleCart->productColor->product->product_name }}<br>
                                             {{ $return->saleCart->productColor->color->name }}<br>
                                             {{ $return->saleCart->productColor->size->name }}
                                         </td>

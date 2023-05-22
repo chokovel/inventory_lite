@@ -34,6 +34,11 @@
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                     <thead>
                         <tr>
                             {{-- <th>ID</th> --}}
@@ -47,27 +52,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $product)
+                        @foreach ($products as $key =>  $product)
                             @foreach ($product->productColors as $productColor)
                                 <tr>
-                                    {{-- <td>{{ $product->id }}</td> --}}
+                                    {{-- @if ($loop->first)
+                                        <td rowspan="{{ $product->count() }}">{{ $key + 1 }}</td>
+                                    @endif --}}
                                     @if ($loop->first)
                                         <td rowspan="{{ $product->productColors->count() }}">
                                             <img src="{{ asset(str_replace('public', 'storage', $product->image)) }}" alt="Product Image" width="50">
                                         </td>
                                         <td rowspan="{{ $product->productColors->count() }}">{{ $product->product_name }}</td>
                                     @endif
-                                    <td>{{ $productColor->color->name }}</td>
-                                    <td>{{ $productColor->size->name }}</td>
-                                    <td>{{ $productColor->quantity }}</td>
+
+                                        <td>{{ $productColor->color->name }}</td>
+                                        <td>{{ $productColor->size->name }}</td>
+                                        <td>{{ $productColor->quantity }}</td>
+
                                     @if ($loop->first)
                                         <td rowspan="{{ $product->productColors->count() }}">{{ $product->note }}</td>
                                     @endif
-                                    <td>
-                                        <a href="{{ route('products.edit', $product->id) }}">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </td>
+
+                                    @if ($loop->first)
+                                        <td rowspan={{ $product->productColors->count() }}>
+                                            <a href="{{ route('products.edit', $product->id) }}">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         @endforeach

@@ -41,6 +41,7 @@
                     <table class="table">
                         <thead class="text-primary">
                             <tr>
+                                <th>#</th>
                                 <th class="text-left">Transaction Id/Date/Staff</th>
                                 <th>Customer Name</th>
                                 <th>Product/Color/Size</th>
@@ -50,8 +51,9 @@
                         </thead>
                         <tbody>
                             @if (isset($sales))
-                                @foreach ($sales as $sale)
+                                @foreach ($sales as $key => $sale)
                                     <tr>
+                                        <td>{{ $key + 1}}</td>
                                         <td class="text-left">
                                             {{ $sale->id }}<br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
                                         </td>

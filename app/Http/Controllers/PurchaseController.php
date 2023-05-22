@@ -26,7 +26,7 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        $purchases = $this->purchaseService->getAll();
+        $purchases = Purchase::orderBy('created_at', 'DESC')->get();
         return view('purchases.index', compact('purchases'));
     }
     /**
@@ -46,36 +46,45 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-         $validatedData = $request->validate([
+   public function store(Request $request)
+{
+    // Validate the form data
+    $validatedData = $request->validate([
         'product_name' => 'required',
-        'price' => 'required',
-        'quantity' => 'required',
+        'price' => 'required|numeric',
+        'quantity' => 'required|numeric',
         'size' => 'required',
         'color' => 'required',
-        'date' => 'required',
-        'supplier_id' => 'required',
+        'date' => 'required|date',
+        'supplier_id' => 'required|exists:suppliers,id',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         'note' => 'nullable',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg',
     ]);
 
-    $purchase = Purchase::create($validatedData);
-    // Handle file upload
+    // Create a new purchase instance
+    $purchase = new Purchase;
+    $purchase->product_name = $validatedData['product_name'];
+    $purchase->price = $validatedData['price'];
+    $purchase->quantity = $validatedData['quantity'];
+    $purchase->size = $validatedData['size'];
+    $purchase->color = $validatedData['color'];
+    $purchase->date = $validatedData['date'];
+    $purchase->supplier_id = $validatedData['supplier_id'];
+    $purchase->note = $validatedData['note'];
+
+    // Check if an image is provided
     if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('public/images');
-            $product->image = $imagePath;
-            $purchase->save(); // Save the product with the image path
-        }
+        $imagePath = $request->file('image')->store('public/images');
+        $purchase->image = $imagePath;
+    }
 
-    // Save the data to the database
+    // Save the purchase
+    $purchase->save();
 
-
-    // Optionally, you can redirect the user to a success page or perform other actions
-
-    return view('suppliers.index', compact('purchase'))->with('success', 'Purchase created successfully.');
+    // Redirect to the desired page with a success message
+    return redirect()->route('purchases.index')->with('success', 'Purchase created successfully.');
 }
+
 
     /**
      * Display the specified resource.
@@ -137,20 +146,24 @@ class PurchaseController extends Controller
     $purchase->supplier_id = $validatedData['supplier_id'];
     $purchase->note = $validatedData['note'];
 
-    // Save the updated purchase
-
-
-   if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('public/images');
-            $purchase->image = $imagePath;
+    // Check if a new image is provided
+    if ($request->hasFile('image')) {
+        // Delete the previous image if it exists
+        if ($purchase->image && Storage::exists($purchase->image)) {
+            Storage::delete($purchase->image);
         }
 
-$purchase->save();
+        // Store the new image
+        $imagePath = $request->file('image')->store('public/images');
+        $purchase->image = $imagePath;
+    }
+
+    // Save the updated purchase
+    $purchase->save();
+
     // Redirect to the desired page with a success message
     return redirect()->route('purchases.index')->with('success', 'Purchase updated successfully.');
 }
-
 
     /**
      * Remove the specified resource from storage.
@@ -159,7 +172,18 @@ $purchase->save();
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+{
+    $purchase = Purchase::findOrFail($id);
+
+    // Delete the image if it exists
+    if ($purchase->image && Storage::exists($purchase->image)) {
+        Storage::delete($purchase->image);
     }
+
+    // Delete the purchase
+    $purchase->delete();
+
+    return redirect()->route('purchases.index')->with('success', 'Purchase deleted successfully.');
+}
+
 }
