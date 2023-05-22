@@ -60,15 +60,17 @@ class PurchaseController extends Controller
         'image' => 'nullable|image|mimes:jpeg,png,jpg',
     ]);
 
+    $purchase = Purchase::create($validatedData);
     // Handle file upload
     if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imagePath = $image->store('public/images');
-        $validatedData['image'] = $imagePath;
-    }
+            $image = $request->file('image');
+            $imagePath = $image->store('public/images');
+            $product->image = $imagePath;
+            $purchase->save(); // Save the product with the image path
+        }
 
     // Save the data to the database
-    $purchase = Purchase::create($validatedData);
+
 
     // Optionally, you can redirect the user to a success page or perform other actions
 
@@ -135,21 +137,16 @@ class PurchaseController extends Controller
     $purchase->supplier_id = $validatedData['supplier_id'];
     $purchase->note = $validatedData['note'];
 
-    // Check if a new image is provided
-    if ($request->hasFile('image')) {
-        // Delete the previous image if exists
-        if ($purchase->image && Storage::exists($purchase->image)) {
-            Storage::delete($purchase->image);
+    // Save the updated purchase
+
+
+   if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('public/images');
+            $purchase->image = $imagePath;
         }
 
-        // Store the new image
-        $imagePath = $request->file('image')->store('public/images');
-        $purchase->image = $imagePath;
-    }
-
-    // Save the updated purchase
-    $purchase->save();
-
+$purchase->save();
     // Redirect to the desired page with a success message
     return redirect()->route('purchases.index')->with('success', 'Purchase updated successfully.');
 }

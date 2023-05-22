@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+
 Route::get('/home', function () {
     return view('home');
 });
@@ -211,8 +212,6 @@ Route::get('/products/{id}/edit', 'ProductController@edit')->name('products.edit
 
 // Update Product
 Route::put('/products/{id}', 'ProductController@update')->name('products.update');
-
-
 
 
 Route::get('/dashboard', function () {

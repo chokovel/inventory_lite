@@ -137,8 +137,8 @@
 }
 
 .count {
-    padding: 0 6px;
-    font-size: 14px;
+    padding: 0 2px;
+    font-size: 11px;
     font-weight: bold;
     width: 48px;
     text-align: center;
@@ -152,6 +152,9 @@
     margin: 0 auto;
 }
 
+.cardwidth {
+    padding: 4.5px;
+}
 /* MBD end */
 
 @media (max-width: 767px) {
@@ -205,4 +208,34 @@ form {
 }
 .card-body{
     padding: 15px 5px;
+}
+.salescardwidth {
+    width: 80%;
+}
+
+.button-container {
+    margin-left: -30px;
+}
+
+.remove, .add {
+    width: 15px;
+}
+
+@media (max-width: 767px){
+.table td,
+.table th {
+    font-size: 0.7rem;
+}
+.table>:not(caption)>*>* {
+    padding: 0.5rem 0.4rem;
+}
+.p-6 {
+    padding: 0.5rem;
+}
+.salescardwidth{
+    width: 80%;
+}
+.button-container{
+    float: right;
+}
 }
