@@ -14,58 +14,67 @@
         <div class="container my-3">
             <div class="d-flex justify-content-between">
                 {{-- <h4 class="card-title mb-3 me-3">All Products</h4> --}}
-                <button class="btn btn-success btn-sm"><a href="{{ route('products.create') }}">Create Products</a></button>
+                <button class="btn btn-success btn-sm">
+                    <a href="{{ route('products.create') }}">Create Products</a>
+                </button>
             </div>
-        </div>
 
-        {{-- ............ --}}
+            {{-- ............ --}}
 
-        <div class="container">
-            <div class="row">
-          <form action="" style="width: 100%">
-                <div class="center m-3">
-                    <div class="input-group">
-                        <input type="text" name="search" placeholder="Search product"
-                            class="form-control">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-                @foreach ($products as $product)
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card">
-                            <img src="{{ asset(str_replace('public', 'storage', $product->image)) }}" class="card-img-top"
-                                alt="Product 1">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $product->product_name }}</h5>
-                                <p class="card-text">Price:
-                                        {{ $product->price }}
-                                </p>
-                                <p class="card-text">Colors:
-                                    @foreach ($product->productColors as $productColor)
-                                        {{ $productColor->color->name }},
-                                    @endforeach
-                                </p>
-                                <p class="card-text">Sizes:
-                                    @foreach ($product->productColors as $productColor)
-                                        {{ $productColor->size->name }},
-                                    @endforeach
-
-                                </p>
-                                <p class="card-text">Qty:
-                                    @foreach ($product->productColors as $productColor)
-                                        {{ $productColor->quantity }},
-                                    @endforeach
-                                </p>
-                                <a href="{{route('products.edit', $product->id)}}" class="btn btn-primary">Update Stock</a>
-                            </div>
+             <form action="" style="width: 100%">
+                    <div class="center m-3">
+                        <div class="input-group">
+                            <input type="text" name="search" placeholder="Search product" class="form-control">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
                     </div>
-                @endforeach
+                </form>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            {{-- <th>ID</th> --}}
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Qty</th>
+                            <th>Note</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($products as $product)
+                            @foreach ($product->productColors as $productColor)
+                                <tr>
+                                    {{-- <td>{{ $product->id }}</td> --}}
+                                    @if ($loop->first)
+                                        <td rowspan="{{ $product->productColors->count() }}">
+                                            <img src="{{ asset(str_replace('public', 'storage', $product->image)) }}" alt="Product Image" width="50">
+                                        </td>
+                                        <td rowspan="{{ $product->productColors->count() }}">{{ $product->product_name }}</td>
+                                    @endif
+                                    <td>{{ $productColor->color->name }}</td>
+                                    <td>{{ $productColor->size->name }}</td>
+                                    <td>{{ $productColor->quantity }}</td>
+                                    @if ($loop->first)
+                                        <td rowspan="{{ $product->productColors->count() }}">{{ $product->note }}</td>
+                                    @endif
+                                    <td>
+                                        <a href="{{ route('products.edit', $product->id) }}">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 @endsection
+

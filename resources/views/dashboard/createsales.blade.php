@@ -44,7 +44,7 @@
                             </div>
                             <div class="row">
                                 @foreach ($products as $k => $product)
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4 cardwidth">
                                         <div class="card border shadow-0 m-2">
                                             <div class="card-body">
                                                 <div class="d-flex text-center m-2">
@@ -57,24 +57,25 @@
                                                 <div class="d-flex">
                                                     <img src="https://kesagroup.net/cdn/shop/products/Karungi_africanMapYellow_580x.jpg?v=1658244703"
                                                         class="border rounded center" style="width: 96px; height: 96px;">
-                                                    <div class="text-center ml-3">
+                                                    <div class="text-center ml-3 salescardwidth">
                                                         @foreach ($product->productColors as $key => $productColor)
                                                             <div class="d-flex">
-                                                                <div class="d-flex sales-details mr-3">
+                                                                <div class="d-flex sales-details mr-3 flex-1">
                                                                     <p class="d-flex"><span>{{ $productColor->size->name }}
                                                                         </span><span style="color: darkred"> |
                                                                         </span><span>{{ $productColor->color->name }}</span>
                                                                     </p>
                                                                 </div>
+                                                                <div class="button-container mb-2 flex-1">
+                                                                    <button class="remove"
+                                                                        onclick="decrease({{ $productColor->id }}, {{ $productColor->quantity }})">-</button>
+                                                                    <span class="count" id="{{ $productColor->id }}">0</span>
+                                                                    <button class="add"
+                                                                        onclick="increase({{ $productColor->id }}, {{ $productColor->quantity }})">+
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <div class="button-container mb-2">
-                                                                <button class="remove"
-                                                                    onclick="decrease({{ $productColor->id }}, {{ $productColor->quantity }})">-</button>
-                                                                <span class="count" id="{{ $productColor->id }}">0</span>
-                                                                <button class="add"
-                                                                    onclick="increase({{ $productColor->id }}, {{ $productColor->quantity }})">+
-                                                                </button>
-                                                            </div>
+
                                                         @endforeach
                                                     </div>
                                                 </div>
