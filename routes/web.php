@@ -111,6 +111,35 @@ Route::prefix('returns')->group(function () {
     Route::get("/sales/{salesId}", [ProductReturnController::class, 'salesReturn'])->name('returns.sales');
 });
 
+//Product Return Search
+Route::post('/dashboard/returnsearch', function (Request $request) {
+    $searchName = $request->input('searchName');
+    $startDate = $request->input('startDate');
+    $endDate = $request->input('endDate');
+
+    $query = ProductReturn::query();
+
+    if ($searchName) {
+        $query->where(function ($q) use ($searchName) {
+            $q->whereHas('saleCart.customer', function ($subQuery) use ($searchName) {
+                $subQuery->where('name', 'like', '%' . $searchName . '%');
+            })->orWhereHas('saleCart.productColor.product', function ($subQuery) use ($searchName) {
+                $subQuery->where('product_name', 'like', '%' . $searchName . '%');
+            });
+        });
+    }
+
+    if ($startDate && $endDate) {
+        $query->whereBetween('created_at', [$startDate, $endDate]);
+    }
+
+    $results = $query->get();
+
+    return view('dashboard.returnsearch', compact('results'));
+})->name('returns.search');
+
+
+
 Route::prefix('report')->group(function () {
     Route::get('/sales', [ProductController::class, 'report'])->name('report.sales');
 });
@@ -161,6 +190,32 @@ Route::get('/addsales', function (Request $request) {
 });
 
 Route::post('/addsales', [SaleCartController::class, 'store'])->name('addToCart');
+
+Route::post('/dashboard/salesearch', function (Request $request) {
+    $searchName = $request->input('searchName');
+    $startDate = $request->input('startDate');
+    $endDate = $request->input('endDate');
+
+    $query = SaleCart::query();
+
+    if ($searchName) {
+        $query->where(function ($q) use ($searchName) {
+            $q->whereHas('customer', function ($subQuery) use ($searchName) {
+                $subQuery->where('name', 'like', '%' . $searchName . '%');
+            })->orWhereHas('productColor.product', function ($subQuery) use ($searchName) {
+                $subQuery->where('product_name', 'like', '%' . $searchName . '%');
+            });
+        });
+    }
+
+    if ($startDate && $endDate) {
+        $query->whereBetween('created_at', [$startDate, $endDate]);
+    }
+
+    $results = $query->get();
+
+    return view('dashboard.salesearch', compact('results'));
+})->name('sales.search');
 
 //returns route
 
@@ -225,27 +280,6 @@ Route::get('/addexpensecategory', function () {
 // Expense routes
 Route::resource('expenses', ExpenseController::class);
 Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
-
-// Route::post('/expenses/search', function (Request $request) {
-//     $searchName = $request->input('searchNamePhone');
-//     $startDate = $request->input('startDate');
-//     $endDate = $request->input('endDate');
-
-//     $query = Expense::query();
-
-//     if ($searchName) {
-//         $query->where('expense_title', 'like', '%' . $searchName . '%');
-//     }
-
-//     if ($startDate && $endDate) {
-//         $query->whereBetween('date', [$startDate, $endDate]);
-//     }
-
-//     $expenses = $query->get();
-
-//     return view('expenses.search', compact('expenses'));
-// })->name('expenses.search');
-
 Route::post('/expenses/search', function (Request $request) {
     $searchName = $request->input('searchName');
     $startDate = $request->input('startDate');

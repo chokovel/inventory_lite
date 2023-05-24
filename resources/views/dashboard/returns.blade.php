@@ -12,25 +12,30 @@
             </li>
         </ul>
         <!-- start main content section -->
-
-        {{-- ............ --}}
-        <form class="search-form">
-            <div class="form-group m-3">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchNamePhone" placeholder="Name or Phone Number">
-                    <label for="dateRange" class="sr-only">Date Range:</label>
-                    <input type="date" class="form-control" id="startDate">
-                    <span class="input-group-text">to</span>
-                    <input type="date" class="form-control" id="endDate">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="material-icons fa fa-search"></i>
-                    </button>
-                </div>
+        <div class="container my-3">
+            <div class="d-flex justify-content-between">
+                {{-- <h4 class="card-title mb-3 me-3">All Sales</h4> --}}
+                <button class="btn btn-success btn-sm"><a href="{{ '/sales' }}">Goto Sales</a></button>
             </div>
-        </form>
-
+        </div>
+        {{-- ............ --}}
         <div class="card">
             <div class="card-body">
+                <form action="{{ route('returns.search') }}" method="POST" class="search-form">
+                    @csrf
+                    <div class="form-group m-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="searchName" placeholder="Product or Customer Name">
+                            <label for="dateRange" class="sr-only">Date Range:</label>
+                            <input type="date" class="form-control" name="startDate">
+                            <span class="input-group-text">to</span>
+                            <input type="date" class="form-control" name="endDate">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="material-icons fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="text-primary">

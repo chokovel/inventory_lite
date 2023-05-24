@@ -25,10 +25,15 @@ class ProductReturn extends Model
         });
     }
 
+
     public function productColor(): BelongsTo
     {
         return $this->belongsTo(ProductColor::class, 'product_color_id', 'id');
     }
+    public function productColors()
+     {
+         return $this->hasMany(ProductColor::class);
+     }
 
     public function saleCart(): BelongsTo
     {
@@ -38,5 +43,10 @@ class ProductReturn extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer', 'id');
     }
 }

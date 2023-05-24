@@ -15,7 +15,7 @@ class ProductReturnController extends Controller
      */
     public function index()
     {
-        $returns = ProductReturn::with('saleCart')->get();
+        $returns = ProductReturn::orderBy('created_at', 'DESC')->with('saleCart')->get();
         return view('dashboard.returns')->with('returns', $returns);
     }
 

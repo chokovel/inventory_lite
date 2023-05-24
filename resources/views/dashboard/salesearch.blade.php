@@ -22,7 +22,7 @@
 
         <div class="card">
             <div class="card-body">
-                 <form action="{{ route('sales.search') }}" method="POST" class="search-form">
+                <form action="{{ route('sales.search') }}" method="POST" class="search-form">
                     @csrf
                     <div class="form-group m-3">
                         <div class="input-group">
@@ -50,8 +50,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($sales))
-                                @foreach ($sales as $key => $sale)
+                            @if (isset($results))
+                                @foreach ($results as $key => $sale)
                                     <tr>
                                         <td>{{ $key + 1}}</td>
                                         <td class="text-left">
@@ -82,7 +82,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="2">No sales found.</td>
+                                    <td colspan="6">No sales found.</td>
                                 </tr>
                             @endif
                         </tbody>

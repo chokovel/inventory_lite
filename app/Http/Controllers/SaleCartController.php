@@ -18,7 +18,7 @@ class SaleCartController extends Controller
     public function index(Request $request)
     {
         //
-        $saleCart = SaleCart::with('productColor', 'customer')->orderBy('created_at', 'DESC')->get();
+        $saleCart = SaleCart::orderBy('created_at', 'DESC')->with('productColor', 'customer')->orderBy('created_at', 'DESC')->get();
         // return $saleCart;
         return view('dashboard.sales')->with('sales', $saleCart);
     }
@@ -135,7 +135,7 @@ class SaleCartController extends Controller
         $items = session()->get('return_items');
 
 
-        if (!$items) return back()->with('message', 'No item on hhe cart');
+        if (!$items) return back()->with('message', 'No item in the cart');
         foreach ($items as $item) {
             if ($item != null) {
                 $item['customer_id'] = $customer_id;
