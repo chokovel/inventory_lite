@@ -38,49 +38,49 @@ Route::get('/', function () {
 });
 
 // Route::middleware('role:admin,manager,staff')->group(function () {
-    // returns route
-    Route::prefix('returns')->group(function () {
-        Route::get('/', [ProductReturnController::class, 'index'])->name('returns.list');
-        Route::get("/{id}", [])->name('returns.view');
-        Route::post('/{salesId}', [ProductReturnController::class, 'store'])->name('returns.save');
-        Route::get("/sales/{salesId}", [ProductReturnController::class, 'salesReturn'])->name('returns.sales');
-    });
-    Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
+// returns route
+Route::prefix('returns')->group(function () {
+    Route::get('/', [ProductReturnController::class, 'index'])->name('returns.list');
+    Route::get("/{id}", [])->name('returns.view');
+    Route::post('/{salesId}', [ProductReturnController::class, 'store'])->name('returns.save');
+    Route::get("/sales/{salesId}", [ProductReturnController::class, 'salesReturn'])->name('returns.sales');
+});
+Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
 
-    Route::post("/addreturns", [SaleCartController::class, 'returnStore'])
+Route::post("/addreturns", [SaleCartController::class, 'returnStore'])
     ->name('return.store');
 
-    Route::middleware('role:admin')->Route::get('/addreturns', function (Request $request) {
-        $products = [];
-        if ($request->search) {
-            $search = strtolower($request->search);
-            $products = Product::with('productColors.color', 'productColors.size')
-                ->where('product_name', 'like', '%' . $search . '%')
-                ->orderBy('created_at', 'desc')
-                ->get();
-        } else {
-            $products = Product::with('productColors.color', 'productColors.size')
-                ->orderBy('created_at', 'desc')
-                ->get();
-        }
+Route::middleware('role:admin')->Route::get('/addreturns', function (Request $request) {
+    $products = [];
+    if ($request->search) {
+        $search = strtolower($request->search);
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->where('product_name', 'like', '%' . $search . '%')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    } else {
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
 
-        if (!count($products)) {
-            $products = Product::with('productColors.color', 'productColors.size')
-                ->orderBy('created_at', 'desc')
-                ->get();
+    if (!count($products)) {
+        $products = Product::with('productColors.color', 'productColors.size')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+    $totalProductsSum = 0;
+    if (session()->has('return_items')) {
+        $sessionProducts = session('return_items');
+        foreach ($sessionProducts as $sessionProduct) {
+            $sessionProduct != null ?
+                $totalProductsSum = $totalProductsSum + $sessionProduct['amount'] : $totalProductsSum;
         }
-        $totalProductsSum = 0;
-        if (session()->has('return_items')) {
-            $sessionProducts = session('return_items');
-            foreach ($sessionProducts as $sessionProduct) {
-                $sessionProduct != null ?
-                    $totalProductsSum = $totalProductsSum + $sessionProduct['amount'] : $totalProductsSum;
-            }
-        }
+    }
 
-        return view('dashboard.createreturn')
-            ->with('products', $products)
-            ->with('totalProductsSum', $totalProductsSum);
+    return view('dashboard.createreturn')
+        ->with('products', $products)
+        ->with('totalProductsSum', $totalProductsSum);
     // });
 
     // salescart
@@ -170,7 +170,6 @@ Route::get('/', function () {
 
     // Update Product
     Route::put('/products/{id}', 'ProductController@update')->name('products.update');
-
 });
 
 Route::middleware('role:admin,manager')->group(function () {
@@ -186,7 +185,7 @@ Route::middleware('role:admin,manager')->group(function () {
     });
 
     Route::prefix('report')->group(function () {
-    Route::get('/sales', [ProductController::class, 'report'])->name('report.sales');
+        Route::get('/sales', [ProductController::class, 'report'])->name('report.sales');
     });
 
     // Sales route
@@ -198,7 +197,6 @@ Route::middleware('role:admin,manager')->group(function () {
     Route::get('/staff/{id}/edit', [UserController::class, 'edit'])->name('staff.edit');
     Route::put('/staff/{user}', [UserController::class, 'update'])->name('staff.update');
     Route::delete('/staff/{user}', [UserController::class, 'destroy'])->name('staff.destroy');
-
 });
 
 Route::middleware(['role:admin'])->group(function () {
@@ -212,8 +210,8 @@ Route::middleware(['role:admin'])->group(function () {
     //purchases route
     Route::resource('purchases', PurchaseController::class);
     Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create');
-
-
 });
+
+
 
 require __DIR__ . '/auth.php';

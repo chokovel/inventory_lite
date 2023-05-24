@@ -337,7 +337,8 @@ Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('pro
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
 Route::post('/products/search', [ProductController::class, 'search'])->name('products.search');
 
-
-
+Route::get("/tests", function () {
+    return "Hello Badmous";
+})->middleware(['checkRole:admin|superadmin']);
 
 require __DIR__ . '/auth.php';

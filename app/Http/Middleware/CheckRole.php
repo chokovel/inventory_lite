@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CheckRole
 {
@@ -17,14 +18,18 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!Auth::check() || !$request->user()->hasRole(['admin'])) {
-            if ($request->routeIs('login')) {
-                // User is already on the login page, so return the original response
-                return $next($request);
-            }
 
-            return redirect()->route('login');
-        }
+        Log::alert($roles);
+        if(Auth::user()->hasAny)
+        // return;
+        // if (!Auth::check() || !$request->user()->hasRole(['admin'])) {
+        //     if ($request->routeIs('login')) {
+        //         // User is already on the login page, so return the original response
+        //         return $next($request);
+        //     }
+
+        //     return redirect()->route('login');
+        // }
 
         return $next($request);
     }
