@@ -20,7 +20,7 @@
 
         {{-- ............ --}}
 
-       <form action="{{ route('salesreport.search') }}" method="POST" class="search-form">
+        <form action="{{ route('salesreport.search') }}" method="POST" class="search-form">
             @csrf
             <div class="form-group m-3">
                 <div class="input-group">
@@ -51,8 +51,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($products))
-                                @foreach ($products as $key => $product)
+                            @if ($results->isNotEmpty())
+                               @foreach ($results as $key => $product)
                                     <tr>
                                         <td class="text-left"> {{ $key + 1 }} </td>
                                         <td>{{ $product->product_name }}</td>
@@ -65,11 +65,11 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="6">No sales report found.</td>
-                                </tr>
-                            @endif
+                                @else
+                                    <tr>
+                                        <td colspan="6">No sales report found.</td>
+                                    </tr>
+                                @endif
                         </tbody>
                     </table>
                 </div>

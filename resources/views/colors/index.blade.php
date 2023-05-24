@@ -54,7 +54,7 @@
           @endforeach
           @else
         <tr>
-            <td colspan="2">No color found.</td>
+            <td colspan="4">No color found.</td>
         </tr>
     @endif
         </tbody>

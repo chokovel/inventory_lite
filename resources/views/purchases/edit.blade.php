@@ -82,7 +82,7 @@
     <div class="form-group">
         <label>Previous Image</label>
         <div>
-            <img src="{{ asset($purchase->image) }}" alt="Previous Image" class="img-thumbnail">
+            <img class="rounded" src="{{ asset($purchase->image) }}" alt="Previous Image" class="img-thumbnail">
         </div>
     </div>
 @endif

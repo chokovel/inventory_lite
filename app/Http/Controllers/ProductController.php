@@ -150,60 +150,6 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    //    public function update(Request $request, $id)
-    // {
-    //     $validatedData = $request->validate([
-    //         'product-name' => 'required|string',
-    //         'category' => 'required|integer',
-    //         'price' => 'required|numeric',
-    //         'image' => 'file|mimes:jpeg,png,jpg,webp,gif|max:10000',
-    //         'note' => 'nullable|string',
-    //         'size' => 'required|array',
-    //         'size.*' => 'integer',
-    //         'color' => 'required|array',
-    //         'color.*' => 'integer',
-    //         'quantity' => 'required|array',
-    //         'quantity.*' => 'integer',
-    //     ]);
-
-    //     // Find the product to update
-    //     $product = Product::findOrFail($id);
-    //     $product->product_name = $validatedData['product-name'];
-    //     $product->category_id = $validatedData['category'];
-    //     $product->price = $validatedData['price'];
-
-    //     // Update the image if a new one is provided
-    //     if ($request->hasFile('image')) {
-    //         $image = $request->file('image');
-    //         $imagePath = $image->store('public/images');
-    //         $product->image = $imagePath;
-    //     }
-
-    //     // Save the product to the database
-    //     $product->save();
-
-    //     // Delete all existing related size, color, and quantity data
-    //     $product->colors()->detach();
-
-    //     // Store the updated related size, color, and quantity data
-    //     $sizes = $validatedData['size'];
-    //     $colors = $validatedData['color'];
-    //     $quantities = $validatedData['quantity'];
-
-    //     for ($i = 0; $i < count($sizes); $i++) {
-    //         $productColors = new ProductColor();
-    //         $productColors->color_id = $colors[$i];
-    //         $productColors->quantity = $quantities[$i];
-    //         $productColors->size_id = $sizes[$i];
-    //         $productColors->product()->associate($product);
-    //         $productColors->save();
-    //     }
-
-    //     // Redirect to a success page or perform any additional actions
-    //     return redirect()->route('products.index')->with('success', 'Product updated successfully.');
-    // }
-
-
     public function update(Request $request, $id)
     {
         // return $request;
@@ -292,4 +238,32 @@ class ProductController extends Controller
         // return $products;
         return view('dashboard.salesreport')->with('products', $products);
     }
+
+    public function search(Request $request)
+    {
+        $searchNamePhone = $request->input('searchNamePhone');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $query = Product::query();
+
+        if ($searchNamePhone) {
+            $query->where(function ($q) use ($searchNamePhone) {
+                $q->where('product_name', 'like', '%' . $searchNamePhone . '%')
+                    ->orWhere('price', 'like', '%' . $searchNamePhone . '%');
+            });
+        }
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate])
+                    ->orWhereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        $results = $query->get();
+
+        return view('products.search', compact('results'));
+    }
+
+
+
 }

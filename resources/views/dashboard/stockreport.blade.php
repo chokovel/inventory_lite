@@ -20,14 +20,15 @@
 
         {{-- ............ --}}
 
-        <form class="search-form">
+        <form action="{{ route('stockreport.search') }}" method="POST" class="search-form">
+            @csrf
             <div class="form-group m-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchNamePhone" placeholder="Name or Phone Number">
+                    <input type="text" class="form-control" name="searchNamePhone" placeholder="Name or Phone Number">
                     <label for="dateRange" class="sr-only">Date Range:</label>
-                    <input type="date" class="form-control" id="startDate">
+                    <input type="date" class="form-control" name="startDate">
                     <span class="input-group-text">to</span>
-                    <input type="date" class="form-control" id="endDate">
+                    <input type="date" class="form-control" name="endDate">
                     <button type="submit" class="btn btn-primary">
                         <i class="material-icons fa fa-search"></i>
                     </button>

@@ -1,6 +1,7 @@
 @extends('layouts.homehead')
 
 @section('content')
+
     <div x-data="sales">
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
@@ -62,8 +63,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($purchases))
-                                @foreach ($purchases as $purchase)
+                            @if (isset($results))
+                                @foreach ($results as $purchase)
                                     <tr>
                                         <td class="text-left">{{ $purchase->id }}</td>
                                         @if ($purchase->image)

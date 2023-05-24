@@ -20,7 +20,7 @@
 
         {{-- ............ --}}
 
-       <form action="{{ route('salesreport.search') }}" method="POST" class="search-form">
+        <form action="{{ route('stockreport.search') }}" method="POST" class="search-form">
             @csrf
             <div class="form-group m-3">
                 <div class="input-group">
@@ -44,32 +44,30 @@
                             <tr>
                                 <th class="text-left">Id</th>
                                 <th>Product Name</th>
+                                <th>Old Stock</th>
+                                <th>New/Added Stock</th>
                                 <th>Total Stock</th>
-                                <th>Total Sales</th>
-                                <th>Total Returns</th>
                                 <th>Total Amount</th>
+                                <th>Date stocked</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($products))
-                                @foreach ($products as $key => $product)
+                                @forelse ($results as $key =>  $stockLog)
                                     <tr>
                                         <td class="text-left"> {{ $key + 1 }} </td>
-                                        <td>{{ $product->product_name }}</td>
-                                        <td>{{ $product->productColors->sum('quantity') }} </td>
-                                        {{-- <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td> --}}
-                                        <td>{{ $product->saleCarts->sum('quantity') }} </td>
-                                        {{-- <td>{{ $product->productReturns->sum('quantity') * $product->price }}</td> --}}
-                                        <td>{{ $product->productReturns->sum('quantity') }}</td>
-                                        <td>{{ ($product->saleCarts->sum('quantity') + $product->productReturns->sum('quantity')) * $product->price }}
+                                        <td>{{ $stockLog->product->product_name }}</td>
+                                        <td>{{ $stockLog->old_stock }} </td>
+                                        <td>{{ $stockLog->new_stock }} </td>
+                                        <td>{{ $stockLog->old_stock + $stockLog->new_stock }}</td>
+                                        <td>{{ ($stockLog->old_stock + $stockLog->new_stock) * $stockLog->price }}
                                         </td>
+                                        <td>{{ $stockLog->created_at }}</td>
                                     </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="6">No sales report found.</td>
-                                </tr>
-                            @endif
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center">No results found.</td>
+                                    </tr>
+                                @endforelse
                         </tbody>
                     </table>
                 </div>
