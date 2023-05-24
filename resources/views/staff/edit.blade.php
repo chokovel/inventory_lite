@@ -23,52 +23,48 @@
 
 <div class="card">
     <div class="card-body">
-        <form method="POST" action="{{ route('staff.update', $staff->id) }}">
+        <form method="POST" action="{{ route('staff.update', ['user' => $user->id]) }}">
             @csrf
             @method('PUT')
 
             <div class="form-group">
                 <label for="name">Name</label>
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', optional($staff)->name)" required autofocus autocomplete="name" />
+                <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}" required autofocus autocomplete="name">
             </div>
 
             <div class="form-group">
                 <label for="phone">Phone</label>
-                <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', optional($staff)->phone)" required autofocus autocomplete="phone" />
+                <input id="phone" type="text" class="form-control" name="phone" value="{{ $user->phone }}" required autofocus autocomplete="phone">
             </div>
 
             <div class="form-group">
                 <label for="dob">DOB</label>
-                <x-text-input id="dob" name="dob" type="date" class="mt-1 block w-full" :value="old('dob', optional($staff)->dob)" required autocomplete="dob" />
+                <input id="dob" type="date" class="form-control" name="dob" value="{{ $user->dob }}" required autocomplete="dob">
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', optional($staff)->email)" required autocomplete="email" />
+                <input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required autocomplete="email">
             </div>
 
             <div class="form-group">
                 <label for="address">Address</label>
-                <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', optional($staff)->address)" required autocomplete="address" />
-            </div>
-
-            {{-- <div class="form-group">
-                <label for="password">Password</label>
-                <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" :value="old('password')" required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <input id="address" type="text" class="form-control" name="address" value="{{ $user->address }}" required autocomplete="address">
             </div>
 
             <div class="form-group">
-                <label for="password_confirmation">Confirm Password</label>
-                <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" :value="old('password_confirmation')" required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div> --}}
+                <label for="role">Role</label>
+                <select id="role" class="form-control" name="role">
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <button type="submit" class="btn btn-primary mt-3">Update User</button>
         </form>
     </div>
 </div>
-
 
 
 <!-- end main content section -->

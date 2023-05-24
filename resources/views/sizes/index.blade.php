@@ -1,7 +1,6 @@
 @extends('layouts.homehead')
 
 @section('content')
-
     <div x-data="sales">
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
@@ -14,8 +13,8 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                <h4 class="card-title mb-3 me-3">All Size</h4>
-                <button class="btn btn-success btn-sm"><a href="{{ '/addsize' }}">Create Size</a></button>
+                <h4 class="card-title mb-3 me-3">All Sizes</h4>
+                <a href="{{ '/addsize' }}" class="btn btn-success btn-sm">Create Size</a>
             </div>
         </div>
 
@@ -29,45 +28,41 @@
                             <tr>
                                 <th class="text-left">#</th>
                                 <th>Name</th>
-                                <th class="text-right">Actions</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($sizes))
-                                @foreach ($sizes as $key => $size)
-                                    <tr>
-                                        <td class="text-left">{{ $key + 1 }}</td>
-                                        <td>{{ $size->name }}</td>
-                                        <td class="td-actions text-right d-flex">
-                                            <form action="{{ route('sizes.destroy', $size->id) }}" method="post"
-                                                style="display: inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <a href="{{ route('sizes.edit', $size->id) }}"
-                                                    class="btn btn-primary btn-round btn-sm">
-                                                    <i class="material-icons">edit</i>
-                                                </a>
-                                                <button type="submit" class="btn btn-danger btn-round btn-sm">
-                                                    <i class="material-icons">delete</i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
+                        @if (isset($sizes))
+                            @foreach ($sizes as $key => $size)
                                 <tr>
-                                    <td colspan="4">No size found.</td>
+                                    <td class="text-left">{{ $key + 1 }}</td>
+                                    <td>{{ $size->name }}</td>
+                                    <td class="td-actions d-flex">
+                                        <a href="{{ route('sizes.edit', ['size' => $size->id]) }}"
+                                            class="btn btn-primary btn-round btn-sm">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <form action="{{ route('sizes.destroy', ['size' => $size->id]) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-round btn-sm">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
-                            @endif
-                        </tbody>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="3">No size found.</td>
+                            </tr>
+                        @endif
+                    </tbody>
+
                     </table>
                 </div>
             </div>
         </div>
-
-
-
-
         <!-- end main content section -->
     </div>
 @endsection

@@ -20,8 +20,10 @@
 
     {{-- ............ --}}
 <div class="card col-8" style="margin:0 auto;">
+  <div class="card-header">
+    <h4 class="card-title">Create Category</h4>
+  </div>
   <div class="card-body">
-    <h5 class="card-title">Create Category</h5>
     <form action="{{ route('categories.store') }}" method="post">
 
       @csrf

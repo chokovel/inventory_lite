@@ -19,17 +19,13 @@ class CheckRole
     public function handle(Request $request, Closure $next, ...$roles)
     {
 
-        Log::alert($roles);
-        if(Auth::user()->hasAny)
+        // Log::alert($roles);
+        // Log::alert(Auth::user()->hasRole($roles));
         // return;
-        // if (!Auth::check() || !$request->user()->hasRole(['admin'])) {
-        //     if ($request->routeIs('login')) {
-        //         // User is already on the login page, so return the original response
-        //         return $next($request);
-        //     }
+        if (!Auth::check() || !Auth::user()->hasRole($roles)) {
 
-        //     return redirect()->route('login');
-        // }
+            return redirect()->route('login')->with('error', 'You are not logged in!');;
+        }
 
         return $next($request);
     }

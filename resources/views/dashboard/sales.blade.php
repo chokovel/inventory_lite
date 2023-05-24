@@ -70,13 +70,6 @@
                                                 class="btn btn-primary btn-round btn-sm">
                                                 <i class="material-icons">Return</i>
                                             </a>
-                                            {{-- <form action="" method="post" style="display: inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-round btn-sm">
-                                                    <i class="material-icons">delete</i>
-                                                </button>
-                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach

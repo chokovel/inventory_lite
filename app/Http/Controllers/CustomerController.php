@@ -134,4 +134,16 @@ class CustomerController extends Controller
         if ($customer) return response()->json(['statusCode' => 200, 'body' => $customer], 200);
         else return response()->json(['statusCode' => 400, 'body' => 'No Customer found'], 400);
     }
+
+     public function search(Request $request)
+    {
+        $searchTerm = $request->input('searchNamePhone');
+
+        $results = Customer::where('name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('phone', 'like', '%' . $searchTerm . '%')
+            ->get();
+
+        return view('customers.search', compact('results'));
+    }
+
 }

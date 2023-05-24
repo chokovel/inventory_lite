@@ -142,4 +142,16 @@ class SupplierController extends Controller
             return back()->withInput()->with('error', 'Failed to delete supplier.');
         }
     }
+
+     public function search(Request $request)
+    {
+        $searchTerm = $request->input('searchNamePhone');
+
+        $results = Supplier::where('name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('phone', 'like', '%' . $searchTerm . '%')
+            ->get();
+
+        return view('suppliers.search', compact('results'));
+    }
+
 }

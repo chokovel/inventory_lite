@@ -39,6 +39,7 @@
                 <label for="dob">DOB</label>
                 <input id="dob" type="date" class="form-control" name="dob" required autocomplete="dob">
             </div>
+
             <div class="form-group">
                 <label for="email">Email</label>
                 <input id="email" type="email" class="form-control" name="email" required autocomplete="email">
@@ -48,11 +49,22 @@
                 <label for="address">Address</label>
                 <input id="address" type="text" class="form-control" name="address" required autocomplete="address">
             </div>
+
+            <div class="form-group">
+                <label for="role">User Role</label>
+                <select id="role" class="form-control" name="role" required>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" type="password" class="form-control" name="password" name="password" required autocomplete="new-password">
+                <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
+
             <div class="form-group">
                 <label for="password_confirmation">Confirm Password</label>
                 <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">

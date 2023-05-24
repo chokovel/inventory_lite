@@ -23,6 +23,18 @@
 
 <div class="card">
   <div class="card-body">
+    <form action="{{ route('supplier.search') }}" method="POST" class="search-form">
+        @csrf
+        <div class="form-group m-3">
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchNamePhone"
+                    placeholder="Name or Phone Number">
+                <button type="submit" class="btn btn-primary">
+                    <i class="material-icons fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
     <div class="table-responsive">
       <table class="table table-bordered table-striped">
         <thead class="text-primary">

@@ -12,15 +12,17 @@
         </ul>
         <!-- start main content section -->
         <div class="container my-3  float-right">
-            <div class="d-flex justify-content-between  float-right">
+            <div class="d-flex justify-content-between  float-right col-8" style="margin:0 auto;">
                 <button class="btn btn-info btn-sm"><a href="{{ '/sizes' }}">Go to Sizes</a></button>
             </div>
         </div>
 
         {{-- ............ --}}
         <div class="card col-8" style="margin:0 auto;">
+            <div class="card-header">
+                <h4 class="card-title">Create Size</h4>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Create Size</h5>
                 <form action="{{ route('sizes.store') }}" method="post">
 
                     @csrf

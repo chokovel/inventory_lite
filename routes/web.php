@@ -39,15 +39,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+
 Route::get('/home', function () {
     return view('home');
-});
+})->middleware(['checkRole:admin, manager, staff']);
 
 //stock report
 Route::get('/stockreport', function () {
     $stockLogs = StockLog::orderBy('created_at', 'DESC')->get();
     return view('dashboard.stockreport')->with('stockLogs', $stockLogs);
-});
+})->middleware(['checkRole:admin, manager']);
 
 Route::post('/stockreportsearch', function (Request $request) {
     $searchNamePhone = $request->input('searchNamePhone');
@@ -71,14 +72,14 @@ Route::post('/stockreportsearch', function (Request $request) {
     $results = $query->get();
 
     return view('dashboard.stockreportsearch', compact('results'));
-})->name('stockreport.search');
+})->name('stockreport.search')->middleware(['checkRole:admin, manager']);
 
 
 
 //sales report
 Route::get('/salesreport', function () {
     return view('dashboard.salesreport');
-});
+})->middleware(['checkRole:admin, manager']);
 
 Route::post('/salesreportsearch', function (Request $request) {
     $searchNamePhone = $request->input('searchNamePhone');
@@ -102,14 +103,14 @@ Route::post('/salesreportsearch', function (Request $request) {
     $results = $query->get();
 
     return view('dashboard.salesreportsearch', compact('results'));
-})->name('salesreport.search');
+})->name('salesreport.search')->middleware(['checkRole:admin, manager']);
 
 Route::prefix('returns')->group(function () {
     Route::get('/', [ProductReturnController::class, 'index'])->name('returns.list');
     Route::get("/{id}", [])->name('returns.view');
     Route::post('/{salesId}', [ProductReturnController::class, 'store'])->name('returns.save');
     Route::get("/sales/{salesId}", [ProductReturnController::class, 'salesReturn'])->name('returns.sales');
-});
+})->middleware(['checkRole:admin, manager, staff']);
 
 //Product Return Search
 Route::post('/dashboard/returnsearch', function (Request $request) {
@@ -136,26 +137,26 @@ Route::post('/dashboard/returnsearch', function (Request $request) {
     $results = $query->get();
 
     return view('dashboard.returnsearch', compact('results'));
-})->name('returns.search');
+})->name('returns.search')->middleware(['checkRole:admin, manager, staff']);
 
 
 
 Route::prefix('report')->group(function () {
     Route::get('/sales', [ProductController::class, 'report'])->name('report.sales');
-});
+})->middleware(['checkRole:admin, manager']);
 
 // Sales route
-Route::get('/sales', [SaleCartController::class, 'index'])->name('sales');
+Route::get('/sales', [SaleCartController::class, 'index'])->name('sales')->middleware(['checkRole:admin, manager, staff']);
 
 
-Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
+Route::post("/sales/cart", [SaleCartController::class, 'setSession'])->middleware(['checkRole:admin, manager, staff']);
 
-Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
+Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet'])->middleware(['checkRole:admin, manager, staff']);
 
 Route::delete('/sales/clear', function () {
         session()->remove('items');
         return back()->with('message', 'Cat is now empty');
-    })->name('sales.clear');
+    })->name('sales.clear')->middleware(['checkRole:admin, manager, staff']);
 
 Route::get('/addsales', function (Request $request) {
     $products = [];
@@ -187,9 +188,9 @@ Route::get('/addsales', function (Request $request) {
     return view('dashboard.createsales')
         ->with('products', $products)
         ->with('totalProductsSum', $totalProductsSum);
-});
+})->middleware(['checkRole:admin, manager, staff']);
 
-Route::post('/addsales', [SaleCartController::class, 'store'])->name('addToCart');
+Route::post('/addsales', [SaleCartController::class, 'store'])->name('addToCart')->middleware(['checkRole:admin, manager, staff']);
 
 Route::post('/dashboard/salesearch', function (Request $request) {
     $searchName = $request->input('searchName');
@@ -215,12 +216,12 @@ Route::post('/dashboard/salesearch', function (Request $request) {
     $results = $query->get();
 
     return view('dashboard.salesearch', compact('results'));
-})->name('sales.search');
+})->name('sales.search')->middleware(['checkRole:admin, manager, staff']);
+
 
 //returns route
-
 Route::post("/addreturns", [SaleCartController::class, 'returnStore'])
-    ->name('return.store');
+    ->name('return.store')->middleware(['checkRole:admin, manager, staff']);
 
 Route::get('/addreturns', function (Request $request) {
     $products = [];
@@ -253,17 +254,18 @@ Route::get('/addreturns', function (Request $request) {
     return view('dashboard.createreturn')
         ->with('products', $products)
         ->with('totalProductsSum', $totalProductsSum);
-});
+})->middleware(['checkRole:admin, manager, staff']);
 
 
-Route::get('/layouts/homehead', [UserController::class, 'showProfile'])->name('user');
+Route::get('/layouts/homehead', [UserController::class, 'showProfile'])->name('user')->middleware(['checkRole:admin, manager, staff']);
 
-Route::get('/staff', [UserController::class, 'index'])->name('staff.index');
+Route::get('/staff', [UserController::class, 'index'])->name('staff.index')->middleware(['checkRole:admin, manager']);
 Route::get('/staff/create', [UserController::class, 'create'])->name('staff.create');
 Route::post('/staff', [UserController::class, 'store'])->name('staff.store');
 Route::get('/staff/{id}/edit', [UserController::class, 'edit'])->name('staff.edit');
 Route::put('/staff/{user}', [UserController::class, 'update'])->name('staff.update');
 Route::delete('/staff/{user}', [UserController::class, 'destroy'])->name('staff.destroy');
+Route::post('/staff.search', [UserController::class, 'search'])->name('staff.search');
 
 // Category routes
 Route::resource('categories', CategoryController::class);
@@ -318,22 +320,29 @@ Route::resource('sizes', SizeController::class);
 Route::get('/addsize', function () {
     return view('sizes.create');
 });
+Route::get('/sizes/{size}/edit', [SizeController::class, 'edit'])->name('sizes.edit');
+Route::put('/sizes/{size}', [SizeController::class, 'update'])->name('sizes.update');
+
 
 
 //suppliers route
-Route::resource('suppliers', SupplierController::class);
+Route::resource('suppliers', SupplierController::class)->middleware(['checkRole:admin']);
 Route::get('/addsupplier', function () {
     return view('suppliers.create');
-});
+})->middleware(['checkRole:admin']);
+Route::post('/suppliers.search', [SupplierController::class, 'search'])->name('supplier.search')->middleware(['checkRole:admin']);
+
 
 //customers route
 Route::resource('customers', CustomerController::class);
 Route::get('/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+Route::post('/customers.search', [CustomerController::class, 'search'])->name('customer.search');
+
 
 
 //purchases route
-Route::resource('purchases', PurchaseController::class);
-Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create');
+Route::resource('purchases', PurchaseController::class)->middleware(['checkRole:admin']);
+Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create')->middleware(['checkRole:admin']);
 Route::post('/purchases/search', function (Request $request) {
     $searchName = $request->input('searchName');
     $startDate = $request->input('startDate');
@@ -357,7 +366,7 @@ Route::post('/purchases/search', function (Request $request) {
     $results = $query->get();
 
     return view('purchases.search', compact('results'));
-})->name('purchases.search');
+})->name('purchases.search')->middleware(['checkRole:admin']);
 
 
 //products route
@@ -371,8 +380,10 @@ Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('pro
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
 Route::post('/products/search', [ProductController::class, 'search'])->name('products.search');
 
+
+// example route
 Route::get("/tests", function () {
     return "Hello Badmous";
-})->middleware(['checkRole:admin|superadmin']);
+})->middleware(['checkRole:admin, manager, staff']);
 
 require __DIR__ . '/auth.php';

@@ -14,7 +14,6 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                {{-- <h4 class="card-title mb-3 me-3">All Sales</h4> --}}
                 <button class="btn btn-success btn-sm"><a href="{{ '/sales' }}">Goto Sales</a></button>
             </div>
         </div>
@@ -44,7 +43,6 @@
                                 <th>Customer Name</th>
                                 <th>Product/Color/Size</th>
                                 <th>Qty/Cost</th>
-                                {{-- <th class="text-right">Actions</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -55,7 +53,6 @@
                                             {{ $return->id }}<br>{{ $return->created_at }}<br>{{ $return->user ? $return->user->id : '' }}
                                         </td>
                                         <td>{{ $return->saleCart->customer->name ?? 'N/A' }}</td>
-                                        {{-- <td>{{ $return->saleCart->customer->name }}</td> --}}
                                         <td>
                                             {{ $return->saleCart->productColor->product->product_name }}<br>
                                             {{ $return->saleCart->productColor->color->name }}<br>
@@ -63,18 +60,6 @@
                                         </td>
                                         <td>{{ $return->quantity }}<br>{{ $return->quantity * $return->saleCart->productColor->product->price }}
                                         </td>
-                                        {{-- <td class="td-actions text-right d-flex">
-                    <a href="" class="btn btn-primary btn-round btn-sm">
-                        <i class="material-icons">edit</i>
-                    </a>
-                    <form action="" method="post" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-round btn-sm">
-                        <i class="material-icons">delete</i>
-                        </button>
-                    </form>
-                    </td> --}}
                                     </tr>
                                 @endforeach
                             @else

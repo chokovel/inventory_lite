@@ -23,6 +23,18 @@
 
 <div class="card">
   <div class="card-body">
+    <form action="{{ route('customer.search') }}" method="POST" class="search-form">
+        @csrf
+        <div class="form-group m-3">
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchNamePhone"
+                    placeholder="Name or Phone Number">
+                <button type="submit" class="btn btn-primary">
+                    <i class="material-icons fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
     <div class="table-responsive">
       <table class="table table-bordered table-striped">
         <thead class="text-primary">
@@ -39,9 +51,9 @@
         </thead>
         <tbody>
     @if(isset($customers))
-        @foreach ($customers as $customer)
+        @foreach ($customers as $key => $customer)
             <tr>
-                <td class="text-left">{{ $customer->id }}</td>
+                <td class="text-left">{{ $key + 1 }}</td>
                 <td>{{ $customer->name }}</td>
                 <td>{{ $customer->email }}</td>
                 <td>{{ $customer->phone }}</td>
@@ -50,13 +62,13 @@
                 <td>{{ $customer->note }}</td>
                 <td class="td-actions text-right d-flex">
                 <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary btn-round btn-sm">
-                    <i class="material-icons">edit</i>
+                    <i class="fa fa-pen"></i>
                 </a>
                 <form action="{{ route('customers.destroy', $customer->id) }}" method="post" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-round btn-sm">
-                    <i class="material-icons">delete</i>
+                    <i class="fa fa-trash"></i>
                     </button>
                 </form>
                 </td>

@@ -33,7 +33,7 @@
         <label class="bmd-label-floating">Name</label>
         <input type="text" name="name" class="form-control" value="{{ $color->name }}">
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary mt-3">Update</button>
     </form>
   </div>
 </div>

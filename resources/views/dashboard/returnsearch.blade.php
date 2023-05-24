@@ -14,7 +14,6 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                {{-- <h4 class="card-title mb-3 me-3">All Sales</h4> --}}
                 <button class="btn btn-success btn-sm"><a href="{{ '/sales' }}">Goto Sales</a></button>
             </div>
         </div>
@@ -54,7 +53,6 @@
                                             {{ $return->id }}<br>{{ $return->created_at }}<br>{{ $return->user ? $return->user->id : '' }}
                                         </td>
                                         <td>{{ $return->saleCart->customer->name ?? 'N/A' }}</td>
-                                        {{-- <td>{{ $return->saleCart->customer->name }}</td> --}}
                                         <td>
                                             {{ $return->saleCart->productColor->product->product_name }}<br>
                                             {{ $return->saleCart->productColor->color->name }}<br>

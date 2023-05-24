@@ -136,24 +136,40 @@
                                 {{-- <li>
                                     <a href="{{ '/home' }}" class="active">Analytics</a>
                                 </li> --}}
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
                                 <li>
                                     <a href="{{ '/sales' }}">Sales</a>
                                 </li>
                                 <li>
                                     <a href="{{ '/returns' }}">Returns</a>
                                 </li>
+                            @endif
+                            @endif
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin']))
                                 <li>
                                     <a href="{{ '/purchases' }}">Purchase</a>
                                 </li>
+                            @endif
+                            @endif
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin', 'manager']))
                                 <li>
                                     <a href="{{ route('report.sales') }}">Sales Report</a>
                                 </li>
                                 <li>
                                     <a href="{{'/stockreport'}}">Stock Report</a>
                                 </li>
+                            @endif
+                            @endif
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
                                 <li>
                                     <a href="{{ '/expenses' }}">Expense</a>
                                 </li>
+                            @endif
+                            @endif
                             </ul>
                         </li>
 
@@ -192,6 +208,8 @@
                             </button>
                             <ul x-cloak x-show="activeDropdown === 'elements'" x-collapse
                                 class="sub-menu text-gray-500">
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
                                 <li>
                                     <a href="{{ '/products' }}">All Products</a>
                                 </li>
@@ -204,6 +222,8 @@
                                 <li>
                                     <a href="{{ '/sizes' }}">Product Sizes</a>
                                 </li>
+                            @endif
+                            @endif
 
                             </ul>
                         </li>
@@ -237,15 +257,27 @@
                             </button>
                             <ul x-cloak x-show="activeDropdown === 'components'" x-collapse
                                 class="sub-menu text-gray-500">
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
                                 <li>
                                     <a href="{{ '/customers' }}">Customers</a>
                                 </li>
+                             @endif
+                            @endif
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin', 'manager']))
                                 <li>
-                                    <a href="{{ route('staff.index') }}">Staff</a>
+                                    <a href="{{ '/staff' }}">Staff</a>
                                 </li>
+                             @endif
+                            @endif
+                            @if (Auth::check())
+                            @if (Auth::user()->hasRole(['admin']))
                                 <li>
                                     <a href="{{ '/suppliers' }}">Suppliers</a>
                                 </li>
+                             @endif
+                            @endif
                             </ul>
                         </li>
                     </ul>
@@ -261,8 +293,8 @@
                     <div class="relative flex w-full items-center bg-white px-5 py-2.5 dark:bg-[#0e1726]">
                         <div class="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
                             <a href="index-2.html" class="main-logo flex shrink-0 items-center">
-                                <img class="inline w-8 ltr:-ml-1 rtl:-mr-1" src="assets/images/logo.svg"
-                                    alt="image" />
+                                {{-- <img class="inline w-8 ltr:-ml-1 rtl:-mr-1" src="assets/images/logo.svg"
+                                    alt="image" /> --}}
                                 <span
                                     class="hidden align-middle text-2xl font-semibold transition-all duration-300 ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light md:inline">StyleInLagos</span>
                             </a>
@@ -286,7 +318,7 @@
                             class="flex items-center space-x-1.5 ltr:ml-auto rtl:mr-auto rtl:space-x-reverse dark:text-[#d0d2d6] sm:flex-1 ltr:sm:ml-0 sm:rtl:mr-0 lg:space-x-2">
                             <div class="sm:ltr:mr-auto sm:rtl:ml-auto" x-data="{ search: false }"
                                 @click.outside="search = false">
-                                <form
+                                {{-- <form
                                     class="absolute inset-x-0 top-1/2 z-10 mx-4 hidden -translate-y-1/2 sm:relative sm:top-0 sm:mx-0 sm:block sm:translate-y-0"
                                     :class="{ '!block': search }" @submit.prevent="search = false">
                                     <div class="relative">
@@ -328,7 +360,7 @@
                                         <path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5"
                                             stroke-linecap="round" />
                                     </svg>
-                                </button>
+                                </button> --}}
                             </div>
                             <div>
                                 <a href="javascript:;" x-cloak x-show="$store.app.theme === 'light'"
@@ -394,9 +426,9 @@
                                             <a href="javascript:;" class="hover:text-primary"
                                                 @click="$store.app.toggleLocale(item.value),toggle()"
                                                 :class="{ 'bg-primary/10 text-primary': $store.app.locale == item.value }">
-                                                <img class="h-5 w-5 rounded-full object-cover"
+                                                {{-- <img class="h-5 w-5 rounded-full object-cover"
                                                     :src="`assets/images/flags/${item.value.toUpperCase()}.svg`"
-                                                    alt="image" />
+                                                    alt="image" /> --}}
                                                 <span class="ltr:ml-3 rtl:mr-3" x-text="item.key"></span>
                                             </a>
                                         </li>
@@ -506,7 +538,7 @@
                             </div>
                             <div class="dropdown flex-shrink-0" x-data="dropdown"
                                 @auth
-@click.outside="open = false">
+                                @click.outside="open = false">
                                 <a href="javascript:;" class="group relative" @click="toggle()">
                                     <span><img
                                             class="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
@@ -554,7 +586,7 @@
                                             </svg>
                                             {{ Auth()->user()->email }}</a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="users-profile.html" class="dark:hover:text-white" @click="toggle">
                                             <svg class="h-4.5 w-4.5 ltr:mr-2 rtl:ml-2" width="18" height="18"
                                                 viewBox="0 0 24 24" fill="none"
@@ -566,7 +598,7 @@
                                                     stroke="currentColor" stroke-width="1.5" />
                                             </svg>
                                             Update Profile</a>
-                                    </li>
+                                    </li> --}}
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                     <li class="border-t border-white-light dark:border-white-light/10">

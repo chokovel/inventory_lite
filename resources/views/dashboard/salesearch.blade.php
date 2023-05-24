@@ -13,7 +13,6 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                {{-- <h4 class="card-title mb-3 me-3">All Sales</h4> --}}
                 <button class="btn btn-success btn-sm"><a href="{{ '/addsales' }}">Create Sales</a></button>
             </div>
         </div>
@@ -70,13 +69,6 @@
                                                 class="btn btn-primary btn-round btn-sm">
                                                 <i class="material-icons">Return</i>
                                             </a>
-                                            {{-- <form action="" method="post" style="display: inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-round btn-sm">
-                                                    <i class="material-icons">delete</i>
-                                                </button>
-                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach
