@@ -75,7 +75,7 @@
                                     <input type="file" id="image" name="image" class="form-control">
                                     @if ($product->image)
                                         <div class="mt-2">
-                                            <img src="{{ asset('storage/' . str_replace('public/', '', $product->image)) }}"
+                                            <img class="rounded" src="{{ asset('storage/' . str_replace('public/', '', $product->image)) }}"
                                                 alt="Product Image" class="img-thumbnail" style="max-width: 75px;">
                                         </div>
                                     @endif

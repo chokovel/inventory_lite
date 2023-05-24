@@ -39,14 +39,14 @@
                                         <td class="text-left">{{ $key + 1 }}</td>
                                         <td>{{ $size->name }}</td>
                                         <td class="td-actions text-right d-flex">
-                                            <a href="{{ route('sizes.edit', $size->id) }}"
-                                                class="btn btn-primary btn-round btn-sm">
-                                                <i class="material-icons">edit</i>
-                                            </a>
                                             <form action="{{ route('sizes.destroy', $size->id) }}" method="post"
                                                 style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
+                                                <a href="{{ route('sizes.edit', $size->id) }}"
+                                                    class="btn btn-primary btn-round btn-sm">
+                                                    <i class="material-icons">edit</i>
+                                                </a>
                                                 <button type="submit" class="btn btn-danger btn-round btn-sm">
                                                     <i class="material-icons">delete</i>
                                                 </button>
@@ -56,7 +56,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="2">No size found.</td>
+                                    <td colspan="4">No size found.</td>
                                 </tr>
                             @endif
                         </tbody>

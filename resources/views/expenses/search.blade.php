@@ -26,25 +26,23 @@
 
         {{-- ............ --}}
 
-        <div class="card">
-            <div class="card-body">
-
-                <form action="{{ route('expenses.search') }}" method="POST" class="search-form">
-                    @csrf
-                    <div class="form-group m-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="searchName" placeholder="Title or category">
-                            <label for="dateRange" class="sr-only">Date Range:</label>
-                            <input type="date" class="form-control" name="startDate">
-                            <span class="input-group-text">to</span>
-                            <input type="date" class="form-control" name="endDate">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="material-icons fa fa-search"></i>
-                            </button>
+                <div class="card">
+                <div class="card-body">
+                    <form action="{{ route('expenses.search') }}" method="POST" class="search-form">
+                        @csrf
+                        <div class="form-group m-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="searchName" placeholder="Title or category">
+                                <label for="dateRange" class="sr-only">Date Range:</label>
+                                <input type="date" class="form-control" name="startDate">
+                                <span class="input-group-text">to</span>
+                                <input type="date" class="form-control" name="endDate">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="material-icons fa fa-search"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-
+                    </form>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="text-primary">
@@ -59,8 +57,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($expenses))
-                                @foreach ($expenses as $expense)
+                            @if(isset($results))
+                                @foreach ($results as $expense)
                                     <tr>
                                         <td class="text-left">{{ $expense->id }}</td>
                                         <td>{{ $expense->date }}</td>
@@ -83,10 +81,10 @@
                                             </form>
                                         </td>
                                     </tr>
-                                @endforeach
+                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7">No expense found.</td>
+                                    <td colspan="7">No result found.</td>
                                 </tr>
                             @endif
                         </tbody>

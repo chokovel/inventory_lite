@@ -136,4 +136,31 @@ class ExpenseController extends Controller
         if ($expense) return response()->json(['statusCode' => 200, 'body' => $expense], 200);
         else return response()->json(['statusCode' => 400, 'body' => 'No Expense found'], 400);
     }
+
+    public function search(Request $request)
+    {
+        $searchNamePhone = $request->input('searchNamePhone');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        $query = Expense::query();
+
+        if ($searchNamePhone) {
+            $query->where(function ($q) use ($searchNamePhone) {
+                $q->where('product_name', 'like', '%' . $searchNamePhone . '%')
+                    ->orWhere('price', 'like', '%' . $searchNamePhone . '%');
+            });
+        }
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate])
+                    ->orWhereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        $results = $query->get();
+
+        return view('products.search', compact('results'));
+    }
+
+
 }

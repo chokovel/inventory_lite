@@ -12,7 +12,7 @@
         </ul>
         <!-- start main content section -->
         <div class="container my-3">
-            <div class="d-flex justify-content-between mb-3">
+            <div class="d-flex justify-content-between">
                 {{-- <h4 class="card-title mb-3 me-3">All Products</h4> --}}
                 <button class="btn btn-success btn-sm">
                     <a href="{{ route('products.create') }}">Create Products</a>
@@ -31,9 +31,6 @@
                         </div>
                     </div>
                 </form> --}}
-        <div class="card">
-            <div class="card-body">
-
                 <form action="{{ route('products.search') }}" method="POST" class="search-form">
                     @csrf
                     <div class="form-group m-3">
@@ -70,7 +67,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $key =>  $product)
+                        @forelse ($results as $key =>  $product)
                             @foreach ($product->productColors as $productColor)
                                 <tr>
                                     {{-- @if ($loop->first)
@@ -78,7 +75,7 @@
                                     @endif --}}
                                     @if ($loop->first)
                                         <td rowspan="{{ $product->productColors->count() }}">
-                                            <img class="rounded" src="{{ asset(str_replace('public', 'storage', $product->image)) }}" alt="Product Image" width="75">
+                                            <img class="rounded" src="{{ asset(str_replace('public', 'storage', $product->image)) }}" alt="Product Image" width="50">
                                         </td>
                                         <td rowspan="{{ $product->productColors->count() }}">{{ $product->product_name }}</td>
                                     @endif
@@ -100,12 +97,14 @@
                                     @endif
                                 </tr>
                             @endforeach
-                        @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">No results found.</td>
+                                </tr>
+                            @endforelse
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
         </div>
     </div>
 @endsection
