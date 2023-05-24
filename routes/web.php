@@ -211,5 +211,7 @@ Route::get('/products/{id}/edit', 'ProductController@edit')->name('products.edit
 
 // Update Product
 Route::put('/products/{id}', 'ProductController@update')->name('products.update');
-
+Route::get("/tests", function () {
+    return "Hello Badmous";
+})->middleware(['checkRole:admin|superadmin']);
 require __DIR__ . '/auth.php';
