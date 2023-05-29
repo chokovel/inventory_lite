@@ -14,8 +14,11 @@
         <div class="container my-3">
             <div class="d-flex justify-content-between mb-3">
                 {{-- <h4 class="card-title mb-3 me-3">All Products</h4> --}}
-                <button class="btn btn-success btn-sm">
-                    <a href="{{ route('products.create') }}">Create Products</a>
+                <button class="btn btn-primary btn-sm">
+                    <a href="{{ route('products.create') }}">New Product</a>
+                </button>
+                <button class="btn btn-warning btn-sm">
+                    <a href="{{ '/addsales' }}">Sales</a>
                 </button>
             </div>
 

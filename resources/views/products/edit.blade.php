@@ -150,7 +150,7 @@
                                             <th>Color</th>
                                             <th>Size</th>
                                             <th>Quantity</th>
-                                            <th>Action</th>
+                                            {{-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody id="section-list">
@@ -190,9 +190,9 @@
                                                         {{ $message }}
                                                     @enderror
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <button type="button" class="btn btn-danger">Remove</button>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

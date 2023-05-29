@@ -29,6 +29,7 @@
                     <input type="date" class="form-control" name="startDate">
                     <span class="input-group-text">to</span>
                     <input type="date" class="form-control" name="endDate">
+                    <input type="month" class="form-control" name="month">
                     <button type="submit" class="btn btn-primary">
                         <i class="material-icons fa fa-search"></i>
                     </button>
@@ -52,9 +53,14 @@
                         </thead>
                         <tbody>
                             @if ($results->isNotEmpty())
-                               @foreach ($results as $key => $product)
+                               @foreach ($results as $month => $product)
                                     <tr>
-                                        <td class="text-left"> {{ $key + 1 }} </td>
+                                        <td colspan="6">
+                                            <h2 class="text-center"><strong>{{ $month }}</strong></h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"> {{ $loop->iteration }} </td>
                                         <td>{{ $product->product_name }}</td>
                                         <td>{{ $product->productColors->sum('quantity') }} </td>
                                         {{-- <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td> --}}

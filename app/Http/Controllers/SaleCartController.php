@@ -15,6 +15,18 @@ class SaleCartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function salesreport(){
+    //     $monthly = SaleCart::select(
+    //         DB::raw('(COUNT(*)) as count'),
+    //         DB::raw('MONTHNAME(created_at) as month_name')
+    //     )->whereYear('created_at', date('Y'))
+    //      ->groupBY('month_name')
+    //      ->get()->toArray();
+    //      dd($monthly);
+
+    // }
+
+
     public function index(Request $request)
     {
         //

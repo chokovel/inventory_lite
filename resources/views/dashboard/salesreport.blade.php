@@ -7,7 +7,7 @@
                 <a href="javascript:;" class="text-primary hover:underline">Dashboard</a>
             </li>
             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                <span>Salereport Page</span>
+                <span>Sales Report Page</span>
             </li>
         </ul>
         <!-- start main content section -->
@@ -29,6 +29,7 @@
                     <input type="date" class="form-control" name="startDate">
                     <span class="input-group-text">to</span>
                     <input type="date" class="form-control" name="endDate">
+                    <input type="month" class="form-control" name="month" placeholder="Month">
                     <button type="submit" class="btn btn-primary">
                         <i class="material-icons fa fa-search"></i>
                     </button>
@@ -48,28 +49,46 @@
                                 <th>Total Sales</th>
                                 <th>Total Returns</th>
                                 <th>Total Amount</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (isset($products))
-                                @foreach ($products as $key => $product)
+                            @foreach ($monthlyProducts as $month => $products)
+                                <tr>
+                                    <td colspan="7">
+                                        <h2 class="text-center"><strong>{{ $month }}</strong></h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <h2 class="text-center"><strong>Grand Total: N540000</strong></h2>
+                                    </td>
+                                </tr>
+                                @if ($products->isNotEmpty())
+                                    @foreach ($products as $product)
+                                <tr>
+                                    <td class="text-left"> {{ $loop->iteration }} </td>
+                                    <td>{{ $product->product_name }}</td>
+                                                                                                                                                <td>{{ $product->productColors->sum('quantity') }} </td>
+                                    {{-- <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td> --}}
+                                    <td>{{ $product->saleCarts->sum('quantity') }} </td>
+                                    {{-- <td>{{ $product->productReturns->sum('quantity') * $product->price }}</td> --}}
+                                    <td>{{ $product->productReturns->sum('quantity') }}</td>
+                                    {{-- <td>{{ ($product->saleCarts->sum('quantity') + $product->productReturns->sum('quantity')) * $product->price }}
+                                    </td> --}}
+                                    <td>{{ ($product->saleCarts->sum('quantity')) * $product->price }}
+                                    </td>
+                                    <td>{{ $product->created_at->format('M') }}</td>
+                                </tr>
+                            @endforeach
+                                @else
                                     <tr>
-                                        <td class="text-left"> {{ $key + 1 }} </td>
-                                        <td>{{ $product->product_name }}</td>
-                                        <td>{{ $product->productColors->sum('quantity') }} </td>
-                                        {{-- <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td> --}}
-                                        <td>{{ $product->saleCarts->sum('quantity') }} </td>
-                                        {{-- <td>{{ $product->productReturns->sum('quantity') * $product->price }}</td> --}}
-                                        <td>{{ $product->productReturns->sum('quantity') }}</td>
-                                        <td>{{ ($product->saleCarts->sum('quantity') + $product->productReturns->sum('quantity')) * $product->price }}
+                                        <td colspan="7">
+                                            <p>No sales made in {{ $month }}.</p>
                                         </td>
                                     </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="6">No sales report found.</td>
-                                </tr>
-                            @endif
+                                @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

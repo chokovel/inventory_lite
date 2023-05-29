@@ -81,10 +81,13 @@ Route::get('/salesreport', function () {
     return view('dashboard.salesreport');
 })->middleware(['checkRole:admin,manager']);
 
+// Route::get('/dashboard/salesreport', [SaleCartController::class, 'create'])->name('salesreport');
+
 Route::post('/salesreportsearch', function (Request $request) {
     $searchNamePhone = $request->input('searchNamePhone');
     $startDate = $request->input('startDate');
     $endDate = $request->input('endDate');
+    $month = $request->input('month');
 
     $query = Product::query();
 
@@ -98,6 +101,10 @@ Route::post('/salesreportsearch', function (Request $request) {
 
     if ($startDate && $endDate) {
         $query->whereBetween('created_at', [$startDate, $endDate]);
+    }
+
+    if ($month) {
+        $query->whereMonth('created_at', $month);
     }
 
     $results = $query->get();

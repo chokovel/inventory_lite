@@ -17,8 +17,8 @@
                 <h4 class="card-title mb-3 me-3"></h4>
                 <div class="d-flex">
                     <button class="btn btn-success btn-sm"><a href="{{ route('expenses.create') }}">Create
-                            Expense</a></button>
-                    <button class="btn btn-success btn-sm m-1"><a href="{{ '/expensecategories' }}">View Expense Category
+                            </a></button>
+                    <button class="btn btn-success btn-sm m-1"><a href="{{ '/expensecategories' }}">View Category
                             List</a></button>
                 </div>
             </div>
