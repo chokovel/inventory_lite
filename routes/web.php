@@ -23,6 +23,7 @@ use App\Models\ProductReturn;
 use App\Models\SaleCart;
 use App\Models\StockLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -161,9 +162,9 @@ Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
 Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
 
 Route::delete('/sales/clear', function () {
-        session()->remove('items');
-        return back()->with('message', 'Cat is now empty');
-    })->name('sales.clear');
+    session()->remove('items');
+    return back()->with('message', 'Cat is now empty');
+})->name('sales.clear');
 
 Route::get('/addsales', function (Request $request) {
     $products = [];
@@ -299,9 +300,9 @@ Route::post('/expenses/search', function (Request $request) {
     if ($searchName) {
         $query->where(function ($q) use ($searchName) {
             $q->where('expense_title', 'like', '%' . $searchName . '%')
-              ->orWhereHas('expenseCategory', function ($subQuery) use ($searchName) {
-                $subQuery->where('name', 'like', '%' . $searchName . '%');
-            });
+                ->orWhereHas('expenseCategory', function ($subQuery) use ($searchName) {
+                    $subQuery->where('name', 'like', '%' . $searchName . '%');
+                });
         });
     }
 
@@ -357,12 +358,12 @@ Route::post('/purchases/search', function (Request $request) {
 
     $query = Purchase::query();
 
-     if ($searchName) {
+    if ($searchName) {
         $query->where(function ($q) use ($searchName) {
             $q->where('product_name', 'like', '%' . $searchName . '%')
-              ->orWhereHas('supplier', function ($subQuery) use ($searchName) {
-                $subQuery->where('name', 'like', '%' . $searchName . '%');
-            });
+                ->orWhereHas('supplier', function ($subQuery) use ($searchName) {
+                    $subQuery->where('name', 'like', '%' . $searchName . '%');
+                });
         });
     }
 
@@ -390,7 +391,14 @@ Route::post('/products/search', [ProductController::class, 'search'])->name('pro
 
 // example route
 Route::get("/tests", function () {
-    return "Hello Badmous";
-})->middleware(['checkRole:admin,manager,staff']);
+    $row = DB::select("SELECT q.* FROM (SELECT id, id_number, @i:=@i+1 as row_number
+            FROM school_users u, (SELECT @i:=0) AS r where DATE_FORMAT(u.created_at, '%Y')=DATE_FORMAT(CURRENT_DATE, '%Y') GROUP BY id, id_number) q");
+    // if (!count($row)) {
+    //     $id_number = date('Y') . str_pad($school->id, 2, '0', STR_PAD_LEFT) . str_pad(1, 7, '0', STR_PAD_LEFT);
+    // } else {
+    //     $id_number = date('Y') . str_pad($school->id, 2, '0', STR_PAD_LEFT) . str_pad($row[0]->row_number, 7, '0', STR_PAD_LEFT);
+    // }
+});
+//->middleware(['checkRole:admin,manager,staff']);
 
 require __DIR__ . '/auth.php';
