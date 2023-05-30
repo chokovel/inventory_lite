@@ -18,4 +18,9 @@ class Color extends Model
     {
         return $this->hasMany(ProductColor::class, 'color_id', 'id');
     }
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, ProductColor::class, 'color_id', 'id', 'id', 'product_id');
+    }
+
 }

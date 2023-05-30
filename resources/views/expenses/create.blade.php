@@ -80,6 +80,15 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label for="orderNumber" class="form-label">Order Number</label>
+                                    <input type="text" id="orderNumber" name="orderNumber" class="form-control">
+                                    @error('orderNumber')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
                                     <label for="details" class="form-label">Expense Details</label>
                                     <textarea id="details" name="details" class="form-control"></textarea>
                                     @error('details')

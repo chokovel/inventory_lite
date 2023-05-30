@@ -15,7 +15,7 @@
             <div class="d-flex justify-content-between">
                 {{-- <h4 class="card-title mb-3 me-3">All Products</h4> --}}
                 <button class="btn btn-success btn-sm">
-                    <a href="{{ route('products.create') }}">Create Products</a>
+                    <a href="{{ '/products' }}">Products</a>
                 </button>
             </div>
 
@@ -36,10 +36,18 @@
                     <div class="form-group m-3">
                         <div class="input-group">
                             <input type="text" class="form-control" name="searchNamePhone" placeholder="Name or Price">
+
+                            <label for="color" class="sr-only">Color:</label>
+                            <input type="text" class="form-control" name="color" placeholder="Color">
+
+                            <label for="size" class="sr-only">Size:</label>
+                            <input type="text" class="form-control" name="size" placeholder="Size">
+
                             <label for="dateRange" class="sr-only">Date Range:</label>
                             <input type="date" class="form-control" name="startDate">
                             <span class="input-group-text">to</span>
                             <input type="date" class="form-control" name="endDate">
+
                             <button type="submit" class="btn btn-primary">
                                 <i class="material-icons fa fa-search"></i>
                             </button>
@@ -54,11 +62,11 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    <thead>
+                    <thead class="text-primary table-primary">
                         <tr>
                             {{-- <th>ID</th> --}}
                             <th>Image</th>
-                            <th>Product</th>
+                            <th>Product <br> Price</th>
                             <th>Color</th>
                             <th>Size</th>
                             <th>Qty</th>
@@ -70,14 +78,11 @@
                         @forelse ($results as $key =>  $product)
                             @foreach ($product->productColors as $productColor)
                                 <tr>
-                                    {{-- @if ($loop->first)
-                                        <td rowspan="{{ $product->count() }}">{{ $key + 1 }}</td>
-                                    @endif --}}
                                     @if ($loop->first)
                                         <td rowspan="{{ $product->productColors->count() }}">
                                             <img class="rounded" src="{{ asset(str_replace('public', 'storage', $product->image)) }}" alt="Product Image" width="50">
                                         </td>
-                                        <td rowspan="{{ $product->productColors->count() }}">{{ $product->product_name }}</td>
+                                        <td rowspan="{{ $product->productColors->count() }}">{{ $product->product_name }} <br> {{$product->price}}</td>
                                     @endif
 
                                         <td>{{ $productColor->color->name }}</td>

@@ -122,12 +122,25 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // public function destroy(Category $category)
+    // {
+    //     if ($this->categoryService->delete($category) && ($category->products->count() > 0) ) {
+    //         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
+    //     } else {
+    //         return back()->withInput()->with('error', 'Failed to delete category.');
+    //     }
+    // }
     public function destroy(Category $category)
     {
+        if ($category->products->count() > 0) {
+            return back()->withInput()->with('error', 'Cannot delete the category because it has associated products.');
+        }
+
         if ($this->categoryService->delete($category)) {
             return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
         } else {
             return back()->withInput()->with('error', 'Failed to delete category.');
         }
     }
+
 }

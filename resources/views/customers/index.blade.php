@@ -21,7 +21,17 @@
 
     {{-- ............ --}}
 
-<div class="card">
+<div class="card">@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
   <div class="card-body">
     <form action="{{ route('customer.search') }}" method="POST" class="search-form">
         @csrf
@@ -37,7 +47,7 @@
     </form>
     <div class="table-responsive">
       <table class="table table-bordered table-striped">
-        <thead class="text-primary">
+        <thead class="text-primary table-primary">
           <tr>
             <th class="text-left">#</th>
             <th>Name</th>
@@ -46,7 +56,11 @@
             <th>DOB</th>
             <th>Address</th>
             <th>Note</th>
+    @if (Auth::check())
+    @if (Auth::user()->hasRole(['admin']))
             <th class="text-right">Actions</th>
+    @endif
+    @endif
           </tr>
         </thead>
         <tbody>
@@ -60,6 +74,8 @@
                 <td>{{ $customer->dob }}</td>
                 <td>{{ $customer->address }}</td>
                 <td>{{ $customer->note }}</td>
+        @if (Auth::check())
+        @if (Auth::user()->hasRole(['admin']))
                 <td class="td-actions text-right d-flex">
                 <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary btn-round btn-sm">
                     <i class="fa fa-pen"></i>
@@ -72,6 +88,8 @@
                     </button>
                 </form>
                 </td>
+        @endif
+        @endif
             </tr>
           @endforeach
           @else

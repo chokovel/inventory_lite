@@ -162,7 +162,7 @@ Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
 
 Route::delete('/sales/clear', function () {
         session()->remove('items');
-        return back()->with('message', 'Cat is now empty');
+        return back()->with('message', 'Cart is now empty');
     })->name('sales.clear');
 
 Route::get('/addsales', function (Request $request) {

@@ -117,10 +117,17 @@ class ColorController extends Controller
      */
     public function destroy(Color $color)
     {
+        $productsCount = $color->products()->count();
+
+        if ($productsCount !== null && $productsCount > 0) {
+            return back()->withInput()->with('error', 'Cannot delete the color because it has associated products.');
+        }
+
         if ($this->colorService->delete($color)) {
             return redirect()->route('colors.index')->with('success', 'Color deleted successfully.');
         } else {
             return back()->withInput()->with('error', 'Failed to delete color.');
         }
     }
+
 }

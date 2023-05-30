@@ -51,6 +51,7 @@ class ExpenseController extends Controller
     {
         $data = $request->validate([
             'date' => 'required',
+            'orderNumber' => 'required',
             'expense_title' => 'required',
             'amount' => 'required',
             'details' => 'required',

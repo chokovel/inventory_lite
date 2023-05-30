@@ -14,6 +14,7 @@ class ExpenseService implements ExpenseInterface
         $expense = new Expense();
 
         $expense->date = $data['date'];
+        $expense->orderNumber = $data['orderNumber'];
         $expense->expense_title = $data['expense_title'];
         $expense->amount = $data['amount'];
         $expense->details = $data['details'];

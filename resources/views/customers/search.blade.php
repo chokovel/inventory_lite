@@ -22,6 +22,17 @@
         {{-- ............ --}}
 
         <div class="card">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="card-body">
                 <form action="{{ route('customer.search') }}" method="POST" class="search-form">
                     @csrf
@@ -37,7 +48,7 @@
                 </form>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
-                        <thead class="text-primary">
+                        <thead class="text-primary table-primary">
                             <tr>
                                 <th class="text-left">#</th>
                                 <th>Name</th>

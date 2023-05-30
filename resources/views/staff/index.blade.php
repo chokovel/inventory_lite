@@ -15,13 +15,28 @@
     <div class="container my-3">
       <div class="d-flex justify-content-between">
           <h4 class="card-title mb-3 me-3">All Staff</h4>
+        @if (Auth::check())
+        @if (Auth::user()->hasRole(['admin']))
           <button class="btn btn-success btn-sm"><a href="{{route('staff.create')}}">Create Staff</a></button>
-      </div>
+        @endif
+        @endif
+        </div>
     </div>
 
     {{-- ............ --}}
 
 <div class="card">
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
   <div class="card-body">
     <form action="{{ route('staff.search') }}" method="POST" class="search-form">
             @csrf
@@ -36,15 +51,23 @@
         </form>
     <div class="table-responsive">
       <table class="table table-bordered table-striped">
-        <thead class="text-primary">
+        <thead class="text-primary table-primary">
           <tr>
             <th class="text-left">#</th>
             <th>Name</th>
+        @if (Auth::check())
+        @if (Auth::user()->hasRole(['admin']))
             <th>Role</th>
+        @endif
+        @endif
             <th>Phone</th>
             <th>Email</th>
             <th>Address</th>
+        @if (Auth::check())
+        @if (Auth::user()->hasRole(['admin']))
             <th class="text-right">Actions</th>
+        @endif
+        @endif
           </tr>
         </thead>
         <tbody>
@@ -53,6 +76,8 @@
             <tr>
                 <td class="text-left">{{ $key + 1 }}</td>
                 <td>{{ $staf->name }}</td>
+            @if (Auth::check())
+            @if (Auth::user()->hasRole(['admin']))
                 <td>
                     @if ($staf->roles->isNotEmpty())
                         @foreach ($staf->roles as $role)
@@ -62,9 +87,13 @@
                         N/A
                     @endif
                 </td>
+            @endif
+            @endif
                 <td>{{ $staf->phone }}</td>
                 <td>{{ $staf->email }}</td>
                 <td>{{ $staf->address }}</td>
+            @if (Auth::check())
+            @if (Auth::user()->hasRole(['admin']))
                 <td class="td-actions text-right d-flex">
                 <a href="{{ route('staff.edit', $staf->id) }}" class="btn btn-primary btn-round btn-sm">
                     <i class="material-icons">edit</i>
@@ -77,6 +106,8 @@
                     </button>
                 </form>
                 </td>
+            @endif
+            @endif
             </tr>
           @endforeach
           @else
