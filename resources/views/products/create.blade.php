@@ -15,7 +15,7 @@
         <div class="container my-3  float-right">
             <div class="d-flex justify-content-between  float-right">
                 {{-- <h4 class="card-title mb-3 me-3">Create Product</h4> --}}
-                <button class="btn btn-info btn-sm"><a href="{{ '/products' }}">Go to Products</a></button>
+                <button class="btn btn-info btn-sm"><a href="{{ '/products' }}">Products</a></button>
             </div>
         </div>
 

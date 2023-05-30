@@ -291,6 +291,8 @@ class ProductController extends Controller
         $searchNamePhone = $request->input('searchNamePhone');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
+        $color = $request->input('color');
+        $size = $request->input('size');
 
         $query = Product::query();
 
@@ -301,16 +303,26 @@ class ProductController extends Controller
             });
         }
 
+        if ($color) {
+            $query->whereHas('productColors.color', function ($subQuery) use ($color) {
+                $subQuery->where('name', 'like', '%' . $color . '%');
+            });
+        }
+
+        if ($size) {
+            $query->whereHas('productColors.size', function ($subQuery) use ($size) {
+                $subQuery->where('name', 'like', '%' . $size . '%');
+            });
+        }
+
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate])
-                    ->orWhereBetween('created_at', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
         $results = $query->get();
 
         return view('products.search', compact('results'));
     }
-
 
 
 }

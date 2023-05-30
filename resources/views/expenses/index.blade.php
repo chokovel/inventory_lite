@@ -27,6 +27,17 @@
         {{-- ............ --}}
 
         <div class="card">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="card-body">
 
                 <form action="{{ route('expenses.search') }}" method="POST" class="search-form">
@@ -47,10 +58,11 @@
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
-                        <thead class="text-primary">
+                        <thead class="text-primary table-primary">
                             <tr>
                                 <th class="text-left">#</th>
-                                <th>Date</th>
+                                <th>Date/Staff</th>
+                                <th>Order Number</th>
                                 <th>Title</th>
                                 <th>Category</th>
                                 <th>Amount</th>
@@ -63,7 +75,8 @@
                                 @foreach ($expenses as $expense)
                                     <tr>
                                         <td class="text-left">{{ $expense->id }}</td>
-                                        <td>{{ $expense->date }}</td>
+                                        <td>{{ $expense->date }} <br> {{ $expense->user ? $expense->user->name : '' }}</td>
+                                        <td>{{ $expense->orderNumber ? $expense->orderNumber : 'nil' }}</td>
                                         <td>{{ $expense->expense_title }}</td>
                                         <td>{{ $expense->expenseCategory->name }}</td>
                                         <td>{{ $expense->amount }}</td>

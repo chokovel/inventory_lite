@@ -8,14 +8,14 @@
             <a href="javascript:;" class="text-primary hover:underline">Dashboard</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-            <span>Edit Products Page</span>
+            <span>Edit Color Page</span>
         </li>
     </ul>
     <!-- start main content section -->
     <div class="container my-3">
       <div class="d-flex justify-content-between">
-          <h4 class="card-title mb-3 me-3">Edit Product</h4>
-          <button class="btn btn-success btn-sm"><a href="{{'/editproduct'}}">Go to Products</a></button>
+          {{-- <h4 class="card-title mb-3 me-3">Edit Color</h4> --}}
+          <button class="btn btn-success btn-sm"><a href="{{'/colors'}}">Colors</a></button>
       </div>
     </div>
 

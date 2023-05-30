@@ -18,4 +18,9 @@ class Size extends Model
     {
         return $this->hasMany(ProductColor::class, 'size_id', 'id');
     }
+
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, ProductColor::class, 'size_id', 'id', 'id', 'product_id');
+    }
 }

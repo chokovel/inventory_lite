@@ -128,6 +128,12 @@ class SizeController extends Controller
      */
     public function destroy(Size $size)
     {
+        $productsCount = $size->products()->count();
+
+        if ($productsCount !== null && $productsCount > 0) {
+            return back()->withInput()->with('error', 'Cannot delete the size because it has associated products.');
+        }
+
         if ($this->sizeService->delete($size)) {
             return redirect()->route('sizes.index')->with('success', 'Size deleted successfully.');
         } else {
