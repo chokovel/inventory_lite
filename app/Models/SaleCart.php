@@ -16,7 +16,8 @@ class SaleCart extends Model
     protected $fillable = [
         'product_color_id',
         'customer_id',
-        'quantity'
+        'quantity',
+        'transaction_id'
     ];
 
     public static function boot(): void
@@ -46,5 +47,10 @@ class SaleCart extends Model
     public function productReturn(): HasOne
     {
         return $this->hasOne(ProductReturn::class, 'sale_cart_id', 'id');
+    }
+
+    public function transaction(): BelongsTo
+    {
+        return $this->belongsTo(TransactionId::class, 'transaction_id', 'id');
     }
 }

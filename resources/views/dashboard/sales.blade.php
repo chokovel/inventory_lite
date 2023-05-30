@@ -22,11 +22,12 @@
 
         <div class="card">
             <div class="card-body">
-                 <form action="{{ route('sales.search') }}" method="POST" class="search-form">
+                <form action="{{ route('sales.search') }}" method="POST" class="search-form">
                     @csrf
                     <div class="form-group m-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="searchName" placeholder="Product or Customer Name">
+                            <input type="text" class="form-control" name="searchName"
+                                placeholder="Product or Customer Name">
                             <label for="dateRange" class="sr-only">Date Range:</label>
                             <input type="date" class="form-control" name="startDate">
                             <span class="input-group-text">to</span>
@@ -53,9 +54,9 @@
                             @if (isset($sales))
                                 @foreach ($sales as $key => $sale)
                                     <tr>
-                                        <td>{{ $key + 1}}</td>
+                                        <td>{{ $key + 1 }}</td>
                                         <td class="text-left">
-                                            {{ $sale->id }}<br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
+                                            {{ $sale->transaction ? $sale->transaction->transaction_id : '' }}<br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
                                         </td>
                                         <td>{{ $sale->customer->name }}</td>
                                         <td>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateTransactionId;
 use App\Models\ProductColor;
 use App\Models\ProductReturn;
 use App\Models\SaleCart;
+use App\Models\TransactionId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -29,8 +31,9 @@ class SaleCartController extends Controller
 
     public function index(Request $request)
     {
-        //
-        $saleCart = SaleCart::orderBy('created_at', 'DESC')->with('productColor', 'customer')->orderBy('created_at', 'DESC')->get();
+        $saleCart = SaleCart::with('productColor', 'customer')
+            ->whereMonth('created_at', '=', date('m'))
+            ->orderBy('created_at', 'DESC')->get();
         // return $saleCart;
         return view('dashboard.sales')->with('sales', $saleCart);
     }
@@ -62,6 +65,8 @@ class SaleCartController extends Controller
 
 
         if (!$items) return back()->with('message', 'No item on hhe cart');
+        $transactionId = new TransactionId();
+        $transactionId->save();
         foreach ($items as $item) {
             // $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
             //     ->where('customer_id', $customer_id)->first();
@@ -70,6 +75,7 @@ class SaleCartController extends Controller
             // } else {
             if ($item != null) {
                 $item['customer_id'] = $customer_id;
+                $item['transaction_id'] = $transactionId->id;
                 SaleCart::create($item);
                 ProductColor::where('id', $item['product_color_id'])
                     ->decrement('quantity', $item['quantity']);
@@ -78,6 +84,7 @@ class SaleCartController extends Controller
             // }
 
         }
+        GenerateTransactionId::dispatchAfterResponse($transactionId->id);
         session()->remove('items');
         return back()->with('message', 'Order completed successfully');
     }
