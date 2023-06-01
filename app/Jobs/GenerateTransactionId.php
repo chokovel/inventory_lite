@@ -44,9 +44,9 @@ class GenerateTransactionId implements ShouldQueue
 
         $row = DB::select($sql);
         if (!count($row)) {
-            $this->id_number = date('Y') . str_pad(1, 7, '0', STR_PAD_LEFT);
+            $this->id_number = date('md') . str_pad(1, 2, '0', STR_PAD_LEFT);
         } else {
-            $this->id_number = date('Y') . str_pad($row[0]->row_number, 7, '0', STR_PAD_LEFT);
+            $this->id_number = date('md') . str_pad($row[0]->row_number, 2, '0', STR_PAD_LEFT);
         }
         TransactionId::where('id', $this->transactionId)
             ->update([

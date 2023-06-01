@@ -24,11 +24,21 @@ class ExpenseController extends Controller
         $this->expenseService = (new ExpenseService);
     }
 
-    public function index()
+   public function index()
     {
-        $expenses = $this->expenseService->getAll();
-        return view('expenses.index', compact('expenses'));
+        $expenses = Expense::orderBy('date', 'DESC')
+            ->whereMonth('created_at', '=', date('m'))
+            ->paginate(10);
+
+        $month = date('M-Y');
+
+        // Calculate the grand total
+        $grandTotal = Expense::whereMonth('created_at', '=', date('m'))
+            ->sum('amount');
+
+        return view('expenses.index', compact('expenses', 'month', 'grandTotal'))->with('month', $month);
     }
+
 
     /**
      * Show the form for creating a new resource.

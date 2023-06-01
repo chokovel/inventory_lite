@@ -14,8 +14,8 @@
         <div class="container my-3">
             <div class="d-flex justify-content-between">
                 {{-- <h4 class="card-title mb-3 me-3">All Sales</h4> --}}
-                <button class="btn btn-warning btn-sm"><a href="{{ '/addsales' }}">Sales</a></button>
-                <button class="btn btn-primary btn-sm"><a href="{{ '/salesdaily' }}">Daily Sales List</a></button>
+                <button class="btn btn-primary btn-sm"><a href="{{ '/sales' }}">Sales List</a></button>
+                <button class="btn btn-primary btn-sm"><a href="{{ '/salesdaily' }}">Daily Sales</a></button>
             </div>
         </div>
 
@@ -23,16 +23,11 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('sales.search') }}" method="POST" class="search-form">
+                <form action="" method="GET" class="search-form">
                     @csrf
                     <div class="form-group m-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="searchName"
-                                placeholder="Product/ID/Customer">
-                                <label for="dateRange" class="sr-only">Date Range:</label>
-                            <input type="date" class="form-control" name="startDate">
-                            <span class="input-group-text">to</span>
-                            <input type="date" class="form-control" name="endDate">
+                        <div class="input-group mb-1">
+                            <input type="month" value="{{"date('m-Y')"}}" class="form-control" name="date">
 
                             <button type="submit" class="btn btn-primary">
                                 <i class="material-icons fa fa-search"></i>
@@ -42,13 +37,13 @@
                 </form>
                 <div class="table-responsive">
                     <table class="table">
-                        <thead class="text-primary table-primary">
-                             <tr>
+                        <thead class="text-primary">
+                            <tr>
                                 <td colspan="3">
-                                    <h2 class="text-center"><strong>Monthly Sales</strong></h2>
+                                    <h2 class="text-center"><strong>MONTHLY SALES</strong></h2>
                                 </td>
                                 <td colspan="4">
-                                    <h2 class="text-center"><strong>{{  $month }}</strong></h2>
+                                    <h2 class="text-center"><strong>{{ date('m-Y', strtotime($thisMonth)) }}</strong></h2>
                                 </td>
                             </tr>
                             <tr>
@@ -72,7 +67,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td class="text-left">
                                             <em>
-                                            {{ $sale->transaction ? $sale->transaction->transaction_id : '' }}</em><br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
+                                                {{ $sale->transaction ? $sale->transaction->transaction_id : '' }}</em><br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
                                         </td>
                                         <td>{{ $sale->customer->name }}</td>
                                         <td>
@@ -96,12 +91,19 @@
                                 </tr>
                             @endif
                         </tbody>
+                        {{-- @if ($sales->currentPage() === $lastPage) --}}
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <td colspan="1"><strong>Grand Total:</strong></td>
+                                    <td><strong>{{ $total }}</strong></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        {{-- @endif --}}
                     </table>
                 </div>
             </div>
-        </div>
-        <div class="m-3">
-            {{ $sales->links() }}
         </div>
         <!-- end main content section -->
 

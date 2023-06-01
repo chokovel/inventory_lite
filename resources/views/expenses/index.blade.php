@@ -43,8 +43,9 @@
                 <form action="{{ route('expenses.search') }}" method="POST" class="search-form">
                     @csrf
                     <div class="form-group m-3">
-                        <div class="input-group">
+                        <div class="input-group mb-1">
                             <input type="text" class="form-control" name="searchName" placeholder="Title or category">
+
                             <label for="dateRange" class="sr-only">Date Range:</label>
                             <input type="date" class="form-control" name="startDate">
                             <span class="input-group-text">to</span>
@@ -60,6 +61,18 @@
                     <table class="table table-bordered table-striped">
                         <thead class="text-primary table-primary">
                             <tr>
+                                <td colspan="8">
+                                    <h2 class="text-center"><strong>{{  date('M-Y', strtotime($month)) }}</strong></h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="8">
+                                    <h2 class="text-center"><strong>Grand Total: {{ $grandTotal }}</strong></h2>
+                                </td>
+                            </tr>
+
+
+                            <tr>
                                 <th class="text-left">#</th>
                                 <th>Date/Staff</th>
                                 <th>Order Number</th>
@@ -74,26 +87,34 @@
                             @if (isset($expenses))
                                 @foreach ($expenses as $expense)
                                     <tr>
-                                        <td class="text-left">{{ $expense->id }}</td>
-                                        <td>{{ $expense->date }} <br> {{ $expense->user ? $expense->user->name : '' }}</td>
+                                        <td class="text-left">{{ $loop->iteration }}</td>
+                                        <td>{{ $expense->date }} <br> {{ auth()->user()->name }}</td>
                                         <td>{{ $expense->orderNumber ? $expense->orderNumber : 'nil' }}</td>
                                         <td>{{ $expense->expense_title }}</td>
                                         <td>{{ $expense->expenseCategory->name }}</td>
                                         <td>{{ $expense->amount }}</td>
                                         <td>{{ $expense->details }}</td>
                                         <td class="td-actions text-right d-flex">
+                                    @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin', 'manager']))
                                             <a href="{{ route('expenses.edit', $expense->id) }}"
                                                 class="btn btn-primary btn-round btn-sm">
-                                                <i class="material-icons">edit</i>
+                                                <i class="fa fa-pen"></i>
                                             </a>
+                                    @endif
+                                    @endif
+                                    @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin']))
                                             <form action="{{ route('expenses.destroy', $expense->id) }}" method="post"
                                                 style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-round btn-sm">
-                                                    <i class="material-icons">delete</i>
+                                                    <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
+                                    @endif
+                                    @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -107,7 +128,10 @@
                 </div>
             </div>
         </div>
+        <div class="m-3">
 
+            {{ $expenses->links() }}
+        </div>
         <!-- end main content section -->
     </div>
 @endsection

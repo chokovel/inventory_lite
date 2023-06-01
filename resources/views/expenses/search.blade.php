@@ -42,8 +42,9 @@
                     <form action="{{ route('expenses.search') }}" method="POST" class="search-form">
                         @csrf
                         <div class="form-group m-3">
-                            <div class="input-group">
+                            <div class="input-group mb-1">
                                 <input type="text" class="form-control" name="searchName" placeholder="Title or category">
+
                                 <label for="dateRange" class="sr-only">Date Range:</label>
                                 <input type="date" class="form-control" name="startDate">
                                 <span class="input-group-text">to</span>
@@ -57,6 +58,16 @@
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="text-primary table-primary">
+                            {{-- <tr>
+                                <td colspan="8">
+                                    <h2 class="text-center"><strong>{{ date('M-Y', strtotime($month)) }}</strong></h2>
+                                </td>
+                            </tr> --}}
+                            <tr>
+                                <td colspan="8">
+                                    <h2 class="text-center"><strong>Grand Total: {{ $grandTotal }}</strong></h2>
+                                </td>
+                            </tr>
                             <tr>
                                 <th class="text-left">#</th>
                                 <th>Date</th>
@@ -71,7 +82,7 @@
                             @if(isset($results))
                                 @foreach ($results as $expense)
                                     <tr>
-                                        <td class="text-left">{{ $expense->id }}</td>
+                                        <td class="text-left">{{ $loop->iteration }}</td>
                                         <td>{{ $expense->date }}</td>
                                         <td>{{ $expense->expense_title }}</td>
                                         <td>{{ $expense->expenseCategory->name }}</td>
@@ -103,7 +114,10 @@
                 </div>
             </div>
         </div>
+        <div class="m-3">
 
+            {{ $results->links() }}
+        </div>
         <!-- end main content section -->
     </div>
 @endsection

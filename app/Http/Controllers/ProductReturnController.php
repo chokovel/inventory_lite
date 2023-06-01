@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ProductReturn;
 use App\Models\SaleCart;
 use Illuminate\Http\Request;
+use App\Jobs\GenerateTransactionId;
+use App\Models\TransactionId;
 
 class ProductReturnController extends Controller
 {
@@ -15,8 +17,11 @@ class ProductReturnController extends Controller
      */
     public function index()
     {
-        $returns = ProductReturn::orderBy('created_at', 'DESC')->with('saleCart')->get();
-        return view('dashboard.returns')->with('returns', $returns);
+        $returns = ProductReturn::
+        whereMonth('created_at', '=', date('m'))
+        ->orderBy('created_at', 'DESC')
+        ->with('saleCart')->get();
+        return view('dashboard.returns')->with('returns', $returns)->with('month', date('M-Y'));
     }
 
     /**
@@ -77,7 +82,9 @@ class ProductReturnController extends Controller
             ProductReturn::create([
                 'quantity' => $request->quantity,
                 'sale_cart_id' => $saleCart->id,
-                'product_color_id' => $saleCart->product_color_id
+                'product_color_id' => $saleCart->product_color_id,
+                // 'transaction_id' => $saleCart->transaction_ids ? $saleCart->transaction_ids->transaction->id : null
+
             ]);
         }
 

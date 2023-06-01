@@ -20,7 +20,7 @@
 
         {{-- ............ --}}
 
-       <form action="{{ route('salesreport.search') }}" method="POST" class="search-form">
+       {{-- <form action="{{ route('salesreport.search') }}" method="POST" class="search-form">
             @csrf
             <div class="form-group m-3">
                 <div class="input-group">
@@ -35,65 +35,72 @@
                     </button>
                 </div>
             </div>
-        </form>
+        </form> --}}
+                    <form action="" method="GET" class="search-form">
+                        @csrf
+                        <div class="form-group m-3">
+                            <div class="input-group mb-1">
+                                <input type="month" value="{{"date('m-Y')"}}" class="form-control" name="date">
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="material-icons fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
 
         <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <thead class="text-primary">
-                            <tr>
-                                <th class="text-left">Id</th>
-                                <th>Product Name</th>
-                                <th>Total Stock</th>
-                                <th>Total Sales</th>
-                                <th>Total Returns</th>
-                                <th>Total Amount</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($monthlyProducts as $month => $products)
-                                <tr>
-                                    <td colspan="7">
-                                        <h2 class="text-center"><strong>{{ $month }}</strong></h2>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="7" class="text-center">
-                                        <h2 class="text-center"><strong>Grand Total: N540000</strong></h2>
-                                    </td>
-                                </tr>
-                                @if ($products->isNotEmpty())
-                                    @foreach ($products as $product)
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="text-primary table-primary">
+                    <tr>
+                            <td colspan="3">
+                                <h2 class="text-center"><strong>Sales Report</strong></h2>
+                            </td>
+                            <td colspan="4">
+                                <h2 class="text-center"><strong>{{ date('m-Y', strtotime($thisMonth)) }}</strong></h2>
+                            </td>
+                        </tr>
+                    <tr>
+                        <th class="text-left">Id</th>
+                        <th>Product Name</th>
+                        <th>Total Stock</th>
+                        <th>Total Sales</th>
+                        <th>Total Returns</th>
+                        <th>Total Amount</th>
+                        {{-- <th>Date</th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($monthlyProducts as $month => $products)
+
+                        @if ($products->count() > 0)
+                            @foreach ($products as $product)
                                 <tr>
                                     <td class="text-left"> {{ $loop->iteration }} </td>
                                     <td>{{ $product->product_name }}</td>
-                                                                                                                                                <td>{{ $product->productColors->sum('quantity') }} </td>
-                                    {{-- <td>{{ $product->saleCarts->sum('quantity') * $product->price }} </td> --}}
-                                    <td>{{ $product->saleCarts->sum('quantity') }} </td>
-                                    {{-- <td>{{ $product->productReturns->sum('quantity') * $product->price }}</td> --}}
+                                    <td>{{ $product->productColors->sum('quantity') }}</td>
+                                    <td>{{ $product->saleCarts->sum('quantity') }}</td>
                                     <td>{{ $product->productReturns->sum('quantity') }}</td>
-                                    {{-- <td>{{ ($product->saleCarts->sum('quantity') + $product->productReturns->sum('quantity')) * $product->price }}
-                                    </td> --}}
-                                    <td>{{ ($product->saleCarts->sum('quantity')) * $product->price }}
-                                    </td>
-                                    <td>{{ $product->created_at->format('M') }}</td>
+                                    <td>{{ ($product->saleCarts->sum('quantity')) * $product->price }}</td>
+                                    {{-- <td>{{ $product->created_at->format('M') }}</td> --}}
                                 </tr>
                             @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="7">
-                                            <p>No sales made in {{ $month }}.</p>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                        @else
+                            <tr>
+                                <td colspan="7">
+                                    <p>No sales made in {{ $month }}.</p>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+    </div>
+</div>
+
         <!-- end main content section -->
 
     </div>
