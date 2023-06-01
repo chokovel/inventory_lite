@@ -20,7 +20,7 @@
 
         {{-- ............ --}}
 
-        <form action="{{ route('stockreport.search') }}" method="POST" class="search-form">
+        {{-- <form action="{{ route('stockreport.search') }}" method="POST" class="search-form">
             @csrf
             <div class="form-group m-3">
                 <div class="input-group">
@@ -34,13 +34,33 @@
                     </button>
                 </div>
             </div>
-        </form>
+        </form> --}}
+                    <form action="" method="GET" class="search-form">
+                        @csrf
+                        <div class="form-group m-3">
+                            <div class="input-group mb-1">
+                                <input type="month" value="{{"date('m-Y')"}}" class="form-control" name="date">
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="material-icons fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
 
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
-                        <thead class="text-primary">
+                        <thead class="text-primary table-primary">
+                            <tr>
+                                <td colspan="3">
+                                    <h2 class="text-center"><strong>STOCK REPORT</strong></h2>
+                                </td>
+                                <td colspan="4">
+                                    <h2 class="text-center"><strong>{{ date('m-Y', strtotime($thisMonth)) }}</strong></h2>
+                                </td>
+                            </tr>
                             <tr>
                                 <th class="text-left">Id</th>
                                 <th>Product Name</th>
@@ -48,7 +68,7 @@
                                 <th>New/Added Stock</th>
                                 <th>Total Stock</th>
                                 <th>Total Amount</th>
-                                <th>Date stocked</th>
+                                {{-- <th>Date stocked</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +82,7 @@
                                         <td>{{ $stockLog->old_stock + $stockLog->new_stock }}</td>
                                         <td>{{ ($stockLog->old_stock + $stockLog->new_stock) * $stockLog->price }}
                                         </td>
-                                        <td>{{ $stockLog->created_at }}</td>
+                                        {{-- <td>{{ $stockLog->created_at }}</td> --}}
                                     </tr>
                                 @endforeach
                             @else

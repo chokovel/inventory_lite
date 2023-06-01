@@ -25,6 +25,7 @@ use App\Models\StockLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,10 +47,26 @@ Route::get('/home', function () {
 })->middleware(['checkRole:admin,manager,staff']);
 
 //stock report
-Route::get('/stockreport', function () {
-    $stockLogs = StockLog::orderBy('created_at', 'DESC')->get();
-    return view('dashboard.stockreport')->with('stockLogs', $stockLogs);
-})->middleware(['checkRole:admin,manager']);
+// Route::get('/stockreport', function () {
+//     $stockLogs = StockLog::orderBy('created_at', 'DESC')->get();
+//     return view('dashboard.stockreport')->with('stockLogs', $stockLogs);
+// })->middleware(['checkRole:admin,manager']);
+Route::get('/stockreport', function (Request $request) {
+    $thisMonth = $request->date ?? Carbon::now()->format('Y-m');
+    $stockLogs = StockLog::orderBy('created_at', 'DESC')
+    ->when($request->date != null, function ($q) use ($request) {
+            $q->whereYear('created_at', Carbon::parse($request->date)->year)
+            ->whereMonth('created_at', Carbon::parse($request->date)->month);
+            }, function ($q) use ($thisMonth) {
+                $q->whereYear('created_at', Carbon::parse($thisMonth)->year)
+                ->whereMonth('created_at', Carbon::parse($thisMonth)->month);
+            })
+            ->when($request->status != null, function ($q) use ($request) {
+                $q->where('status_message', $request->status);
+            })
+            ->get();
+    return view('dashboard.stockreport', compact('stockLogs','thisMonth'));
+    })->middleware(['checkRole:admin,manager']);
 
 Route::post('/stockreportsearch', function (Request $request) {
     $searchNamePhone = $request->input('searchNamePhone');
@@ -125,6 +142,8 @@ Route::post('/dashboard/returnsearch', function (Request $request) {
     $searchName = $request->input('searchName');
     $startDate = $request->input('startDate');
     $endDate = $request->input('endDate');
+    $transaction_id = $request->input('transaction_id');
+    $month = $request->input('month');
 
     $query = ProductReturn::query();
 
@@ -134,6 +153,8 @@ Route::post('/dashboard/returnsearch', function (Request $request) {
                 $subQuery->where('name', 'like', '%' . $searchName . '%');
             })->orWhereHas('saleCart.productColor.product', function ($subQuery) use ($searchName) {
                 $subQuery->where('product_name', 'like', '%' . $searchName . '%');
+            })->orWhereHas('transaction_ids', function ($transacQuery) use ($searchName) {
+                $transacQuery->where('transaction_id', 'like', '%' . $searchName . '%');
             });
         });
     }
@@ -142,9 +163,13 @@ Route::post('/dashboard/returnsearch', function (Request $request) {
         $query->whereBetween('created_at', [$startDate, $endDate]);
     }
 
+    if ($month) {
+        $query->whereMonth('created_at', date('m', strtotime($month)));
+    }
+
     $results = $query->get();
 
-    return view('dashboard.returnsearch', compact('results'));
+    return view('dashboard.returnsearch', compact('results'))->with('month', date('M-Y', strtotime($month)));
 })->name('returns.search');
 
 
@@ -155,6 +180,12 @@ Route::prefix('report')->group(function () {
 
 // Sales route
 Route::get('/sales', [SaleCartController::class, 'index'])->name('sales')->middleware(['checkRole:admin,manager,staff']);
+
+// All Sales route
+Route::get('/salesview', [SaleCartController::class, 'salesview'])->name('salesview')->middleware(['checkRole:admin,manager,staff']);
+
+// Daily Sales route
+Route::get('/salesdaily', [SaleCartController::class, 'salesdaily'])->name('salesdaily')->middleware(['checkRole:admin,manager,staff']);
 
 
 Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
@@ -204,7 +235,10 @@ Route::post('/dashboard/salesearch', function (Request $request) {
     $searchName = $request->input('searchName');
     $startDate = $request->input('startDate');
     $endDate = $request->input('endDate');
-
+    $transaction_id = $request->input('transaction_id');
+    $month = $request->input('month');
+// echo($month);
+// die;
     $query = SaleCart::query();
 
     if ($searchName) {
@@ -213,17 +247,29 @@ Route::post('/dashboard/salesearch', function (Request $request) {
                 $subQuery->where('name', 'like', '%' . $searchName . '%');
             })->orWhereHas('productColor.product', function ($subQuery) use ($searchName) {
                 $subQuery->where('product_name', 'like', '%' . $searchName . '%');
+            })->orWhereHas('transaction_ids', function ($transacQuery) use ($searchName) {
+                $transacQuery->where('transaction_id', 'like', '%' . $searchName . '%');
             });
         });
+    }
+
+    if ($month) {
+        $query->whereMonth('created_at', date('m', strtotime($month)));
     }
 
     if ($startDate && $endDate) {
         $query->whereBetween('created_at', [$startDate, $endDate]);
     }
 
+
     $results = $query->get();
 
-    return view('dashboard.salesearch', compact('results'));
+    // Calculate the grand total
+    $total = $results->sum(function ($sale) {
+        return $sale->quantity * $sale->productColor->product->price;
+    });
+
+    return view('dashboard.salesearch', compact('results', 'total'))->with('month', date('M-Y', strtotime($month)));
 })->name('sales.search');
 
 
@@ -290,10 +336,13 @@ Route::get('/addexpensecategory', function () {
 // Expense routes
 Route::resource('expenses', ExpenseController::class)->middleware(['checkRole:admin,manager,staff']);
 Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create')->middleware(['checkRole:admin,manager,staff']);
+
+//expense search
 Route::post('/expenses/search', function (Request $request) {
     $searchName = $request->input('searchName');
     $startDate = $request->input('startDate');
     $endDate = $request->input('endDate');
+    $month = $request->input('month');
 
     $query = Expense::query();
 
@@ -310,10 +359,18 @@ Route::post('/expenses/search', function (Request $request) {
         $query->whereBetween('date', [$startDate, $endDate]);
     }
 
-    $results = $query->get();
+    if ($month) {
+        $query->whereMonth('date', date('m', strtotime($month)));
+    }
 
-    return view('expenses.search', compact('results'));
+    $results = $query->paginate(10);
+
+    // Calculate the grand total
+    $grandTotal = $results->sum('amount');
+
+    return view('expenses.search', compact('results', 'month', 'grandTotal'))->with('month', date('M-Y', strtotime($month)));
 })->name('expenses.search');
+
 
 
 //color route

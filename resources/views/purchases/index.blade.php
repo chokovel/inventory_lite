@@ -69,13 +69,13 @@
                                 @foreach ($purchases as $purchase)
                                     <tr>
                                         <td class="text-left">{{ $purchase->id }}</td>
-                                        @if ($purchase->image)
-                                            <td>
-                                                <img class="rounded"
-                                                    src="{{ asset(str_replace('public', 'storage', $purchase->image)) }}"
-                                                    style="width:50px" alt="Product Image">
-                                            </td>
-                                        @endif
+                                        <td>
+                                            @if ($purchase->image)
+                                                <img class="rounded" src="{{ asset(str_replace('public', 'storage', $purchase->image)) }}" style="width:50px" alt="Product Image">
+                                            @else
+                                                <img class="rounded" src="https://cdn-icons-png.flaticon.com/512/1170/1170628.png" style="width:50px" alt="Default Image">
+                                            @endif
+                                        </td>
                                         <td>{{ $purchase->product_name }}</td>
                                         <td>₦{{ $purchase->price }}</td>
                                         <td>{{ $purchase->quantity }}</td>

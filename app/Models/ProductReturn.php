@@ -37,7 +37,7 @@ class ProductReturn extends Model
 
     public function saleCart(): BelongsTo
     {
-        return $this->belongsTo(SaleCart::class, 'sale_cart_id', 'id');
+        return $this->belongsTo(SaleCart::class, 'sale_cart_id', 'id', 'transaction_id');
     }
 
     public function user(): BelongsTo

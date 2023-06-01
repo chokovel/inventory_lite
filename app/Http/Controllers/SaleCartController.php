@@ -9,6 +9,7 @@ use App\Models\SaleCart;
 use App\Models\TransactionId;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
 
 class SaleCartController extends Controller
 {
@@ -17,26 +18,66 @@ class SaleCartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function salesreport(){
-    //     $monthly = SaleCart::select(
-    //         DB::raw('(COUNT(*)) as count'),
-    //         DB::raw('MONTHNAME(created_at) as month_name')
-    //     )->whereYear('created_at', date('Y'))
-    //      ->groupBY('month_name')
-    //      ->get()->toArray();
-    //      dd($monthly);
-
-    // }
-
-
     public function index(Request $request)
     {
-        $saleCart = SaleCart::with('productColor', 'customer')
+        $sales = SaleCart::with('productColor', 'customer')
             ->whereMonth('created_at', '=', date('m'))
-            ->orderBy('created_at', 'DESC')->get();
-        // return $saleCart;
-        return view('dashboard.sales')->with('sales', $saleCart);
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+        $total = $sales->sum(function ($sale) {
+            return $sale->quantity * $sale->productColor->product->price;
+        });
+
+        return view('dashboard.sales')->with('sales', $sales)->with('month', date('M-Y'))->with('total', $total);
     }
+
+    // Daily sales view
+    public function salesdaily(Request $request)
+    {
+        $todayDate = $request->date ?? Carbon::now()->format('Y-m-d');
+        $sales = SaleCart::when($request->date != null, function ($q) use ($request){
+            return $q->whereDate('created_at', $request->date);
+        }, function ($q) use ($todayDate){
+            return $q->whereDate('created_at',$todayDate);
+        })
+        ->when($request->status != null, function ($q) use ($request) {
+            return $q->where('status_message',$request->status);
+        })
+        ->get();
+
+        $total = $sales->sum(function ($sale) {
+            return $sale->quantity * $sale->productColor->product->price;
+        });
+
+        return view('dashboard.salesdaily')->with('sales', $sales)->with('todayDate', $todayDate)->with('total', $total);
+    }
+
+    // All sales view
+    public function salesview(Request $request)
+    {
+        $thisMonth = $request->date ?? Carbon::now()->format('Y-m');
+
+        $sales = SaleCart::orderBy('created_at', 'DESC')->when($request->date != null, function ($q) use ($request) {
+            $q->whereYear('created_at', Carbon::parse($request->date)->year)
+            ->whereMonth('created_at', Carbon::parse($request->date)->month);
+        }, function ($q) use ($thisMonth) {
+            $q->whereYear('created_at', Carbon::parse($thisMonth)->year)
+            ->whereMonth('created_at', Carbon::parse($thisMonth)->month);
+        })
+        ->when($request->status != null, function ($q) use ($request) {
+            $q->where('status_message', $request->status);
+        })
+        ->get();
+
+
+        $total = $sales->sum(function ($sale) {
+            return $sale->quantity * $sale->productColor->product->price;
+        });
+
+        return view('dashboard.salesview')->with('sales', $sales)->with('thisMonth', $thisMonth)->with('total', $total);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -64,7 +105,7 @@ class SaleCartController extends Controller
         $items = session()->get('items');
 
 
-        if (!$items) return back()->with('message', 'No item on hhe cart');
+        if (!$items) return back()->with('message', 'No item in cart cart');
         $transactionId = new TransactionId();
         $transactionId->save();
         foreach ($items as $item) {

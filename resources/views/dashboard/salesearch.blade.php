@@ -14,6 +14,7 @@
         <div class="container my-3">
             <div class="d-flex justify-content-between">
                 <button class="btn btn-success btn-sm"><a href="{{ '/addsales' }}">Create Sales</a></button>
+                <button class="btn btn-warning btn-sm"><a href="{{ '/sales' }}">Sales</a></button>
             </div>
         </div>
 
@@ -24,21 +25,28 @@
                 <form action="{{ route('sales.search') }}" method="POST" class="search-form">
                     @csrf
                     <div class="form-group m-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="searchName" placeholder="Product or Customer Name">
-                            <label for="dateRange" class="sr-only">Date Range:</label>
-                            <input type="date" class="form-control" name="startDate">
-                            <span class="input-group-text">to</span>
-                            <input type="date" class="form-control" name="endDate">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="material-icons fa fa-search"></i>
-                            </button>
+                        <div class="input-group mb-1">
+                            <input type="text" class="form-control" name="searchName"
+                                placeholder="Product/ID/Customer">
+                                <label for="dateRange" class="sr-only">Date Range:</label>
+                                <input type="date" class="form-control" name="startDate">
+                                <span class="input-group-text">to</span>
+                                <input type="date" class="form-control" name="endDate">
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="material-icons fa fa-search"></i>
+                                </button>
                         </div>
                     </div>
                 </form>
                 <div class="table-responsive">
                     <table class="table">
-                        <thead class="text-primary">
+                        <thead class="text-primary table-primary">
+                             <tr>
+                                <td colspan="7">
+                                    <h2 class="text-center"><strong>Grand Total: {{ $total }}</strong></h2>
+                                </td>
+                            </tr>
                             <tr>
                                 <th>#</th>
                                 <th class="text-left">Transaction Id/Date/Staff</th>
@@ -50,11 +58,12 @@
                         </thead>
                         <tbody>
                             @if (isset($results))
-                                @foreach ($results as $key => $sale)
+                                @foreach ($results as $sale)
                                     <tr>
-                                        <td>{{ $key + 1}}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td class="text-left">
-                                            {{ $sale->id }}<br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
+                                            <em>
+                                            {{ $sale->transaction ? $sale->transaction->transaction_id : '' }}</em><br>{{ $sale->created_at }}<br>{{ $sale->user ? $sale->user->name : '' }}
                                         </td>
                                         <td>{{ $sale->customer->name }}</td>
                                         <td>
@@ -84,5 +93,8 @@
         </div>
         <!-- end main content section -->
 
+        {{-- <div class="m-3">
+            {{$results->links() }}
+        </div> --}}
     </div>
 @endsection

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class ProductController extends Controller
 {
@@ -255,36 +256,29 @@ class ProductController extends Controller
     //     return view('dashboard.salesreport')->with('monthlyProducts', $monthlyProducts);
     // }
 
-    public function report()
+    public function report(Request $request)
     {
+        $thisMonth = $request->date ?? Carbon::now()->format('Y-m');
+
         $monthlyProducts = Product::with('saleCarts', 'productReturns')
             ->orderBy('created_at', 'DESC')
+            ->when($request->date != null, function ($q) use ($request) {
+            $q->whereYear('created_at', Carbon::parse($request->date)->year)
+            ->whereMonth('created_at', Carbon::parse($request->date)->month);
+            }, function ($q) use ($thisMonth) {
+                $q->whereYear('created_at', Carbon::parse($thisMonth)->year)
+                ->whereMonth('created_at', Carbon::parse($thisMonth)->month);
+            })
+            ->when($request->status != null, function ($q) use ($request) {
+                $q->where('status_message', $request->status);
+            })
             ->get()
             ->groupBy(function ($product) {
                 return $product->created_at->format('F Y');
             });
 
-        return view('dashboard.salesreport')->with('monthlyProducts', $monthlyProducts);
+        return view('dashboard.salesreport')->with('monthlyProducts', $monthlyProducts)->with('thisMonth', $thisMonth);
     }
-
-    // public function report(Request $request)
-    // {
-    //     $currentMonth = date('F Y');
-    //     $selectedMonth = $request->input('month', date('m'));
-
-    //     $monthlySales = SaleCart::with('product', 'product.productReturns')
-    //         ->orderBy('created_at', 'DESC')
-    //         ->whereMonth('created_at', $selectedMonth)
-    //         ->get()
-    //         ->groupBy(function ($saleCart) {
-    //             return $saleCart->created_at->format('F Y');
-    //         });
-
-    //     $hasSalesForCurrentMonth = $monthlySales->has($currentMonth);
-
-    //     return view('dashboard.salesreport', compact('monthlySales', 'hasSalesForCurrentMonth'));
-    // }
-
 
     public function search(Request $request)
     {

@@ -10,6 +10,9 @@
                 <span>Sales</span>
             </li>
         </ul>
+        <div>
+            <button class="btn btn-warning btn-sm"><a href="{{ '/sales' }}">Sales List</a></button>
+        </div>
         <!-- start main content section -->
         <!-- cart + summary -->
         <section class="bg-light my-2">
@@ -97,7 +100,7 @@
                                     <p class="mb-2">Total:</p>
                                     <p class="mb-2">₦<span id="total">0</span></p>
                                 </div>
-                                <div class="d-flex justify-content-between">
+                                {{-- <div class="d-flex justify-content-between">
                                     <p class="mb-2">Discount:</p>
                                     <input style="width: 63px" class="mb-2 text-success" type="number" placeholder="₦0.00">
                                 </div>
@@ -105,14 +108,14 @@
                                 <div class="d-flex justify-content-between">
                                     <p class="mb-2">Grand Total:</p>
                                     <p class="mb-2 fw-bold">₦<span id="grand_total">0</span></p>
-                                </div>
+                                </div> --}}
 
                                 <div class="mt-3 d-flex">
                                     <form action="{{ route('addToCart') }}" id="form-purchase" method="POST">
                                         @csrf
                                         <input type="hidden" readonly placeholder="Customer name" name="customer_id"
                                             id="customer_id" class="form-control mb-3 me-3" required>
-                                        <button type="submit""
+                                        <button type="submit"
                                             class="btn btn-success w-100 shadow-0 mb-2"id="purchase">Purchase</button>
                                     </form>
 

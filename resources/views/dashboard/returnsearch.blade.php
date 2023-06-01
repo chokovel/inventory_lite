@@ -14,7 +14,7 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                <button class="btn btn-success btn-sm"><a href="{{ '/sales' }}">Goto Sales</a></button>
+                <button class="btn btn-warning btn-sm"><a href="{{ '/sales' }}">Sales</a></button>
             </div>
         </div>
         {{-- ............ --}}
@@ -37,7 +37,15 @@
                 </form>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
-                        <thead class="text-primary">
+                        <thead class="text-primary table-primary">
+                            {{-- <tr>
+                                <td colspan="2">
+                                    <h2 class="text-center"><strong>Monthly Returns</strong></h2>
+                                </td>
+                                <td colspan="2">
+                                    <h2 class="text-center"><strong>{{  $month }}</strong></h2>
+                                </td>
+                            </tr> --}}
                             <tr>
                                 <th class="text-left">Transaction Id/Date/Staff</th>
                                 <th>Customer Name</th>

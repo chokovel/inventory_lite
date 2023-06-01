@@ -53,4 +53,9 @@ class SaleCart extends Model
     {
         return $this->belongsTo(TransactionId::class, 'transaction_id', 'id');
     }
+
+    public function transaction_ids()
+    {
+        return $this->belongsTo(TransactionId::class, 'transaction_id');
+    }
 }
