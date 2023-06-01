@@ -124,6 +124,9 @@
         </div>
     </div>
         </div>
+        <div class="m-3">
+            <p>{{$products->links()}}</p>
+        </div>
     </div>
 @endsection
 

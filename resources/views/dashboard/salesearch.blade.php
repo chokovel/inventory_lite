@@ -13,8 +13,8 @@
         <!-- start main content section -->
         <div class="container my-3">
             <div class="d-flex justify-content-between">
-                <button class="btn btn-success btn-sm"><a href="{{ '/addsales' }}">Create Sales</a></button>
-                <button class="btn btn-warning btn-sm"><a href="{{ '/sales' }}">Sales</a></button>
+                <button class="btn btn-primary btn-sm"><a href="{{ '/addsales' }}">Create Sales</a></button>
+                <button class="btn btn-warning btn-sm"><a href="{{ '/sales' }}">Sales List</a></button>
             </div>
         </div>
 
