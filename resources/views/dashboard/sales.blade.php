@@ -14,8 +14,8 @@
         <div class="container my-3">
             <div class="d-flex justify-content-between">
                 {{-- <h4 class="card-title mb-3 me-3">All Sales</h4> --}}
-                <button class="btn btn-warning btn-sm"><a href="{{ '/addsales' }}">Sales</a></button>
-                <button class="btn btn-primary btn-sm"><a href="{{ '/salesdaily' }}">Daily Sales List</a></button>
+                <button class="btn btn-primary btn-sm"><a href="{{ '/addsales' }}">Create Sales</a></button>
+                <button class="btn btn-warning btn-sm"><a href="{{ '/salesdaily' }}">Daily Sales List</a></button>
             </div>
         </div>
 

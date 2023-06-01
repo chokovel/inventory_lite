@@ -48,7 +48,7 @@
                                 <th>New/Added Stock</th>
                                 <th>Total Stock</th>
                                 <th>Total Amount</th>
-                                <th>Date stocked</th>
+                                {{-- <th>Date stocked</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -59,9 +59,9 @@
                                         <td>{{ $stockLog->old_stock }} </td>
                                         <td>{{ $stockLog->new_stock }} </td>
                                         <td>{{ $stockLog->old_stock + $stockLog->new_stock }}</td>
-                                        <td>{{ ($stockLog->old_stock + $stockLog->new_stock) * $stockLog->price }}
+                                        <td>₦{{ ($stockLog->old_stock + $stockLog->new_stock) * $stockLog->price }}
                                         </td>
-                                        <td>{{ $stockLog->created_at }}</td>
+                                        {{-- <td>{{ $stockLog->created_at }}</td> --}}
                                     </tr>
                                 @empty
                                     <tr>

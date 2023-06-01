@@ -14,7 +14,7 @@
         <div class="container my-3">
             <div class="d-flex justify-content-between">
                 {{-- <h4 class="card-title mb-3 me-3">All Salereport</h4> --}}
-                <button class="btn btn-success btn-sm"><a href="{{ '/addsales' }}">Create Sale</a></button>
+                <button class="btn btn-warning btn-sm"><a href="{{ '/products' }}">Products</a></button>
             </div>
         </div>
 
@@ -80,7 +80,7 @@
                                         <td>{{ $stockLog->old_stock }} </td>
                                         <td>{{ $stockLog->new_stock }} </td>
                                         <td>{{ $stockLog->old_stock + $stockLog->new_stock }}</td>
-                                        <td>{{ ($stockLog->old_stock + $stockLog->new_stock) * $stockLog->price }}
+                                        <td>₦{{ ($stockLog->old_stock + $stockLog->new_stock) * $stockLog->price }}
                                         </td>
                                         {{-- <td>{{ $stockLog->created_at }}</td> --}}
                                     </tr>
