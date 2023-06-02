@@ -24,7 +24,8 @@
                     @csrf
                     <div class="form-group m-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="searchName" placeholder="Product or Customer Name">
+                            <input type="text" class="form-control" name="searchName"
+                                placeholder="Product or Customer Name">
                             <label for="dateRange" class="sr-only">Date Range:</label>
                             <input type="date" class="form-control" name="startDate">
                             <span class="input-group-text">to</span>

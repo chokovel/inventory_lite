@@ -5,7 +5,7 @@
     <div x-data="returns">
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
-                <a href="{{'javascript:;'}}" class="text-primary hover:underline">Dashboard</a>
+                <a href="{{ 'javascript:;' }}" class="text-primary hover:underline">Dashboard</a>
             </li>
             <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
                 <span>Returns Page</span>
@@ -20,11 +20,12 @@
         {{-- ............ --}}
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('returns.search') }}" method="POST" class="search-form">
-                    @csrf
+                <form action="{{ route('returns.search') }}" method="get" class="search-form">
+                    {{-- @csrf --}}
                     <div class="form-group m-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="searchName" placeholder="Product or Customer Name">
+                            <input type="text" class="form-control" name="searchName"
+                                placeholder="Product or Customer Name">
                             <label for="dateRange" class="sr-only">Date Range:</label>
                             <input type="date" class="form-control" name="startDate">
                             <span class="input-group-text">to</span>
@@ -43,7 +44,7 @@
                                     <h2 class="text-center"><strong>Monthly Returns</strong></h2>
                                 </td>
                                 <td colspan="2">
-                                    <h2 class="text-center"><strong>{{  $month }}</strong></h2>
+                                    <h2 class="text-center"><strong>{{ $month }}</strong></h2>
                                 </td>
                             </tr>
                             <tr>
@@ -58,7 +59,8 @@
                                 @foreach ($returns as $return)
                                     <tr>
                                         <td class="text-left">
-                                           <em> {{  $return->saleCart->transaction->transaction_id ?? 'N/A' }}</em><br>{{ $return->created_at }}<br>{{ $return->user ? $return->user->name : '' }}
+                                            <em>
+                                                {{ $return->saleCart->transaction->transaction_id ?? 'N/A' }}</em><br>{{ $return->created_at }}<br>{{ $return->user ? $return->user->name : '' }}
                                         </td>
                                         <td>{{ $return->saleCart->customer->name ?? 'N/A' }}</td>
                                         <td>

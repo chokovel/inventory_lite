@@ -54,19 +54,19 @@ Route::get('/home', function () {
 Route::get('/stockreport', function (Request $request) {
     $thisMonth = $request->date ?? Carbon::now()->format('Y-m');
     $stockLogs = StockLog::orderBy('created_at', 'DESC')
-    ->when($request->date != null, function ($q) use ($request) {
+        ->when($request->date != null, function ($q) use ($request) {
             $q->whereYear('created_at', Carbon::parse($request->date)->year)
-            ->whereMonth('created_at', Carbon::parse($request->date)->month);
-            }, function ($q) use ($thisMonth) {
-                $q->whereYear('created_at', Carbon::parse($thisMonth)->year)
+                ->whereMonth('created_at', Carbon::parse($request->date)->month);
+        }, function ($q) use ($thisMonth) {
+            $q->whereYear('created_at', Carbon::parse($thisMonth)->year)
                 ->whereMonth('created_at', Carbon::parse($thisMonth)->month);
-            })
-            ->when($request->status != null, function ($q) use ($request) {
-                $q->where('status_message', $request->status);
-            })
-            ->get();
-    return view('dashboard.stockreport', compact('stockLogs','thisMonth'));
-    })->middleware(['checkRole:admin,manager']);
+        })
+        ->when($request->status != null, function ($q) use ($request) {
+            $q->where('status_message', $request->status);
+        })
+        ->get();
+    return view('dashboard.stockreport', compact('stockLogs', 'thisMonth'));
+})->middleware(['checkRole:admin,manager']);
 
 Route::post('/stockreportsearch', function (Request $request) {
     $searchNamePhone = $request->input('searchNamePhone');
@@ -138,14 +138,14 @@ Route::prefix('returns')->group(function () {
 })->middleware(['checkRole:admin,manager,staff']);
 
 //Product Return Search
-Route::post('/dashboard/returnsearch', function (Request $request) {
+Route::get('/dashboard/returnsearch', function (Request $request) {
     $searchName = $request->input('searchName');
     $startDate = $request->input('startDate');
     $endDate = $request->input('endDate');
     $transaction_id = $request->input('transaction_id');
     $month = $request->input('month');
 
-    $query = ProductReturn::query();
+    $query = ProductReturn::query()->with('saleCart');
 
     if ($searchName) {
         $query->where(function ($q) use ($searchName) {
@@ -167,9 +167,11 @@ Route::post('/dashboard/returnsearch', function (Request $request) {
         $query->whereMonth('created_at', date('m', strtotime($month)));
     }
 
-    $results = $query->get();
+    $returns = $query->get();
 
-    return view('dashboard.returnsearch', compact('results'))->with('month', date('M-Y', strtotime($month)));
+    //   return $results;
+
+    return view('dashboard.returns', compact('returns'))->with('month', date('M-Y', strtotime($month)));
 })->name('returns.search');
 
 
@@ -193,9 +195,9 @@ Route::post("/sales/cart", [SaleCartController::class, 'setSession']);
 Route::post("/returns/cart", [SaleCartController::class, 'returnSessionSet']);
 
 Route::delete('/sales/clear', function () {
-        session()->remove('items');
-        return back()->with('message', 'Cart is now empty');
-    })->name('sales.clear');
+    session()->remove('items');
+    return back()->with('message', 'Cart is now empty');
+})->name('sales.clear');
 
 Route::get('/addsales', function (Request $request) {
     $products = [];
@@ -237,8 +239,8 @@ Route::post('/dashboard/salesearch', function (Request $request) {
     $endDate = $request->input('endDate');
     $transaction_id = $request->input('transaction_id');
     $month = $request->input('month');
-// echo($month);
-// die;
+    // echo($month);
+    // die;
     $query = SaleCart::query();
 
     if ($searchName) {
