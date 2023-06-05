@@ -72,13 +72,13 @@
                                                                 <div class="button-container mb-2 flex-1">
                                                                     <button class="remove"
                                                                         onclick="decrease({{ $productColor->id }}, {{ $productColor->quantity }})">-</button>
-                                                                    <span class="count" id="{{ $productColor->id }}">0</span>
+                                                                    <span class="count"
+                                                                        id="{{ $productColor->id }}">0</span>
                                                                     <button class="add"
                                                                         onclick="increase({{ $productColor->id }}, {{ $productColor->quantity }})">+
                                                                     </button>
                                                                 </div>
                                                             </div>
-
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -165,9 +165,9 @@
                 }
             })
         })
-        document.onreadystatechange = function() {
-            alert()
-        }
+        // document.onreadystatechange = function() {
+        //     alert()
+        // }
         var items = []
 
         function increase(pId, productqty) {
@@ -230,14 +230,15 @@
                 let grand_total = document.getElementById('grand_total')
                 document.getElementById('customer_name').value = result.body.name
                 document.getElementById('customer_id').value = result.body.id
-                if (result.body.sale_carts) {
-                    result.body.sale_carts.forEach(sale_cart => {
-                        total.innerHTML = Number(sale_cart.quantity) *
-                            Number(sale_cart.product_color.product.price)
-                    })
-                    grand_total.innerHTML = total.innerHTML
-                }
-                console.log(result.body)
+                getSum(items);
+                // if (result.body.sale_carts) {
+                //     result.body.sale_carts.forEach(sale_cart => {
+                //         total.innerHTML = Number(sale_cart.quantity) *
+                //             Number(sale_cart.product_color.product.price)
+                //     })
+                //     grand_total.innerHTML = total.innerHTML
+                // }
+                // console.log(result.body)
             } else {
                 alert(result.body)
             }
