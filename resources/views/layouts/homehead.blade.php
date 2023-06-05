@@ -136,40 +136,40 @@
                                 {{-- <li>
                                     <a href="{{ '/home' }}" class="active">Analytics</a>
                                 </li> --}}
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
-                                <li>
-                                    <a href="{{ '/sales' }}">Sales</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/returns' }}">Returns</a>
-                                </li>
-                            @endif
-                            @endif
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin']))
-                                <li>
-                                    <a href="{{ '/purchases' }}">Purchase</a>
-                                </li>
-                            @endif
-                            @endif
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin', 'manager']))
-                                <li>
-                                    <a href="{{ route('report.sales') }}">Sales Report</a>
-                                </li>
-                                <li>
-                                    <a href="{{'/stockreport'}}">Stock Report</a>
-                                </li>
-                            @endif
-                            @endif
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
-                                <li>
-                                    <a href="{{ '/expenses' }}">Expense</a>
-                                </li>
-                            @endif
-                            @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
+                                        <li>
+                                            <a href="{{ '/sales' }}">Sales</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ '/returns' }}">Returns</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin']))
+                                        <li>
+                                            <a href="{{ '/purchases' }}">Purchase</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin', 'manager']))
+                                        <li>
+                                            <a href="{{ route('report.sales') }}">Sales Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ '/stockreport' }}">Stock Report</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
+                                        <li>
+                                            <a href="{{ '/expenses' }}">Expense</a>
+                                        </li>
+                                    @endif
+                                @endif
                             </ul>
                         </li>
 
@@ -208,22 +208,22 @@
                             </button>
                             <ul x-cloak x-show="activeDropdown === 'elements'" x-collapse
                                 class="sub-menu text-gray-500">
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
-                                <li>
-                                    <a href="{{ '/products' }}">All Products</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/categories' }}">Product Categories</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/colors' }}">Product Colors</a>
-                                </li>
-                                <li>
-                                    <a href="{{ '/sizes' }}">Product Sizes</a>
-                                </li>
-                            @endif
-                            @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
+                                        <li>
+                                            <a href="{{ '/products' }}">All Products</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ '/categories' }}">Product Categories</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ '/colors' }}">Product Colors</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ '/sizes' }}">Product Sizes</a>
+                                        </li>
+                                    @endif
+                                @endif
 
                             </ul>
                         </li>
@@ -257,27 +257,27 @@
                             </button>
                             <ul x-cloak x-show="activeDropdown === 'components'" x-collapse
                                 class="sub-menu text-gray-500">
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
-                                <li>
-                                    <a href="{{ '/customers' }}">Customers</a>
-                                </li>
-                             @endif
-                            @endif
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin', 'manager']))
-                                <li>
-                                    <a href="{{ '/staff' }}">Staff</a>
-                                </li>
-                             @endif
-                            @endif
-                            @if (Auth::check())
-                            @if (Auth::user()->hasRole(['admin']))
-                                <li>
-                                    <a href="{{ '/suppliers' }}">Suppliers</a>
-                                </li>
-                             @endif
-                            @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin', 'manager', 'staff']))
+                                        <li>
+                                            <a href="{{ '/customers' }}">Customers</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin', 'manager']))
+                                        <li>
+                                            <a href="{{ '/staff' }}">Staff</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin']))
+                                        <li>
+                                            <a href="{{ '/suppliers' }}">Suppliers</a>
+                                        </li>
+                                    @endif
+                                @endif
                             </ul>
                         </li>
                     </ul>
@@ -538,7 +538,7 @@
                             </div>
                             <div class="dropdown flex-shrink-0" x-data="dropdown"
                                 @auth
-                                @click.outside="open = false">
+@click.outside="open = false">
                                 <a href="javascript:;" class="group relative" @click="toggle()">
                                     <span><img
                                             class="h-9 w-9 rounded-full object-cover saturate-50 group-hover:saturate-100"
@@ -667,8 +667,14 @@
                 const selectedQuantity = parseInt(quantityInput.value);
 
                 if (selectedSize && selectedColor && selectedQuantity) {
-                    this.sizes.push(selectedSize);
-                    this.colors.push(selectedColor);
+                    this.sizes.push({
+                        value: selectedSize,
+                        label: getSelectedText('size')
+                    });
+                    this.colors.push({
+                        value: selectedColor,
+                        label: getSelectedText('color')
+                    });
                     this.quantities.push(selectedQuantity);
 
                     this.updateSectionList();
@@ -700,11 +706,14 @@
                     const row = document.createElement('tr');
 
                     const sizeCell = document.createElement('td');
-                    sizeCell.innerHTML = `<input type="text" readonly name="size[]" value="${size}">`;
+                    sizeCell.innerHTML = `<input type="hidden"  name="size[]" value="${size.value}">
+                    <input type="text" value="${size.label}"/>`;
                     row.appendChild(sizeCell);
 
                     const colorCell = document.createElement('td');
-                    colorCell.innerHTML = `<input type="text" readonly name="color[]" value="${color}">`;
+                    colorCell.innerHTML =
+                        `<input type="hidden" readonly name="color[]" value="${color.value}">
+                        <input type="text" value="${color.label}"/>`;
                     row.appendChild(colorCell);
 
                     const quantityCell = document.createElement('td');
@@ -1348,6 +1357,17 @@
                 `;
                 sectionList.appendChild(tr);
             });
+        }
+
+        function getSelectedText(elementId) {
+            var elt = document.getElementById(elementId);
+
+            if (elt.selectedIndex == -1)
+                return null;
+
+            let label = elt.options[elt.selectedIndex].text;
+            console.log(label)
+            return label;
         }
 
 
