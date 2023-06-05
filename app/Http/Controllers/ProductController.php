@@ -258,24 +258,32 @@ class ProductController extends Controller
 
     public function report(Request $request)
     {
-        $thisMonth = $request->date ?? Carbon::now()->format('Y-m');
+        $thisMonth = Carbon::now()->format('Y-m');
+
+
 
         $monthlyProducts = Product::with('saleCarts', 'productReturns')
             ->orderBy('created_at', 'DESC')
-            ->when($request->date != null, function ($q) use ($request) {
-            $q->whereYear('created_at', Carbon::parse($request->date)->year)
-            ->whereMonth('created_at', Carbon::parse($request->date)->month);
-            }, function ($q) use ($thisMonth) {
-                $q->whereYear('created_at', Carbon::parse($thisMonth)->year)
-                ->whereMonth('created_at', Carbon::parse($thisMonth)->month);
+            ->whereHas('productColors', function ($q) use ($thisMonth) {
+                $q->whereHas('saleCarts', function ($q) use ($thisMonth) {
+                    $q->whereMonth('created_at', Carbon::parse($thisMonth)->month);
+                });
             })
-            ->when($request->status != null, function ($q) use ($request) {
-                $q->where('status_message', $request->status);
-            })
-            ->get()
-            ->groupBy(function ($product) {
-                return $product->created_at->format('F Y');
-            });
+
+            // ->when($request->date != null, function ($q) use ($request) {
+            //     $q->whereYear('created_at', Carbon::parse($request->date)->year)
+            //         ->whereMonth('created_at', Carbon::parse($request->date)->month);
+            // }, function ($q) use ($thisMonth) {
+            //     $q
+            //         ->whereMonth('created_at', Carbon::parse($thisMonth)->month);
+            // })
+            // ->when($request->status != null, function ($q) use ($request) {
+            //     $q->where('status_message', $request->status);
+            // })
+            ->get();
+        // ->groupBy(function ($product) {
+        //     return $product->created_at->format('F Y');
+        // });
 
         return view('dashboard.salesreport')->with('monthlyProducts', $monthlyProducts)->with('thisMonth', $thisMonth);
     }
@@ -317,6 +325,4 @@ class ProductController extends Controller
 
         return view('products.search', compact('results'));
     }
-
-
 }

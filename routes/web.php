@@ -96,7 +96,16 @@ Route::post('/stockreportsearch', function (Request $request) {
 
 //sales report
 Route::get('/salesreport', function () {
-    return view('dashboard.salesreport');
+    $query = Product::query();
+
+
+    $month
+        = Carbon::now()->format('Y-m');
+    $query->whereMonth('created_at', $month);
+
+
+    $results = $query->get();
+    return view('dashboard.salesreport')->with('sales', $results);
 })->middleware(['checkRole:admin,manager']);
 
 // Route::get('/dashboard/salesreport', [SaleCartController::class, 'create'])->name('salesreport');

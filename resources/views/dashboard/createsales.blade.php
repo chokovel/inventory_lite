@@ -58,7 +58,7 @@
                                                     </h2>
                                                 </div>
                                                 <div class="d-flex">
-                                                    <img src="{{asset(str_replace('public', 'storage', $product->image))}}"
+                                                    <img src="{{ asset(str_replace('public', 'storage', $product->image)) }}"
                                                         class="border rounded center" style="width: 96px; height: 96px;">
                                                     <div class="text-center ml-3 salescardwidth">
                                                         @foreach ($product->productColors as $key => $productColor)
@@ -230,7 +230,7 @@
                 let grand_total = document.getElementById('grand_total')
                 document.getElementById('customer_name').value = result.body.name
                 document.getElementById('customer_id').value = result.body.id
-                getSum(items);
+                //   getSum(items);
                 // if (result.body.sale_carts) {
                 //     result.body.sale_carts.forEach(sale_cart => {
                 //         total.innerHTML = Number(sale_cart.quantity) *
