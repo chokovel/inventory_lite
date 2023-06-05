@@ -55,7 +55,7 @@
                                         <h2 class="text-center"><strong>Daily Sales</strong></h2>
                                     </td>
                                     <td colspan="4">
-                                        <h2 class="text-center"><strong>{{ $todayDate }}</strong></h2>
+                                        <h2 class="text-center"><strong>{{ date('d-M-Y', strtotime($todayDate)) }}</strong></h2>
                                     </td>
                                 </tr>
                                 <tr>

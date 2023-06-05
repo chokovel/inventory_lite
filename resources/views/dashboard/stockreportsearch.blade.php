@@ -40,7 +40,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
-                        <thead class="text-primary">
+                        <thead class="text-primary table-primary">
                             <tr>
                                 <th class="text-left">Id</th>
                                 <th>Product Name</th>

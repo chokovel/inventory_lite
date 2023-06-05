@@ -55,10 +55,10 @@
                         <thead class="text-primary table-primary">
                             <tr>
                                 <td colspan="3">
-                                    <h2 class="text-center"><strong>STOCK REPORT</strong></h2>
+                                    <h2 class="text-center"><strong> Stock Report</strong></h2>
                                 </td>
                                 <td colspan="4">
-                                    <h2 class="text-center"><strong>{{ date('m-Y', strtotime($thisMonth)) }}</strong></h2>
+                                    <h2 class="text-center"><strong>{{ date('M-Y', strtotime($thisMonth)) }}</strong></h2>
                                 </td>
                             </tr>
                             <tr>

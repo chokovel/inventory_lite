@@ -46,7 +46,7 @@
                                                 </h2>
                                             </div>
                                             <div class="d-flex">
-                                                <img src="https://kesagroup.net/cdn/shop/products/Karungi_africanMapYellow_580x.jpg?v=1658244703"
+                                                <img src="{{asset(str_replace('public', 'storage', $product->image))}}"
                                                     class="border rounded center" style="width: 96px; height: 96px;">
                                                 <div class="text-center ml-3 salescardwidth">
                                                     <div class="d-flex">
