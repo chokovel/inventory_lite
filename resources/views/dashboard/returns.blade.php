@@ -44,7 +44,7 @@
                                     <h2 class="text-center"><strong>Monthly Returns</strong></h2>
                                 </td>
                                 <td colspan="2">
-                                    <h2 class="text-center"><strong>{{ $month }}</strong></h2>
+                                    <h2 class="text-center"><strong>{{ date('M-Y', strtotime($month)) }}</strong></h2>
                                 </td>
                             </tr>
                             <tr>

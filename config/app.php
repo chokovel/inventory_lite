@@ -183,7 +183,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        // Creativeorange\Gravatar\GravatarServiceProvider::class,
 
 
         /*
@@ -214,7 +213,6 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        // 'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
     ])->toArray(),
 
