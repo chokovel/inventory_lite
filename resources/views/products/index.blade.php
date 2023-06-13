@@ -44,14 +44,7 @@
                     @csrf
                     <div class="form-group m-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="searchNamePhone" placeholder="Name or Price">
-
-                            <label for="color" class="sr-only">Color:</label>
-                            <input type="text" class="form-control" name="color" placeholder="Color">
-
-                            <label for="size" class="sr-only">Size:</label>
-                            <input type="text" class="form-control" name="size" placeholder="Size">
-
+                            <input type="text" class="form-control" name="searchNamePhone" placeholder="Name,color,size,price">
                             <label for="dateRange" class="sr-only">Date Range:</label>
                             <input type="date" class="form-control" name="startDate">
                             <span class="input-group-text">to</span>

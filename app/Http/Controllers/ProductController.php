@@ -10,7 +10,9 @@ use App\Models\Category;
 use App\Models\Size;
 use App\Models\Color;
 use App\Models\StockLog;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -113,6 +115,17 @@ class ProductController extends Controller
         }
 
         $stockLog->save();
+
+
+         DB::transaction(function () use ($product) {
+
+            // Log the user activity
+            $activity = new UserActivity();
+            $activity->user_id = auth()->user()->id;
+            $activity->user_name = auth()->user()->name;
+            $activity->description = 'Created a product: ' . $product->product_name;
+            $activity->save();
+        });
 
         // Redirect to a success page or perform any additional actions
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
@@ -218,6 +231,16 @@ class ProductController extends Controller
 
         $stockLog->save();
 
+        DB::transaction(function () use ($product) {
+
+            // Log the user activity
+            $activity = new UserActivity();
+            $activity->user_id = auth()->user()->id;
+            $activity->user_name = auth()->user()->name;
+            $activity->description = 'Updated a product: ' . $product->product_name;
+            $activity->save();
+        });
+
         // Redirect to the product index page with a success message
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
@@ -293,32 +316,37 @@ class ProductController extends Controller
         $searchNamePhone = $request->input('searchNamePhone');
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
-        $color = $request->input('color');
-        $size = $request->input('size');
 
         $query = Product::query();
 
         if ($searchNamePhone) {
             $query->where(function ($q) use ($searchNamePhone) {
                 $q->where('product_name', 'like', '%' . $searchNamePhone . '%')
-                    ->orWhere('price', 'like', '%' . $searchNamePhone . '%');
+                    ->orWhere('price', 'like', '%' . $searchNamePhone . '%')
+                    ->orWhereHas('productColors', function ($subQuery) use ($searchNamePhone) {
+                        $subQuery->whereHas('color', function ($subSubQuery) use ($searchNamePhone) {
+                            $subSubQuery->where('name', 'like', '%' . $searchNamePhone . '%');
+                        })->orWhereHas('size', function ($subSubQuery) use ($searchNamePhone) {
+                            $subSubQuery->where('name', 'like', '%' . $searchNamePhone . '%');
+                        });
+                    });
             });
         }
 
-        if ($color) {
-            $query->whereHas('productColors.color', function ($subQuery) use ($color) {
-                $subQuery->where('name', 'like', '%' . $color . '%');
-            });
-        }
+        // if ($color) {
+        //     $query->whereHas('productColors.color', function ($subQuery) use ($color) {
+        //         $subQuery->where('name', 'like', '%' . $color . '%');
+        //     });
+        // }
 
-        if ($size) {
-            $query->whereHas('productColors.size', function ($subQuery) use ($size) {
-                $subQuery->where('name', 'like', '%' . $size . '%');
-            });
-        }
+        // if ($size) {
+        //     $query->whereHas('productColors.size', function ($subQuery) use ($size) {
+        //         $subQuery->where('name', 'like', '%' . $size . '%');
+        //     });
+        // }
 
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
+        $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
         $results = $query->get();

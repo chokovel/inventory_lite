@@ -52,4 +52,9 @@ class User extends Authenticatable
         return Gravatar::get($this->email);
     }
 
+    public function activities()
+    {
+        return $this->hasMany(UserActivity::class);
+    }
+
 }

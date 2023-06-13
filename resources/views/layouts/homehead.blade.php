@@ -278,6 +278,13 @@
                                         </li>
                                     @endif
                                 @endif
+                                @if (Auth::check())
+                                    @if (Auth::user()->hasRole(['admin']))
+                                        <li>
+                                            <a href="{{ route('user.activities') }}">User History</a>
+                                        </li>
+                                    @endif
+                                @endif
                             </ul>
                         </li>
                     </ul>

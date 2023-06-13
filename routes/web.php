@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductColorController;
 use App\Http\Controllers\ProductReturnController;
 use App\Http\Controllers\SaleCartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserActivityController;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
@@ -26,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Carbon;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,8 @@ use Illuminate\Support\Carbon;
 Route::get('/', function () {
     return view('auth.login');
 });
+
+Route::get('/dashboard/history', [UserActivityController::class, 'index'])->name('user.activities');
 
 Route::get('/home', function () {
     return view('home');
