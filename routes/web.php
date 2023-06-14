@@ -44,7 +44,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard/history', [UserActivityController::class, 'index'])->name('user.activities');
+Route::get('/dashboard/history', [UserActivityController::class, 'index'])->name('user.activities')->middleware(['checkRole:admin']);
 
 Route::get('/home', function () {
     return view('home');

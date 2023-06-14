@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Services\CustomerService;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
 
 
@@ -57,6 +58,13 @@ class CustomerController extends Controller
         ]);
 
         $customers = app(CustomerService::class)->create($data);
+
+        // Save the user activity
+        $activityLog = new UserActivity();
+        $activityLog->user_id = auth()->id();
+        $activityLog->user_name = auth()->user()->name;
+        $activityLog->description = 'Created a new customer: ' . $customers->name;
+        $activityLog->save();
 
         return redirect()->route('customers.index', $customers);
 

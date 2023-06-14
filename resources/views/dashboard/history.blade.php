@@ -47,7 +47,7 @@
                             <tr>
                                 <th class="text-left">Id</th>
                                 <th>User</th>
-                                <th>Activity</th>
+                                <th>Activities</th>
                                 <th>Date</th>
                             </tr>
                         </thead>

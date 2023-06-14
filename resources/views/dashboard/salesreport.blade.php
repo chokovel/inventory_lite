@@ -83,7 +83,7 @@
                                     <td>{{ $product->saleCarts->sum('quantity') }}</td>
                                     <td>{{ $product->productReturns->sum('quantity') }}</td>
                                     <td>₦{{ $product->saleCarts->sum('quantity') * $product->price }}</td>
-                                    {{-- <td>{{ $product->created_at->format('M') }}</td> --}}
+                                    {{-- <td>{{ $product->$saleCarts->updated_at->format('D-d') }}</td> --}}
                                 </tr>
                                 {{-- @endforeach --}}
                                 {{-- @else

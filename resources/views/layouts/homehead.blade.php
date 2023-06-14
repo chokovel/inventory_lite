@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Style In Lagos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <link rel="icon" type="image/x-icon" href="SIL" />
     <link rel="preconnect" href="https://fonts.googleapis.com/" />
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&amp;display=swap"
@@ -85,7 +85,7 @@
                 class="sidebar fixed top-0 bottom-0 z-50 h-full min-h-screen w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300">
                 <div class="h-full bg-white dark:bg-[#0e1726]">
                     <div class="flex items-center justify-between px-4 py-3">
-                        <a href="index-2.html" class="main-logo flex shrink-0 items-center">
+                        <a href="{{('/products')}}" class="main-logo flex shrink-0 items-center">
                             {{-- <img class="ml-[5px] w-8 flex-none" src="assets/images/logo.svg" alt="image" /> --}}
                             <span
                                 class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">StyleInLagos</span>
@@ -299,7 +299,7 @@
                 <div class="shadow-sm">
                     <div class="relative flex w-full items-center bg-white px-5 py-2.5 dark:bg-[#0e1726]">
                         <div class="horizontal-logo flex items-center justify-between ltr:mr-2 rtl:ml-2 lg:hidden">
-                            <a href="index-2.html" class="main-logo flex shrink-0 items-center">
+                            <a href="{{('/products')}}" class="main-logo flex shrink-0 items-center">
                                 {{-- <img class="inline w-8 ltr:-ml-1 rtl:-mr-1" src="assets/images/logo.svg"
                                     alt="image" /> --}}
                                 <span

@@ -237,7 +237,7 @@ class ProductController extends Controller
             $activity = new UserActivity();
             $activity->user_id = auth()->user()->id;
             $activity->user_name = auth()->user()->name;
-            $activity->description = 'Updated a product: ' . $product->product_name;
+            $activity->description = 'Restocked a product: ' . $product->product_name;
             $activity->save();
         });
 

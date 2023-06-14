@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Jobs\GenerateTransactionId;
 use App\Models\ProductColor;
+use App\Models\Product;
 use App\Models\ProductReturn;
 use App\Models\SaleCart;
 use App\Models\TransactionId;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
@@ -23,7 +25,7 @@ class SaleCartController extends Controller
         $sales = SaleCart::with('productColor', 'customer')
             ->whereMonth('created_at', '=', date('m'))
             ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->paginate(20);
 
         $total = $sales->sum(function ($sale) {
             return $sale->quantity * $sale->productColor->product->price;
@@ -95,40 +97,115 @@ class SaleCartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+    //     //
+    //     $validatedData = $request->validate([
+    //         'customer_id' => 'required',
+    //     ]);
+    //     $customer_id = $request->customer_id;
+    //     $items = session()->get('items');
+
+
+    //     if (!$items) return back()->with('message', 'No item in cart cart');
+    //     $transactionId = new TransactionId();
+    //     $transactionId->save();
+    //     foreach ($items as $item) {
+    //         // $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
+    //         //     ->where('customer_id', $customer_id)->first();
+    //         // if ($saleCart) {
+    //         //     $saleCart->increment('quantity', $item['quantity']);
+    //         // } else {
+    //         if ($item != null) {
+    //             $item['customer_id'] = $customer_id;
+    //             $item['transaction_id'] = $transactionId->id;
+    //             SaleCart::create($item);
+    //             ProductColor::where('id', $item['product_color_id'])
+    //                 ->decrement('quantity', $item['quantity']);
+    //         }
+
+    //         // }
+
+    //     }
+    //     GenerateTransactionId::dispatchAfterResponse($transactionId->id);
+    //     session()->remove('items');
+    //     return back()->with('message', 'Order completed successfully');
+    // }
+
+
+
     public function store(Request $request)
-    {
-        //
-        $validatedData = $request->validate([
-            'customer_id' => 'required',
-        ]);
-        $customer_id = $request->customer_id;
-        $items = session()->get('items');
+{
+    // Validate the request
+    $validatedData = $request->validate([
+        'customer_id' => 'required',
+    ]);
 
+    // Retrieve the customer ID and items from the session
+    $customer_id = $request->customer_id;
+    $items = session()->get('items');
 
-        if (!$items) return back()->with('message', 'No item in cart cart');
+    // Check if there are items in the cart
+    if (!$items) {
+        // Log the error
+        Log::error('No items in the cart');
+
+        return back()->with('message', 'No item in cart');
+    }
+
+    try {
+        // Generate a transaction ID and save it
         $transactionId = new TransactionId();
         $transactionId->save();
+
+        // Process each item in the cart
         foreach ($items as $item) {
-            // $saleCart = SaleCart::where('product_color_id', $item['product_color_id'])
-            //     ->where('customer_id', $customer_id)->first();
-            // if ($saleCart) {
-            //     $saleCart->increment('quantity', $item['quantity']);
-            // } else {
             if ($item != null) {
                 $item['customer_id'] = $customer_id;
                 $item['transaction_id'] = $transactionId->id;
-                SaleCart::create($item);
+
+                // Create a SaleCart record
+                $saleCart = SaleCart::create($item);
+
+                // Decrement the quantity of the product
                 ProductColor::where('id', $item['product_color_id'])
                     ->decrement('quantity', $item['quantity']);
+
+                // Retrieve the product name
+                $productName = $saleCart->productColor->product->product_name;
+
+                // Save the user activity with the product name
+                $activityLog = new UserActivity();
+                $activityLog->user_id = auth()->id(); // Assuming you are using authentication
+                $activityLog->user_name = auth()->user()->name;
+                $activityLog->description = 'Made Sales Order Successfully. Ordered Item: ' . $productName;
+                $activityLog->save();
             }
-
-            // }
-
         }
+
+        // Dispatch a job for generating the transaction ID (assumed to be a queued task)
         GenerateTransactionId::dispatchAfterResponse($transactionId->id);
+
+        // Clear the items from the session
         session()->remove('items');
+
         return back()->with('message', 'Order completed successfully');
+    } catch (\Exception $e) {
+        // Log the error
+        Log::error('An error occurred: ' . $e->getMessage());
+        Log::error('Stack trace: ' . $e->getTraceAsString());
+
+        // Save the user activity for the error
+        $activityLog = new UserActivity();
+        $activityLog->user_id = auth()->id(); // Assuming you are using authentication
+        $activityLog->user_name = auth()->user()->name;
+        $activityLog->description = 'An error occurred: ' . $e->getMessage();
+        $activityLog->save();
+
+        return back()->with('message', 'An error occurred');
     }
+}
+
 
     public function setSession(Request $request)
     {
