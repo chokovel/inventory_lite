@@ -453,7 +453,7 @@ Route::post('/purchases/search', function (Request $request) {
 Route::resource('products', ProductController::class)->middleware(['checkRole:admin,manager,staff']);
 Route::get('/products', [ProductController::class, 'index'])->name('products.index')->middleware(['checkRole:admin,manager,staff']);
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+Route::middleware('optimizeImages')->post('/products', [ProductController::class, 'store'])->name('products.store');
 // Edit Product
 Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
 // Update Product
