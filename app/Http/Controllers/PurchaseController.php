@@ -57,7 +57,7 @@ class PurchaseController extends Controller
         'color' => 'required',
         'date' => 'required|date',
         'supplier_id' => 'required|exists:suppliers,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg',
         'note' => 'nullable',
     ]);
 
@@ -129,7 +129,7 @@ class PurchaseController extends Controller
         'color' => 'required',
         'date' => 'required|date',
         'supplier_id' => 'required|exists:suppliers,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         'note' => 'nullable',
     ]);
 
